@@ -2,7 +2,7 @@
 
 ### Especificações
 - Jogo de nave multiplayer
-- Utilização da biblioteca [https://www.lwjgl.org/]( LWJGL 3 ) para desenho do jogo utilizando OpenGL
+- Utilização da biblioteca [LWJGL 3](https://www.lwjgl.org/) para desenho do jogo utilizando OpenGL
 
 ### Padrões de projeto utilizados
 
