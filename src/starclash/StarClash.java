@@ -1,4 +1,4 @@
-package chatonvideo;
+package starclash;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,11 +10,20 @@ import javafx.stage.Stage;
  *
  * @author viniciusas
  */
-public class ChatOnVideo extends Application {
+public class StarClash extends Application {
+
+    public StarClash() {
+        
+    }
     
+    /**
+     *
+     * @param stage
+     * @throws Exception
+     */
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLMain.fxml"));
+        Parent root = FXMLLoader.load( getClass().getResource("FXMLMain.fxml") );
         
         Scene scene = new Scene(root);
         

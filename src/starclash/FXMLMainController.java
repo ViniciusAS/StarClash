@@ -1,4 +1,4 @@
-package chatonvideo;
+package starclash;
 
 import java.net.URL;
 import java.util.ResourceBundle;
