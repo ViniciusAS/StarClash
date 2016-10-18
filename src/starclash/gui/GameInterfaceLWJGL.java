@@ -19,13 +19,16 @@ public class GameInterfaceLWJGL implements GameInterfaceAdaptor, Runnable {
 
     private Thread interfaceThread;
     
+    private final int WIDTH = 500;
+    private final int HEIGHT = 600;
+    
     // OpenGL
     private long window;
     
     private final Rectangle rect;
 
     public GameInterfaceLWJGL(Rectangle rect) {
-        this.rect = rect;
+        this.rect = rect;        
     }
 
     /**
@@ -44,7 +47,7 @@ public class GameInterfaceLWJGL implements GameInterfaceAdaptor, Runnable {
     public void run() {
 
         try {
-                init(300,300);
+                init();
                 loop();
 
                 // Free the window callbacks and destroy the window
@@ -57,7 +60,7 @@ public class GameInterfaceLWJGL implements GameInterfaceAdaptor, Runnable {
         }
     }
     
-    private void init(int width, int height){
+    private void init(){
         
         GLFWErrorCallback.createPrint(System.err).set();
 
@@ -66,13 +69,13 @@ public class GameInterfaceLWJGL implements GameInterfaceAdaptor, Runnable {
 
         GLFW.glfwWindowHint(GLFW.GLFW_VISIBLE, GLFW.GLFW_FALSE);
         GLFW.glfwWindowHint(GLFW.GLFW_RESIZABLE, GLFW.GLFW_FALSE);
-        GLFW.glfwWindowHint(GLFW.GLFW_DECORATED, GLFW.GLFW_FALSE);
-        GLFW.glfwWindowHint(GLFW.GLFW_MAXIMIZED, GLFW.GLFW_TRUE);
+//        GLFW.glfwWindowHint(GLFW.GLFW_DECORATED, GLFW.GLFW_FALSE);
+//        GLFW.glfwWindowHint(GLFW.GLFW_MAXIMIZED, GLFW.GLFW_TRUE);
         
         
         // Create the window
         window = GLFW.glfwCreateWindow(
-                width, height, 
+                WIDTH, HEIGHT, 
                 "StarClash",
                 MemoryUtil.NULL, MemoryUtil.NULL
         );
@@ -88,8 +91,8 @@ public class GameInterfaceLWJGL implements GameInterfaceAdaptor, Runnable {
         // Center the window
         GLFW.glfwSetWindowPos(
                 window,
-                (vidmode.width() - width) / 2,
-                (vidmode.height() - height) / 2
+                (vidmode.width() - WIDTH) / 2,
+                (vidmode.height() - HEIGHT) / 2
         );
 
         // Make the OpenGL context current
@@ -111,9 +114,9 @@ public class GameInterfaceLWJGL implements GameInterfaceAdaptor, Runnable {
             GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT); // clear the framebuffer
             
             
-            GL11.glShadeModel(GL11.GL_FLAT);
+//            GL11.glShadeModel(GL11.GL_FLAT);
 
-            GL11.glBegin(GL11.GL_QUAD_STRIP);
+            GL11.glBegin(GL11.GL_QUADS);
 //                GL11.glColor3f(1.0f, 1.0f, 1.0f);
 //                GL11.glVertex3f(0, 0, 0);
 //                GL11.glVertex3f(0, 1, 0);
@@ -133,30 +136,30 @@ public class GameInterfaceLWJGL implements GameInterfaceAdaptor, Runnable {
 //                GL11.glVertex3f(0, 1,0);
                 
             GL11.glColor4f(rect.getColor().getR(), rect.getColor().getG(), rect.getColor().getB(), rect.getColor().getA());
-            GL11.glVertex3f(0, 0, 0);
-            GL11.glVertex3f(0, 2, 0);
-            GL11.glVertex3f(2, 0, 0);
-            GL11.glVertex3f(2, 2, 0);
+            GL11.glVertex3f(rect.getX(), rect.getY(), 0);
+            GL11.glVertex3f(rect.getX()+rect.getWidht(), rect.getY(), 0);
+            GL11.glVertex3f(rect.getX()+rect.getWidht(), rect.getY()+rect.getHeight(), 0);
+            GL11.glVertex3f(rect.getX(), rect.getY()+rect.getHeight(), 0);
             
             GL11.glEnd();
             
-    GL11.glEnable(GL11.GL_TEXTURE_2D);
-    GL11.glEnable(GL11.GL_NORMALIZE);
-            GL11.glBegin(GL11.GL_QUADS);
-            {
-                GL11.glTexCoord2f(0,0);
-                GL11.glVertex2f(100,100);
-                GL11.glTexCoord2f(1,0);
-                GL11.glVertex2f(100+rect.getX(),100);
-                GL11.glTexCoord2f(1,1);
-                GL11.glVertex2f(100+rect.getWidht(),100+rect.getHeight());
-                GL11.glTexCoord2f(0,1);
-                GL11.glVertex2f(100,100+rect.getHeight());
-            }
-                
-                
-                
-            GL11.glEnd();
+//    GL11.glEnable(GL11.GL_TEXTURE_2D);
+//    GL11.glEnable(GL11.GL_NORMALIZE);
+//            GL11.glBegin(GL11.GL_QUADS);
+//            {
+//                GL11.glTexCoord2f(0,0);
+//                GL11.glVertex2f(100,100);
+//                GL11.glTexCoord2f(1,0);
+//                GL11.glVertex2f(100+rect.getX(),100);
+//                GL11.glTexCoord2f(1,1);
+//                GL11.glVertex2f(100+rect.getWidht(),100+rect.getHeight());
+//                GL11.glTexCoord2f(0,1);
+//                GL11.glVertex2f(100,100+rect.getHeight());
+//            }
+//                
+//                
+//                
+//            GL11.glEnd();
             
 
             GLFW.glfwSwapBuffers(window); // swap the color buffers
@@ -170,7 +173,16 @@ public class GameInterfaceLWJGL implements GameInterfaceAdaptor, Runnable {
     public void close() {
         GLFW.glfwSetWindowShouldClose(window, true);
     }
+    
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+    private float toPositionX(float x){
+        return x-1f;
+    }
+    
+    private float toPositionY(float y){
+        return y-1f;
+    }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
@@ -194,6 +206,14 @@ public class GameInterfaceLWJGL implements GameInterfaceAdaptor, Runnable {
                 observer.clicked();
             }
         }
+    }
+
+    @Override
+    public void addRectangle(Rectangle rectangle) {
+    }
+
+    @Override
+    public void removeRectangle(Rectangle rectangle) {
     }
 
     

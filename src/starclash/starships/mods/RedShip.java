@@ -34,4 +34,8 @@ public class RedShip implements StarshipFactory {
         return starship.getShipSpeed();
     }
 
+    @Override
+    public void newStarshipCollision() {
+    }
+
 }

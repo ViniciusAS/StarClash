@@ -34,4 +34,8 @@ public class FasterShip implements StarshipFactory{
         return starship.getShipSpeed()+10;
     }
 
+    @Override
+    public void newStarshipCollision() {
+    }
+
 }

@@ -61,8 +61,10 @@ public interface GameInterfaceAdaptor {
     public void close();
     
     public void addKeyListener(KeyListener keyListener);
-    public void removeKeyListener(KeyListener keyListener);
-    
+    public void removeKeyListener(KeyListener keyListener);    
     public void notifyObservers(Key key);
+    
+    public void addRectangle(Rectangle rectangle);
+    public void removeRectangle(Rectangle rectangle);
     
 }

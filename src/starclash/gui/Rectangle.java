@@ -42,6 +42,7 @@ public class Rectangle {
     }
     
     public void setX(float x) {
+        System.out.println("x: "+Float.toString(x));
         this.x = x;
     }
 

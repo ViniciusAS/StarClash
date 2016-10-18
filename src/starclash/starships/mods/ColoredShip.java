@@ -37,4 +37,8 @@ public class ColoredShip implements StarshipFactory {
         return starship.getShipSpeed();
     }
 
+    @Override
+    public void newStarshipCollision() {
+    }
+
 }
