@@ -6,6 +6,5 @@ package starclash.gamemode;
  */
 public interface GameModeFactory {
     
-    public void newConnectionListener();
     
 }
