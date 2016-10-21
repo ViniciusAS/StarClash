@@ -2,6 +2,8 @@ package starclash.gui;
 
 
 public interface KeysListenerAdaptor {
+
+    public static final long KEY_PRESSED_PROCCESS_DELAY_MS = 10;
     
     enum Key {
         KEY_SPACE,KEY_APOSTROPHE, KEY_COMMA,KEY_MINUS,KEY_PERIOD,KEY_SLASH,

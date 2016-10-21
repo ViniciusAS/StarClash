@@ -36,7 +36,7 @@ public class FasterShip implements StarshipFactory{
 
     @Override
     public float getShipSpeed() {
-        return starship.getShipSpeed()+1;
+        return starship.getShipSpeed()+0.5f;
     }
     
     @Override

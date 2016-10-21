@@ -14,7 +14,7 @@ public class TheIncredableStarship implements StarshipFactory {
     public TheIncredableStarship() {
         x = 0;
         y = 0;
-        speed = 3.5f;
+        speed = 1.5f;
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

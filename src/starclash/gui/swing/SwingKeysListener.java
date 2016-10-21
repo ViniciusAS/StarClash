@@ -11,8 +11,6 @@ import starclash.gui.KeysListenerAdaptor;
 
 
 public class SwingKeysListener implements KeysListenerAdaptor{
-
-    private static final long KEY_DELAY = 30;
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
@@ -64,7 +62,7 @@ public class SwingKeysListener implements KeysListenerAdaptor{
                     notifyObservers( key );
                 }
             };
-            timer.scheduleAtFixedRate(task, 1, KEY_DELAY);
+            timer.scheduleAtFixedRate(task, 1, KEY_PRESSED_PROCCESS_DELAY_MS);
             timers.put(key, timer);            
         }
         
