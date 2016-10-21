@@ -49,11 +49,9 @@ public class Batle implements
     
     private CommandSender commandSender;
     
-    public void start(){
+    public void start(GameModeFactory gameMode){
         
         gui.clearDrawables();
-        
-        GameModeFactory gameMode = new OfflineGameMode( gui.getKeysListener(), me );
         
         commandSender = gameMode.newCommandSender();
         

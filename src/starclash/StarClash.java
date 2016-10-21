@@ -1,8 +1,6 @@
 package starclash;
 
-import starclash.gamemode.CommandSender;
 import starclash.gamemode.GameModeFactory;
-import starclash.gamemode.ObservableEnemy;
 import starclash.gamemode.offline.OfflineGameMode;
 import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.swing.SwingGameInterface;
@@ -33,7 +31,9 @@ public class StarClash {
      */
     public void startBatle(StarshipFactory enemy){
         
-        new Batle(gui, myStarship, enemy).start();
+        GameModeFactory gameMode = new OfflineGameMode( gui.getKeysListener(), myStarship );
+        
+        new Batle(gui, myStarship, enemy).start(gameMode);
         
     }
     
