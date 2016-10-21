@@ -1,4 +1,4 @@
-package starclash.gui;
+package starclash.gui.components;
 
 /**
  *
@@ -6,8 +6,9 @@ package starclash.gui;
  */
 public class Color {
 
-    public static final Color WHITE = new Color(1, 1, 1, 1);
     public static final Color BLACK = new Color(0, 0, 0, 1);
+    public static final Color WHITE = new Color(1, 1, 1, 1);
+    public static final Color BLUE = new Color(0, 0, 1, 1);
     
     private float r, g, b, a;
 

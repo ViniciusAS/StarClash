@@ -1,69 +1,48 @@
 package starclash;
 
-import starclash.gui.Color;
-import starclash.gui.GameInterfaceLWJGL;
+import starclash.gamemode.CommandSender;
+import starclash.gamemode.GameModeFactory;
+import starclash.gamemode.ObservableEnemy;
+import starclash.gamemode.offline.OfflineGameMode;
 import starclash.gui.GameInterfaceAdaptor;
-import starclash.gui.GameInterfaceAdaptor.Key;
-import starclash.gui.GameInterfaceAdaptor.KeyListener;
-import starclash.gui.GameInterfaceSwing;
-import starclash.gui.Rectangle;
+import starclash.gui.swing.SwingGameInterface;
+import starclash.starships.ShipVinicius.TheIncredableStarship;
+import starclash.starships.StarshipFactory;
+import starclash.starships.mods.FasterShip;
 
 
-/**
- *
- * @author viniciusas
- */
 public class StarClash {
 
     private final GameInterfaceAdaptor gui;
     
-    private final Rectangle rect = new Rectangle(0, 0, 100, 100, Color.BLACK);
+    private StarshipFactory myStarship;
     
     public StarClash() {
-        gui = new GameInterfaceSwing();
+        gui = new SwingGameInterface();
+        
+        gui.start();
+        
+        myStarship = new TheIncredableStarship();
+        myStarship = new FasterShip(myStarship);
     }
     
     /** 
-     * Inicia os servicos
+     * Inicia uma batalha
      * 
+     * @param enemy
      */
-    public void run(){
-        gui.start();
+    public void startBatle(StarshipFactory enemy){
         
-        gui.addRectangle(rect);
+        new Batle(gui, myStarship, enemy).start();
         
-        gui.addKeyListener(new KeyListener(Key.KEY_UP) {
-            @Override
-            public void clicked() {
-                rect.setY( rect.getY()+0.1f );
-            }
-        });
-        gui.addKeyListener(new KeyListener(Key.KEY_DOWN) {
-            @Override
-            public void clicked() {
-                rect.setY( rect.getY()-0.1f );
-            }
-        });
-        gui.addKeyListener(new KeyListener(Key.KEY_LEFT) {
-            @Override
-            public void clicked() {
-                rect.setX( rect.getX()+0.1f );
-            }
-        });
-        gui.addKeyListener(new KeyListener(Key.KEY_RIGHT) {
-            @Override
-            public void clicked() {
-                System.out.println("Act X: "+Float.toString(rect.getX()));
-                rect.setX( rect.getX()+0.1f );
-            }
-        });
     }
     
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new StarClash().run();
+        new StarClash()
+            .startBatle( new TheIncredableStarship() );
     }
     
 }

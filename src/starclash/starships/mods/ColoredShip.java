@@ -1,12 +1,12 @@
 package starclash.starships.mods;
 
-import starclash.gui.Color;
+import starclash.gui.components.Color;
+import starclash.starships.StarshipCollision;
+import starclash.starships.StarshipDraw;
 import starclash.starships.StarshipFactory;
+import starclash.starships.StarshipShot;
 
-/**
- *
- * @author Vinicius Santos
- */
+
 public class ColoredShip implements StarshipFactory {
 
     private final Color color;
@@ -16,29 +16,55 @@ public class ColoredShip implements StarshipFactory {
         this.color = color;
         this.starship = starship;
     }
-
+    
     @Override
-    public void newStarshipDraw() {
-        starship.newStarshipDraw();
+    public StarshipDraw newStarshipDraw() {
+        return starship.newStarshipDraw();
     }
 
     @Override
-    public void newShot() {
-        starship.newShot();
+    public StarshipCollision newStarshipCollision() {
+        return starship.newStarshipCollision();
+    }
+    
+    @Override
+    public StarshipShot newShot() {
+        return starship.newShot();
     }
 
     @Override
-    public void newSpecial() {
-        starship.newSpecial();
+    public void doSpecial() {
+        starship.doSpecial();
     }
 
     @Override
     public float getShipSpeed() {
         return starship.getShipSpeed();
     }
+    @Override
+    public float getX() {
+        return starship.getX();
+    }
 
     @Override
-    public void newStarshipCollision() {
+    public float getY() {
+        return starship.getY();
     }
+
+    @Override
+    public void setX(float x) {
+        starship.setX(x);
+    }
+
+    @Override
+    public void setY(float y) {
+        starship.setY(y);
+    }
+
+    @Override
+    public void setShipSpeed(float speed) {
+        starship.setShipSpeed(speed);
+    }
+
 
 }

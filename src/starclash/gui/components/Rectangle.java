@@ -1,9 +1,6 @@
-package starclash.gui;
+package starclash.gui.components;
 
-/**
- *
- * @author Vinicius Santos
- */
+
 public class Rectangle {
 
     private float x, y, widht, height;
@@ -19,6 +16,14 @@ public class Rectangle {
         this.widht = widht;
         this.height = height;
         this.color = color;
+    }
+    
+    public boolean contains(Point point){
+        return (    point.getX() >= this.x 
+                 && point.getY() >= this.y
+                 && point.getX() <= this.x + this.widht
+                 && point.getY() <= this.y + this.height 
+               );
     }
 
     public float getX() {
