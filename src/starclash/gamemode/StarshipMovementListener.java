@@ -1,5 +1,6 @@
 package starclash.gamemode;
 
+import javax.swing.JFrame;
 import starclash.gamemode.listeners.MoveListener;
 import starclash.gamemode.listeners.Movement;
 import starclash.starships.StarshipFactory;
@@ -18,20 +19,26 @@ public class StarshipMovementListener implements MoveListener {
     
     @Override
     public void moved(Movement movement) {
+        int width = 1080;
+        int height = 720;
         float x = starship.getX();
         float y = starship.getY();
         switch (movement){
             case UP:
-                y -= starship.getShipSpeed();
+                if(y>0)y -= starship.getShipSpeed();
+                else y=1;
                 break;
             case DOWN:
-                y += starship.getShipSpeed();
+                if(y<=height-50)y += starship.getShipSpeed();
+                else y--;
                 break;
             case LEFT:
-                x -= starship.getShipSpeed();
+                if(x>0) x -= starship.getShipSpeed();
+                else x=1;
                 break;
             case RIGHT:
-                x += starship.getShipSpeed();
+                if(x<width-10) x += starship.getShipSpeed();
+                else x--;
                 break;
         }
         this.starship.setX( x );
