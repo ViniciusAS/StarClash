@@ -1,11 +1,11 @@
 package starclash.starships.mods;
 
+import starclash.starships.StarshipCollision;
+import starclash.starships.StarshipDraw;
 import starclash.starships.StarshipFactory;
+import starclash.starships.StarshipShot;
 
-/**
- *
- * @author Vinicius Santos
- */
+
 public class FasterShip implements StarshipFactory{
 
     private final StarshipFactory starship;
@@ -15,27 +15,52 @@ public class FasterShip implements StarshipFactory{
     }
 
     @Override
-    public void newStarshipDraw() {
-        starship.newStarshipDraw();
+    public StarshipDraw newStarshipDraw() {
+        return starship.newStarshipDraw();
     }
 
     @Override
-    public void newShot() {
-        starship.newShot();
+    public StarshipCollision newStarshipCollision() {
+        return starship.newStarshipCollision();
     }
 
     @Override
-    public void newSpecial() {
-        starship.newSpecial();
+    public StarshipShot newShot() {
+        return starship.newShot();
+    }
+
+    @Override
+    public void doSpecial() {
+        starship.doSpecial();
     }
 
     @Override
     public float getShipSpeed() {
-        return starship.getShipSpeed()+10;
+        return starship.getShipSpeed()+0.5f;
+    }
+    
+    @Override
+    public float getX() {
+        return starship.getX();
     }
 
     @Override
-    public void newStarshipCollision() {
+    public float getY() {
+        return starship.getY();
     }
 
+    @Override
+    public void setX(float x) {
+        starship.setX(x);
+    }
+
+    @Override
+    public void setY(float y) {
+        starship.setY(y);
+    }
+
+    @Override
+    public void setShipSpeed(float speed) {
+        starship.setShipSpeed(speed);
+    }
 }

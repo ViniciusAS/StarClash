@@ -1,10 +1,12 @@
 package starclash.gamemode;
 
-/**
- *
- * @author viniciusas
- */
+import starclash.starships.StarshipFactory;
+
+
 public interface GameModeFactory {
     
+    public abstract ObservableEnemy newObservableEnemy();
+    
+    public abstract CommandSender newCommandSender();
     
 }

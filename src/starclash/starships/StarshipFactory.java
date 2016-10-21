@@ -6,15 +6,22 @@ package starclash.starships;
  */
 public interface StarshipFactory {
     
-    public void newStarshipDraw();
+    public StarshipDraw newStarshipDraw();
     
-    public void newStarshipCollision();
+    public StarshipCollision newStarshipCollision();
     
-    public void newShot();
+    public StarshipShot newShot();
     
-    public void newSpecial();
+    
+    public void doSpecial();    
     
     public float getShipSpeed();
+    public void setShipSpeed(float speed);
     
+    public float getX();
+    public float getY();
+    
+    public void setX(float x);
+    public void setY(float y);
     
 }
