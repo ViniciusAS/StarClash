@@ -23,11 +23,12 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
     private final SwingDrawAdaptor swingDrawAdaptor;
     private final SwingKeysListener keysListener;
     
-    public SwingGameInterface()
+    
+    public SwingGameInterface(JFrame frame)
     {
+        this.frame = frame;
         swingDrawAdaptor = new SwingDrawAdaptor();
-        frame = new JFrame("StarClash");
-        frame.setSize(500, 500);
+        frame.setSize(1080, 720);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.getContentPane().add(this, BorderLayout.CENTER);
@@ -35,7 +36,7 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
         keysListener = new SwingKeysListener();
         frame.addKeyListener( keysListener.new SwingKeyListener() );
     }
-
+    
     @Override
     public KeysListenerAdaptor getKeysListener() {
         return keysListener;

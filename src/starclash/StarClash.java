@@ -1,5 +1,6 @@
 package starclash;
 
+import javax.swing.JFrame;
 import starclash.gamemode.GameModeFactory;
 import starclash.gamemode.offline.OfflineGameMode;
 import starclash.gui.GameInterfaceAdaptor;
@@ -16,7 +17,7 @@ public class StarClash {
     private StarshipFactory myStarship;
     
     public StarClash() {
-        gui = new SwingGameInterface();
+        gui = new SwingGameInterface(new JFrame());
         
         gui.start();
         

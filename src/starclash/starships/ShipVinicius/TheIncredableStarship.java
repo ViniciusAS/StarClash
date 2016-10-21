@@ -12,9 +12,9 @@ public class TheIncredableStarship implements StarshipFactory {
     private float speed;
     
     public TheIncredableStarship() {
-        x = 0;
-        y = 0;
-        speed = 1.5f;
+        x = 50;
+        y = 50;
+        speed = 2f;
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
