@@ -2,6 +2,7 @@ package starclash.gui.swing;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Polygon;
 import starclash.gui.DrawAdaptor;
 import starclash.gui.components.Image;
@@ -15,12 +16,12 @@ import starclash.gui.components.Triangle;
  */
 public class SwingDrawAdaptor implements DrawAdaptor {
 
-    private Graphics graphics;
+    private Graphics2D graphics;
 
     public SwingDrawAdaptor() {
     }
 
-    public SwingDrawAdaptor(Graphics graphics) {
+    public SwingDrawAdaptor(Graphics2D graphics) {
         this.graphics = graphics;
     }
 
@@ -28,7 +29,7 @@ public class SwingDrawAdaptor implements DrawAdaptor {
         return graphics;
     }
 
-    public void setGraphics(Graphics graphics) {
+    public void setGraphics(Graphics2D graphics) {
         this.graphics = graphics;
     }    
     
