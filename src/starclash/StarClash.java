@@ -17,7 +17,7 @@ public class StarClash {
     private StarshipFactory myStarship;
     
     public StarClash() {
-        gui = new SwingGameInterface(new JFrame());
+        gui = new SwingGameInterface();
         
         gui.start();
         

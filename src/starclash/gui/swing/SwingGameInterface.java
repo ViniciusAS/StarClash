@@ -24,10 +24,10 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
     private final SwingKeysListener keysListener;
     
     
-    public SwingGameInterface(JFrame frame)
+    public SwingGameInterface()
     {
-        this.frame = frame;
-        swingDrawAdaptor = new SwingDrawAdaptor();
+        this.frame = new JFrame();
+        swingDrawAdaptor = new SwingDrawAdaptor(this.frame);
         frame.setSize(1080, 720);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
