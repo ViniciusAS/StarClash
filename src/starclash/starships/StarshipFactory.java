@@ -13,7 +13,8 @@ public interface StarshipFactory {
     public StarshipShot newShot();
     
     
-    public void doSpecial();    
+    
+    public void doSpecial();
     
     public float getShipSpeed();
     public void setShipSpeed(float speed);
