@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import javax.swing.JFrame;
 import starclash.gui.DrawAdaptor;
 import starclash.gui.components.Image;
 import starclash.gui.components.Line;
@@ -17,12 +18,15 @@ import starclash.gui.components.Triangle;
 public class SwingDrawAdaptor implements DrawAdaptor {
 
     private Graphics2D graphics;
+    private final JFrame frame;
 
-    public SwingDrawAdaptor() {
+    public SwingDrawAdaptor(JFrame frame) {
+       this.frame = frame;
     }
 
-    public SwingDrawAdaptor(Graphics2D graphics) {
+    public SwingDrawAdaptor(JFrame frame, Graphics2D graphics) {
         this.graphics = graphics;
+        this.frame = frame;
     }
 
     public Graphics getGraphics() {

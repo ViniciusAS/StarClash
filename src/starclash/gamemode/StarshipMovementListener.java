@@ -19,26 +19,20 @@ public class StarshipMovementListener implements MoveListener {
     
     @Override
     public void moved(Movement movement) {
-        int width = 1080;
-        int height = 720;
         float x = starship.getX();
         float y = starship.getY();
         switch (movement){
             case UP:
-                if(y>0)y -= starship.getShipSpeed();
-                else y=1;
+                y -= starship.getShipSpeed();
                 break;
             case DOWN:
-                if(y<=height-50)y += starship.getShipSpeed();
-                else y--;
+                y += starship.getShipSpeed();
                 break;
             case LEFT:
-                if(x>0) x -= starship.getShipSpeed();
-                else x=1;
+                x -= starship.getShipSpeed();
                 break;
             case RIGHT:
-                if(x<width-10) x += starship.getShipSpeed();
-                else x--;
+                x += starship.getShipSpeed();
                 break;
         }
         this.starship.setX( x );
