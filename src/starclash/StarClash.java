@@ -1,13 +1,11 @@
 package starclash;
 
-import javax.swing.JFrame;
 import starclash.gamemode.GameModeFactory;
 import starclash.gamemode.offline.OfflineGameMode;
 import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.swing.SwingGameInterface;
 import starclash.starships.ShipVinicius.TheIncredableStarship;
 import starclash.starships.StarshipFactory;
-import starclash.starships.mods.ColoredShip;
 import starclash.starships.mods.FasterShip;
 
 
@@ -45,7 +43,7 @@ public class StarClash {
      */
     public static void main(String[] args) {
         new StarClash()
-            .startBatle( new TheIncredableStarship() );
+            .startBatle( new TheIncredableStarship(true) );
     }
     
 }

@@ -6,7 +6,10 @@ package starclash.starships;
  */
 public interface StarshipCollision {
     
-    public boolean wallCollision();
+    public float wallCollisionVerticalFilter(float y);
+    
+    public float wallCollisionHorizontalFilter(float x);
+    
     public boolean shotCollision(StarshipShot starshipShot);
     
     

@@ -5,7 +5,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import starclash.gui.DrawAdaptor;
+import starclash.gui.components.Component;
 import starclash.gui.components.Image;
 import starclash.gui.components.Line;
 import starclash.gui.components.Rectangle;
@@ -18,15 +20,23 @@ import starclash.gui.components.Triangle;
 public class SwingDrawAdaptor implements DrawAdaptor {
 
     private Graphics2D graphics;
-    private final JFrame frame;
+    private final JPanel panel;
 
-    public SwingDrawAdaptor(JFrame frame) {
-       this.frame = frame;
+    public SwingDrawAdaptor(JPanel panel) {
+       this.panel = panel;
     }
 
-    public SwingDrawAdaptor(JFrame frame, Graphics2D graphics) {
+    public SwingDrawAdaptor(JPanel panel, Graphics2D graphics) {
         this.graphics = graphics;
-        this.frame = frame;
+        this.panel = panel;
+    }
+    
+    private float getWidth(){
+        return panel.getWidth();
+    }
+    
+    private float getHeight(){
+        return panel.getHeight();
     }
 
     public Graphics getGraphics() {
@@ -35,74 +45,79 @@ public class SwingDrawAdaptor implements DrawAdaptor {
 
     public void setGraphics(Graphics2D graphics) {
         this.graphics = graphics;
-    }    
+    }
+    
+    private void setColor(starclash.gui.components.Color color){
+        graphics.setColor(new Color(
+            color.getR(),
+            color.getG(),
+            color.getB(),
+            color.getA()
+        ));
+    }
+
+    @Override
+    public void drawComponent(Component component) {
+        if( component instanceof Triangle ){
+            this.drawTriangle((Triangle) component);
+        }
+        if( component instanceof Rectangle ){
+            drawRectangle((Rectangle) component);
+        }
+        if( component instanceof Line ){
+            drawLine((Line) component);
+        }
+        if( component instanceof Image ){
+            drawImage((Image) component);
+        }
+    }
     
     @Override
     public void drawRectangle(Rectangle rectangle) {
-        graphics.setColor(new Color(
-                rectangle.getColor().getR(),
-                rectangle.getColor().getG(),
-                rectangle.getColor().getB(),
-                rectangle.getColor().getA()
-        ));
+        setColor(rectangle.getColor());
         graphics.fillRect(
-            (int) ( rectangle.getX() ),
-            (int) ( rectangle.getY() ),
-            (int) ( rectangle.getWidht() ),
-            (int) ( rectangle.getHeight() )
+            (int) ( rectangle.getX()* getWidth() ),
+            (int) ( rectangle.getY()* getHeight() ),
+            (int) ( rectangle.getWidht()* getWidth() ),
+            (int) ( rectangle.getHeight()* getHeight() )
         );
     }
 
     @Override
     public void drawTriangle(Triangle triangle) {
-        graphics.setColor(new Color(
-                triangle.getColor().getR(),
-                triangle.getColor().getG(),
-                triangle.getColor().getB(),
-                triangle.getColor().getA()
-        ));
+        setColor(triangle.getColor());
         graphics.fillPolygon(new Polygon(
             new int[]{
-                (int) triangle.getP0().getX(),
-                (int) triangle.getP1().getX(),
-                (int) triangle.getP2().getX()
+                (int) ( triangle.getP0().getX()*getWidth() ),
+                (int) ( triangle.getP1().getX()*getWidth() ),
+                (int) ( triangle.getP2().getX()*getWidth() )
             }, new int[]{
-                (int) triangle.getP0().getY(),
-                (int) triangle.getP1().getY(),
-                (int) triangle.getP2().getY()
+                (int) ( triangle.getP0().getY()*getHeight() ),
+                (int) ( triangle.getP1().getY()*getHeight() ),
+                (int) ( triangle.getP2().getY()*getHeight() )
             }, 3)
         );
     }
 
     @Override
     public void drawImage(Image image) {
-        graphics.setColor(new Color(
-                image.getRectangle().getColor().getR(),
-                image.getRectangle().getColor().getG(),
-                image.getRectangle().getColor().getB(),
-                image.getRectangle().getColor().getA()
-        ));
+        setColor(image.getRectangle().getColor());
         graphics.fillRect(
-            (int) ( image.getRectangle().getX() ),
-            (int) ( image.getRectangle().getY() ),
-            (int) ( image.getRectangle().getWidht() ),
-            (int) ( image.getRectangle().getHeight() )
+            (int) ( image.getRectangle().getX()*getWidth() ),
+            (int) ( image.getRectangle().getY()*getHeight() ),
+            (int) ( image.getRectangle().getWidht()*getWidth() ),
+            (int) ( image.getRectangle().getHeight()*getHeight() )
         );
     }
 
     @Override
     public void drawLine(Line line) {
-        graphics.setColor(new Color(
-                line.getColor().getR(),
-                line.getColor().getG(),
-                line.getColor().getB(),
-                line.getColor().getA()
-        ));
+        setColor(line.getColor());
         graphics.drawLine(
-            (int) ( line.getP0().getX() ),
-            (int) ( line.getP0().getY() ),
-            (int) ( line.getP1().getX() ),
-            (int) ( line.getP1().getY() )
+            (int) ( line.getP0().getX()*getWidth() ),
+            (int) ( line.getP0().getY()*getHeight() ),
+            (int) ( line.getP1().getX()*getWidth() ),
+            (int) ( line.getP1().getY()*getHeight() )
         );
     }
     
