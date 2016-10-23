@@ -23,25 +23,25 @@ public class TheIncreadableStarshipComponents implements StarshipComponents{
         this.starship = starship;
 
         triangle = new Triangle(
-                   new Point(5,0),
-                   new Point(10,10),
-                   new Point(0,10),
+                   new Point(10,0),
+                   new Point(20,20),
+                   new Point(0,20),
                    Color.BLUE
         );
 
-        retangle = new Rectangle(0,10,10,10,Color.BLACK);
+        retangle = new Rectangle(0,20,20,20,Color.BLACK);
         
     }
    
 
     @Override
     public float getWidth() {
-       return 10;
+       return 20;
     }
 
     @Override
     public float getHeigth() {
-        return 20;
+        return 40;
     }
 
 

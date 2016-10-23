@@ -7,6 +7,7 @@ import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.swing.SwingGameInterface;
 import starclash.starships.ShipVinicius.TheIncredableStarship;
 import starclash.starships.StarshipFactory;
+import starclash.starships.mods.ColoredShip;
 import starclash.starships.mods.FasterShip;
 
 
@@ -22,6 +23,7 @@ public class StarClash {
         gui.start();
         
         myStarship = new TheIncredableStarship();
+        myStarship.newStarshipCollision();
         myStarship = new FasterShip(myStarship);
     }
     

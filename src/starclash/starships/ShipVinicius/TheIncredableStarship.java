@@ -15,8 +15,8 @@ public class TheIncredableStarship implements StarshipFactory {
     
     public TheIncredableStarship() {
         components = new TheIncreadableStarshipComponents(this);
-        x = 50;
-        y = 50;
+        x = 500;
+        y = 500;
         speed = 2f;
     }
     
@@ -29,7 +29,8 @@ public class TheIncredableStarship implements StarshipFactory {
 
     @Override
     public StarshipCollision newStarshipCollision() {
-        return new TheIncredableStarshipCollision(components);
+        return new TheIncredableStarshipCollision(components, this);
+        
     }
 
     @Override
