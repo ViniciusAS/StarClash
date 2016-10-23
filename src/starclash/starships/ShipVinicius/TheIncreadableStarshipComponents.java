@@ -1,4 +1,3 @@
-
 package starclash.starships.ShipVinicius;
 
 import starclash.gui.components.Color;
@@ -23,25 +22,29 @@ public class TheIncreadableStarshipComponents implements StarshipComponents{
         this.starship = starship;
 
         triangle = new Triangle(
-                   new Point(10,0),
-                   new Point(20,20),
-                   new Point(0,20),
-                   Color.BLUE
+            new Point(    0f, -0.03f ),
+            new Point(-0.02f,     0f ),
+            new Point( 0.02f,     0f ),
+            Color.BLUE
         );
 
-        retangle = new Rectangle(0,20,20,20,Color.BLACK);
+        retangle = new Rectangle(
+            -0.02f,    0f,
+             0.04f, 0.03f,
+            Color.BLACK
+        );
         
     }
    
 
     @Override
     public float getWidth() {
-       return 20;
+       return 0.04f;
     }
 
     @Override
     public float getHeigth() {
-        return 40;
+        return 0.06f;
     }
 
 

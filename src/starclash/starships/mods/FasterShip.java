@@ -15,6 +15,11 @@ public class FasterShip implements StarshipFactory{
     }
 
     @Override
+    public boolean isEnemy() {
+        return starship.isEnemy();
+    }
+
+    @Override
     public StarshipDraw newStarshipDraw() {
         return starship.newStarshipDraw();
     }
@@ -36,7 +41,7 @@ public class FasterShip implements StarshipFactory{
 
     @Override
     public float getShipSpeed() {
-        return starship.getShipSpeed()+0.5f;
+        return starship.getShipSpeed()*0.1f;
     }
     
     @Override
