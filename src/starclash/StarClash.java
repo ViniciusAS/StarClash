@@ -21,6 +21,7 @@ public class StarClash {
         gui.start();
         
         myStarship = new TheIncredableStarship();
+        myStarship.newStarshipCollision();
         myStarship = new FasterShip(myStarship);
     }
     
@@ -42,7 +43,7 @@ public class StarClash {
      */
     public static void main(String[] args) {
         new StarClash()
-            .startBatle( new TheIncredableStarship() );
+            .startBatle( new TheIncredableStarship(true) );
     }
     
 }

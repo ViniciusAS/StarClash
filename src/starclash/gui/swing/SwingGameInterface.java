@@ -16,18 +16,20 @@ import starclash.gui.KeysListenerAdaptor;
 
 public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
     
-    private static final long FRAMES_DELAY_MS = 16;
+    private static final long FRAMES_DELAY_MS = 1;
     
     private Timer repaintTimer;
     private final JFrame frame;    
     private final SwingDrawAdaptor swingDrawAdaptor;
     private final SwingKeysListener keysListener;
     
+    
     public SwingGameInterface()
     {
-        swingDrawAdaptor = new SwingDrawAdaptor();
-        frame = new JFrame("StarClash");
-        frame.setSize(500, 500);
+        this.frame = new JFrame();
+        swingDrawAdaptor = new SwingDrawAdaptor(this);
+        frame.setSize(500, 600);
+        frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.getContentPane().add(this, BorderLayout.CENTER);
@@ -35,7 +37,7 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
         keysListener = new SwingKeysListener();
         frame.addKeyListener( keysListener.new SwingKeyListener() );
     }
-
+    
     @Override
     public KeysListenerAdaptor getKeysListener() {
         return keysListener;
@@ -101,7 +103,7 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
         
         for (Drawable drawable : drawables)
         {
-            drawable.draw(swingDrawAdaptor);
+            drawable.draw( swingDrawAdaptor );
         }
     }
     

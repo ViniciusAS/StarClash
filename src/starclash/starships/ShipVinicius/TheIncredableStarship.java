@@ -1,6 +1,7 @@
 package starclash.starships.ShipVinicius;
 
 import starclash.starships.StarshipCollision;
+import starclash.starships.StarshipComponents;
 import starclash.starships.StarshipDraw;
 import starclash.starships.StarshipFactory;
 import starclash.starships.StarshipShot;
@@ -9,24 +10,38 @@ import starclash.starships.StarshipShot;
 public class TheIncredableStarship implements StarshipFactory {
 
     private float x, y;
-    private float speed;
+    private float speed = 0.1f;
+    private boolean enemy;
+    private final StarshipComponents components = new TheIncreadableStarshipComponents(this);
+    
+    
+    public TheIncredableStarship(boolean enemy) {
+        x = 0.5f;
+        y = ( enemy ) ? 0.25f : 0.75f;
+        this.enemy = enemy;
+    }
     
     public TheIncredableStarship() {
-        x = 0;
-        y = 0;
-        speed = 1.5f;
+        x = 0.5f;
+        y = 0.75f;
+        enemy = false;
+    }
+
+    @Override
+    public boolean isEnemy() {
+        return this.enemy;
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     @Override
     public StarshipDraw newStarshipDraw() {
-        return new TheIncredableStarshipDraw( this );
+        return new TheIncredableStarshipDraw( components );
     }
 
     @Override
     public StarshipCollision newStarshipCollision() {
-        return new TheIncredableStarshipCollision();
+        return new TheIncredableStarshipCollision( components, this.enemy );        
     }
 
     @Override

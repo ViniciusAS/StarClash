@@ -1,7 +1,7 @@
 package starclash.gui.components;
 
 
-public class Point {
+public class Point implements Component{
     
     private float x, y;
 
@@ -28,6 +28,13 @@ public class Point {
 
     public void setY(float y) {
         this.y = y;
+    }
+
+    @Override
+    public boolean contains(Point point) {
+       float precision = 1000;
+       return ((int)(x*precision)==(int)(point.getX()*precision) && 
+               (int)(y*precision)==(int)(point.getY()*precision));
     }
         
 }

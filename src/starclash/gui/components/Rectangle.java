@@ -1,7 +1,7 @@
 package starclash.gui.components;
 
 
-public class Rectangle {
+public class Rectangle implements Component{
 
     private float x, y, widht, height;
     
@@ -18,6 +18,7 @@ public class Rectangle {
         this.color = color;
     }
     
+    @Override
     public boolean contains(Point point){
         return (    point.getX() >= this.x 
                  && point.getY() >= this.y
