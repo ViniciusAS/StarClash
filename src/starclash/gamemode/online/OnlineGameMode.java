@@ -1,5 +1,8 @@
 package starclash.gamemode.online;
 
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import starclash.gamemode.CommandSender;
 import starclash.gamemode.GameModeFactory;
 import starclash.gamemode.ObservableEnemy;
@@ -8,17 +11,50 @@ import starclash.gamemode.offline.OfflineObservableEnemy;
 import starclash.gui.KeysListenerAdaptor;
 import starclash.starships.StarshipFactory;
 
+import java.net.URISyntaxException;
+
 
 public class OnlineGameMode implements GameModeFactory {
 
     private final KeysListenerAdaptor keysListener;
     private final StarshipFactory me;
+    private Socket socket;
 
     public OnlineGameMode(KeysListenerAdaptor keyListener, StarshipFactory me) {
         this.keysListener = keyListener;
         this.me = me;
+        try {
+            this.socket = IO.socket("http://localhost:90");
+            iniciarMetodosSocket();
+            socket.connect();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
-    
+
+    private void iniciarMetodosSocket() {
+        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
+
+            @Override
+            public void call(Object... args) {
+                //socket.emit("foo", "hi");
+            }
+
+        }).on("event", new Emitter.Listener() {
+
+            @Override
+            public void call(Object... args) {
+            }
+
+        }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
+
+            @Override
+            public void call(Object... args) {
+            }
+
+        });
+    }
+
     @Override
     public ObservableEnemy newObservableEnemy() {
         return new OfflineObservableEnemy(keysListener);
@@ -26,8 +62,8 @@ public class OnlineGameMode implements GameModeFactory {
 
     @Override
     public CommandSender newCommandSender() {
-        return new OfflineCommandSender( me );
+        return new OfflineCommandSender(me);
     }
-    
+
 
 }

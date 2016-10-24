@@ -6,7 +6,7 @@ import starclash.starships.StarshipFactory;
 import starclash.starships.StarshipShot;
 
 
-public class FasterShip implements StarshipFactory{
+public class FasterShip implements StarshipFactory {
 
     private final StarshipFactory starship;
 
@@ -41,9 +41,9 @@ public class FasterShip implements StarshipFactory{
 
     @Override
     public float getShipSpeed() {
-        return starship.getShipSpeed()*0.1f;
+        return starship.getShipSpeed() * 0.1f;
     }
-    
+
     @Override
     public float getX() {
         return starship.getX();

@@ -2,6 +2,7 @@ package starclash;
 
 import starclash.gamemode.GameModeFactory;
 import starclash.gamemode.offline.OfflineGameMode;
+import starclash.gamemode.online.OnlineGameMode;
 import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.swing.SwingGameInterface;
 import starclash.starships.ShipVinicius.TheIncredableStarship;
@@ -32,8 +33,9 @@ public class StarClash {
      */
     public void startBatle(StarshipFactory enemy){
         
-        GameModeFactory gameMode = new OfflineGameMode( gui.getKeysListener(), myStarship );
-        
+        //GameModeFactory gameMode = new OfflineGameMode( gui.getKeysListener(), myStarship );
+        GameModeFactory gameMode = new OnlineGameMode( gui.getKeysListener(), myStarship );
+
         new Batle(gui, myStarship, enemy).start(gameMode);
         
     }

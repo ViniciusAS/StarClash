@@ -12,7 +12,7 @@ module.exports = class Game {
 
         var game = this;
         io.on('connection', function (socket) {
-            game.onSocketConnect(socket.id);
+            game.onSocketConnect(socket);
 
             //////////// Game actions ////////////////
 
@@ -73,7 +73,7 @@ module.exports = class Game {
             //////////// Socket actions ////////////////
 
             socket.on('disconnect', function () {
-                game.onSocketDisconnect(socket.id);
+                game.onSocketDisconnect(socket);
             });
         });
 
