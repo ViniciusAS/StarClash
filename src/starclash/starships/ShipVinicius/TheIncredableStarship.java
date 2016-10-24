@@ -10,14 +10,26 @@ import starclash.starships.StarshipShot;
 public class TheIncredableStarship implements StarshipFactory {
 
     private float x, y;
-    private float speed;
-    private final StarshipComponents components;
+    private float speed = 0.1f;
+    private boolean enemy;
+    private final StarshipComponents components = new TheIncreadableStarshipComponents(this);
+    
+    
+    public TheIncredableStarship(boolean enemy) {
+        x = 0.5f;
+        y = ( enemy ) ? 0.25f : 0.75f;
+        this.enemy = enemy;
+    }
     
     public TheIncredableStarship() {
-        components = new TheIncreadableStarshipComponents(this);
-        x = 50;
-        y = 50;
-        speed = 2f;
+        x = 0.5f;
+        y = 0.75f;
+        enemy = false;
+    }
+
+    @Override
+    public boolean isEnemy() {
+        return this.enemy;
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -29,7 +41,7 @@ public class TheIncredableStarship implements StarshipFactory {
 
     @Override
     public StarshipCollision newStarshipCollision() {
-        return new TheIncredableStarshipCollision(components);
+        return new TheIncredableStarshipCollision( components, this.enemy );        
     }
 
     @Override
