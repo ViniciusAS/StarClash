@@ -35,7 +35,6 @@ public class TheIncredableStarshipCollision implements StarshipCollision {
     {
         float topLimit = ( enemy ) ? 0 : 0.5f;
         float botLimit = ( enemy ) ? 0.5f : 1;
-        topLimit += components.getHeigth();
         botLimit -= components.getHeigth();
         // top
         if ( y <= topLimit )
