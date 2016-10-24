@@ -27,8 +27,9 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
     public SwingGameInterface()
     {
         this.frame = new JFrame();
-        swingDrawAdaptor = new SwingDrawAdaptor(this.frame);
-        frame.setSize( 500, 650 );
+        swingDrawAdaptor = new SwingDrawAdaptor(this);
+        frame.setSize(500, 600);
+        frame.setResizable(false);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.getContentPane().add(this, BorderLayout.CENTER);

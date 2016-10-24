@@ -22,6 +22,10 @@ public class ColoredShip implements StarshipFactory {
         return starship.getName() + " colored";
     }
     
+    public boolean isEnemy() {
+        return starship.isEnemy();
+    }
+    
     @Override
     public StarshipDraw newStarshipDraw() {
         return starship.newStarshipDraw();

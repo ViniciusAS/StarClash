@@ -33,7 +33,7 @@ public class Menu implements Drawable {
             );
             texts[i] = new Text(
                 options[i],
-                0.5f, 0.34f + ( 0.105f * i ),
+                0.5f, 0.37f + ( 0.101f * i ),
                 Color.BLACK,
                 "Arial",
                 20,

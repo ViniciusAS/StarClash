@@ -102,7 +102,7 @@ public class MenuInterface implements Drawable {
                     StarshipFactory starship = starClash.myStarship;
                     switch ( menus[SHIP_MENU].getSelected() ) {
                         case 0: // the incredable starship
-                            starship = new TheIncredableStarship();
+                            starship = new TheIncredableStarship( startingOfflineBatle );
                             break;
                     }
                     if ( startingOfflineBatle ) {

@@ -1,16 +1,15 @@
 package starclash.gui.swing;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Polygon;
 import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 import starclash.gui.DrawAdaptor;
-import starclash.gui.components.Color;
+import starclash.gui.components.Component;
 import starclash.gui.components.Image;
 import starclash.gui.components.Line;
 import starclash.gui.components.Rectangle;
@@ -23,43 +22,67 @@ import starclash.gui.components.Triangle;
  */
 public class SwingDrawAdaptor implements DrawAdaptor {
 
-    private Graphics graphics;
-    private final JFrame frame;
+    private Graphics2D graphics;
+    private final JPanel panel;
 
-    public SwingDrawAdaptor(JFrame frame) {
-       this.frame = frame;
+    public SwingDrawAdaptor(JPanel panel) {
+       this.panel = panel;
     }
 
-    public SwingDrawAdaptor(JFrame frame, Graphics graphics) {
+    public SwingDrawAdaptor(JPanel panel, Graphics2D graphics) {
         this.graphics = graphics;
-        this.frame = frame;
+        this.panel = panel;
+    }
+    
+    private float getWidth(){
+        return panel.getWidth();
+    }
+    
+    private float getHeight(){
+        return panel.getHeight();
     }
 
     public Graphics getGraphics() {
         return graphics;
     }
 
-    public void setGraphics(Graphics graphics) {
+    public void setGraphics(Graphics2D graphics) {
         this.graphics = graphics;
-    }    
+    }
     
-    private void setColor(Color color){
-        graphics.setColor(new java.awt.Color(
+    private void setColor(starclash.gui.components.Color color){
+        graphics.setColor(new Color(
             color.getR(),
             color.getG(),
             color.getB(),
             color.getA()
         ));
     }
+
+    @Override
+    public void drawComponent(Component component) {
+        if( component instanceof Triangle ){
+            this.drawTriangle((Triangle) component);
+        }
+        if( component instanceof Rectangle ){
+            drawRectangle((Rectangle) component);
+        }
+        if( component instanceof Line ){
+            drawLine((Line) component);
+        }
+        if( component instanceof Image ){
+            drawImage((Image) component);
+        }
+    }
     
     @Override
     public void drawRectangle(Rectangle rectangle) {
         setColor(rectangle.getColor());
         graphics.fillRect(
-            (int) ( rectangle.getX()*frame.getWidth() ),
-            (int) ( rectangle.getY()*frame.getHeight() ),
-            (int) ( rectangle.getWidht()*frame.getWidth() ),
-            (int) ( rectangle.getHeight()*frame.getHeight() )
+            (int) ( rectangle.getX()* getWidth() ),
+            (int) ( rectangle.getY()* getHeight() ),
+            (int) ( rectangle.getWidht()* getWidth() ),
+            (int) ( rectangle.getHeight()* getHeight() )
         );
     }
 
@@ -68,13 +91,13 @@ public class SwingDrawAdaptor implements DrawAdaptor {
         setColor(triangle.getColor());
         graphics.fillPolygon(new Polygon(
             new int[]{
-                (int) triangle.getP0().getX()*frame.getWidth(),
-                (int) triangle.getP1().getX()*frame.getWidth(),
-                (int) triangle.getP2().getX()*frame.getWidth()
+                (int) ( triangle.getP0().getX()*getWidth() ),
+                (int) ( triangle.getP1().getX()*getWidth() ),
+                (int) ( triangle.getP2().getX()*getWidth() )
             }, new int[]{
-                (int) triangle.getP0().getY()*frame.getHeight(),
-                (int) triangle.getP1().getY()*frame.getHeight(),
-                (int) triangle.getP2().getY()*frame.getHeight()
+                (int) ( triangle.getP0().getY()*getHeight() ),
+                (int) ( triangle.getP1().getY()*getHeight() ),
+                (int) ( triangle.getP2().getY()*getHeight() )
             }, 3)
         );
     }
@@ -83,24 +106,30 @@ public class SwingDrawAdaptor implements DrawAdaptor {
     public void drawImage(Image image) {
         setColor(image.getRectangle().getColor());
         graphics.fillRect(
-            (int) ( image.getRectangle().getX()*frame.getWidth() ),
-            (int) ( image.getRectangle().getY()*frame.getHeight() ),
-            (int) ( image.getRectangle().getWidht()*frame.getWidth() ),
-            (int) ( image.getRectangle().getHeight()*frame.getHeight() )
+            (int) ( image.getRectangle().getX()*getWidth() ),
+            (int) ( image.getRectangle().getY()*getHeight() ),
+            (int) ( image.getRectangle().getWidht()*getWidth() ),
+            (int) ( image.getRectangle().getHeight()*getHeight() )
         );
         try {
-            graphics.drawImage(ImageIO.read(new File(image.getFilename())), 0, 0, frame.getWidth(), frame.getHeight(), frame);
-        } catch (IOException ex) {}
+            graphics.drawImage(
+                ImageIO.read(new File(image.getFilename())),
+                0, 0,
+                (int) getWidth(),
+                (int) getHeight(),
+                panel
+            );
+        } catch (Exception ex) {}
     }
 
     @Override
     public void drawLine(Line line) {
         setColor(line.getColor());
         graphics.drawLine(
-            (int) ( line.getP0().getX() ),
-            (int) ( line.getP0().getY() ),
-            (int) ( line.getP1().getX() ),
-            (int) ( line.getP1().getY() )
+            (int) ( line.getP0().getX()*getWidth() ),
+            (int) ( line.getP0().getY()*getHeight() ),
+            (int) ( line.getP1().getX()*getWidth() ),
+            (int) ( line.getP1().getY()*getHeight() )
         );
     }
 
@@ -125,8 +154,8 @@ public class SwingDrawAdaptor implements DrawAdaptor {
         
         graphics.drawString(
                 text.getText(),
-                (int) (text.getX()*frame.getWidth()-textWidth/2),
-                (int) (text.getY()*(frame.getHeight()-28)-text.getFontSize()/2)+28
+                (int) (text.getX()*getWidth()-textWidth/2),
+                (int) (text.getY()*(getHeight())-text.getFontSize()/2)
         );
         
     }

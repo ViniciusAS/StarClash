@@ -18,6 +18,8 @@ public interface StarshipFactory {
     
     public void doSpecial();
     
+    public boolean isEnemy();
+    
     public float getShipSpeed();
     public void setShipSpeed(float speed);
     
