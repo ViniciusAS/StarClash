@@ -39,9 +39,9 @@ public class StarClash {
      */
     public void startOfflineBatle(StarshipFactory enemy){
         
-        GameModeFactory gameMode = new OfflineGameMode( gui.getKeysListener(), myStarship );
+        GameModeFactory gameMode = new OfflineGameMode( gui.getKeysListener(), myStarship, enemy );
         
-        new Batle(gui, myStarship, enemy).start(gameMode);
+        new Batle( gui, myStarship ).start(gameMode);
         
     }
     /** 

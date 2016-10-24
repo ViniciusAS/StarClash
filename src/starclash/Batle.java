@@ -25,23 +25,10 @@ public class Batle implements
 
     public Batle() {
     }
-
-    public void setGui(GameInterfaceAdaptor gui) {
-        this.gui = gui;
-    }
-
-    public void setMe(StarshipFactory me) {
-        this.me = me;
-    }
     
-    public void setEnemy(StarshipFactory enemy) {
-        this.enemy = enemy;
-    }
-    
-    public Batle(GameInterfaceAdaptor gui, StarshipFactory me, StarshipFactory enemy) {
+    public Batle(GameInterfaceAdaptor gui, StarshipFactory me) {
         this.gui = gui;
         this.me = me;
-        this.enemy = enemy;
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -49,6 +36,8 @@ public class Batle implements
     private CommandSender commandSender;
     
     public void start(GameModeFactory gameMode){
+        
+        this.enemy = gameMode.getEnemy();
         
         //// drawables //// 
         

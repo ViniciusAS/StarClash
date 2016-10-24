@@ -1,9 +1,13 @@
 package starclash.gamemode;
 
+import starclash.starships.StarshipFactory;
+
 public interface GameModeFactory {
     
-    public abstract ObservableEnemy newObservableEnemy();
+    public ObservableEnemy newObservableEnemy();
     
-    public abstract CommandSender newCommandSender();
+    public CommandSender newCommandSender();
+    
+    public StarshipFactory getEnemy();
     
 }
