@@ -6,6 +6,8 @@ package starclash.starships;
  */
 public interface StarshipFactory {
     
+    public String getName();
+    
     public StarshipDraw newStarshipDraw();
     
     public StarshipCollision newStarshipCollision();

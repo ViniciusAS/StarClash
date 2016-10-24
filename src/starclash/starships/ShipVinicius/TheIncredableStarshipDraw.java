@@ -1,8 +1,6 @@
 package starclash.starships.ShipVinicius;
 
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import starclash.gui.DrawAdaptor;
 import starclash.gui.components.Component;
 import starclash.starships.StarshipComponents;

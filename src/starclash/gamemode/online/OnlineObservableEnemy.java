@@ -1,21 +1,21 @@
-package starclash.gamemode.offline;
+package starclash.gamemode.online;
 
-import starclash.gamemode.listeners.Movement;
 import starclash.gamemode.ObservableEnemy;
 import starclash.gamemode.listeners.MoveListener;
+import starclash.gamemode.listeners.Movement;
 import starclash.gamemode.listeners.ShotFiredListener;
 import starclash.gamemode.listeners.SpecialLaunchListener;
 import starclash.gui.KeysListenerAdaptor;
 import starclash.gui.KeysListenerAdaptor.KeyListener;
 
 
-public class OfflineObservableEnemy implements ObservableEnemy {
+public class OnlineObservableEnemy implements ObservableEnemy {
 
     private ShotFiredListener shotListener;
     private MoveListener moveListener;
     private SpecialLaunchListener specialListener;
 
-    public OfflineObservableEnemy(KeysListenerAdaptor keysListener) {
+    public OnlineObservableEnemy(KeysListenerAdaptor keysListener) {
         initEnemyObserving(keysListener);
     }
     
@@ -42,7 +42,7 @@ public class OfflineObservableEnemy implements ObservableEnemy {
         
         // W - UP ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         keysListener.addKeyListener(KeysListenerAdaptor.Key.KEY_W, new KeyListener() {
-            @Override public void pressed() {
+            @Override public void clicked() {
                 
                 if ( moveListener != null )
                     moveListener.moved(Movement.UP);
@@ -52,7 +52,7 @@ public class OfflineObservableEnemy implements ObservableEnemy {
         
         // A - LEFT ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++        
         keysListener.addKeyListener(KeysListenerAdaptor.Key.KEY_A, new KeyListener() {
-            @Override public void pressed() {
+            @Override public void clicked() {
                 
                 if ( moveListener != null )
                     moveListener.moved(Movement.LEFT);
@@ -62,7 +62,7 @@ public class OfflineObservableEnemy implements ObservableEnemy {
         
         // S - DOWN ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         keysListener.addKeyListener(KeysListenerAdaptor.Key.KEY_S, new KeyListener() {
-            @Override public void pressed() {
+            @Override public void clicked() {
                 
                 if ( moveListener != null )
                     moveListener.moved(Movement.DOWN);
@@ -72,7 +72,7 @@ public class OfflineObservableEnemy implements ObservableEnemy {
         
         // D - RIGHT +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         keysListener.addKeyListener(KeysListenerAdaptor.Key.KEY_D, new KeyListener() {
-            @Override public void pressed() {
+            @Override public void clicked() {
                 
                 if ( moveListener != null )
                     moveListener.moved(Movement.RIGHT);
@@ -82,7 +82,7 @@ public class OfflineObservableEnemy implements ObservableEnemy {
         
         // G - SHOT ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         keysListener.addKeyListener(KeysListenerAdaptor.Key.KEY_G, new KeyListener() {
-            @Override public void pressed() {
+            @Override public void clicked() {
                 
                 if ( shotListener != null )
                     shotListener.shotFired();
@@ -92,7 +92,7 @@ public class OfflineObservableEnemy implements ObservableEnemy {
         
         // T - SPECIAL +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         keysListener.addKeyListener(KeysListenerAdaptor.Key.KEY_G, new KeyListener() {
-            @Override public void pressed() {
+            @Override public void clicked() {
                 
                 if ( specialListener != null )
                     specialListener.specialLaunched();

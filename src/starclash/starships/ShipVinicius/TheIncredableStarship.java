@@ -11,7 +11,7 @@ import starclash.starships.StarshipShot;
 public class TheIncredableStarship implements StarshipFactory {
 
     private float x, y;
-    private float speed = 0.1f;
+    private float speed = 0.01f;
     private boolean enemy;
     private final StarshipComponents components = new TheIncreadableStarshipComponents(this);
     private final GameInterfaceAdaptor gui;
@@ -32,6 +32,11 @@ public class TheIncredableStarship implements StarshipFactory {
     }
 
     @Override
+    public String getName() {
+        return "The Incredable Starship";
+    }
+
+    @Override
     public boolean isEnemy() {
         return this.enemy;
     }
@@ -40,12 +45,12 @@ public class TheIncredableStarship implements StarshipFactory {
     
     @Override
     public StarshipDraw newStarshipDraw() {
-        return new TheIncredableStarshipDraw( components,this );
+        return new TheIncredableStarshipDraw( components, this );
     }
 
     @Override
     public StarshipCollision newStarshipCollision() {
-        return new TheIncredableStarshipCollision( components, this.enemy );        
+        return new TheIncredableStarshipCollision( components, this.enemy );
     }
 
     @Override
