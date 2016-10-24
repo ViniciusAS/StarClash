@@ -2,16 +2,19 @@ package starclash.starships.ShipVinicius;
 
 import starclash.starships.StarshipCollision;
 import starclash.starships.StarshipComponents;
+import starclash.starships.StarshipFactory;
 import starclash.starships.StarshipShot;
 
 public class TheIncredableStarshipCollision implements StarshipCollision {
 
     private final StarshipComponents components;
     private final boolean enemy;
+    private final StarshipFactory starship;
     
-    public TheIncredableStarshipCollision(StarshipComponents components, boolean enemy) {
+    public TheIncredableStarshipCollision(StarshipFactory starship ,StarshipComponents components) {
         this.components = components;
-        this.enemy = enemy;
+        this.enemy = starship.isEnemy();
+        this.starship = starship;
     }
 
     @Override
@@ -46,7 +49,12 @@ public class TheIncredableStarshipCollision implements StarshipCollision {
 
     @Override
     public boolean shotCollision(StarshipShot starshipShot) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        System.out.println(starshipShot.getShotPosX());   
+        if(enemy){
+            if(starshipShot.getShotPosX() >= starship.getX());
+        }
+        starshipShot.start();
+        return true;
     }
 
 }

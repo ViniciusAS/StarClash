@@ -10,4 +10,8 @@ public interface StarshipShot extends Drawable {
     
     public void start();
     
+    public float getShotPosX();
+    
+    public float getShotPosY();
+    
 }

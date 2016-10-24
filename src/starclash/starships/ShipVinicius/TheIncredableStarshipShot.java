@@ -32,6 +32,7 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
         this.isEnemy = starship.isEnemy();
     }
     
+    
     @Override
     public void start() {
         if(!isEnemy){
@@ -68,5 +69,17 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
         else
             posY += 0.01f;
     }
+
+    @Override
+    public float getShotPosX() {
+        return posX;
+    }
+
+    @Override
+    public float getShotPosY() {
+        return posY;
+    }
+
+    
 
 }

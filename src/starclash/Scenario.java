@@ -1,7 +1,9 @@
 package starclash;
 
+import starclash.gui.DrawAdaptor;
 import starclash.gui.components.Color;
 import starclash.gui.components.Image;
+import sun.java2d.pipe.DrawImage;
 
 /**
  *
@@ -17,4 +19,7 @@ public class Scenario {
         this.color = color;
     }
     
+    public void DrawImage(DrawAdaptor draw){
+        draw.drawImage(img);
+    }
 }

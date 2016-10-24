@@ -50,7 +50,7 @@ public class TheIncredableStarship implements StarshipFactory {
 
     @Override
     public StarshipCollision newStarshipCollision() {
-        return new TheIncredableStarshipCollision( components, this.enemy );
+        return new TheIncredableStarshipCollision( this , components);        
     }
 
     @Override

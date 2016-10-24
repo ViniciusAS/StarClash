@@ -9,9 +9,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import starclash.Scenario;
 import starclash.gui.Drawable;
 import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.KeysListenerAdaptor;
+import starclash.gui.components.Color;
+import starclash.gui.components.Image;
+import starclash.gui.components.Rectangle;
 
 
 public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
@@ -34,6 +38,9 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
         frame.setLocationRelativeTo(null);
         frame.getContentPane().add(this, BorderLayout.CENTER);
         
+        
+        //Scenario scena = new Scenario(new Image("space.png", new Rectangle(0, 0, 500, 600, Color.BLUE)), Color.BLUE);
+        //scena.DrawImage(swingDrawAdaptor);
         keysListener = new SwingKeysListener();
         frame.addKeyListener( keysListener.new SwingKeyListener() );
     }
