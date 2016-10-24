@@ -37,9 +37,6 @@ module.exports = class Player {
 
     //Defines the player lobby
     joinLobby(lobby) {
-        if (!(lobby instanceof Lobby))
-            throw new Error("Incorrect class for lobby.");
-
         if (this.isInLobby())
             throw new Error("Player is already in a lobby.");
 

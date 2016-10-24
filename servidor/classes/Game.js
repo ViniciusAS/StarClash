@@ -9,6 +9,7 @@ module.exports = class Game {
         this._lobbies = [];
         this._players = [];
         this._playerIndex = 0;
+        this._lobbyIndex = 0;
 
         var game = this;
         io.on('connection', function (socket) {
@@ -24,7 +25,7 @@ module.exports = class Game {
                 //Start the lobby search to start the game
                 game.setPlayerLobby(player);
 
-                console.log(player.getName() + " joined lobby");
+                console.log(player.getName() + " joined lobby #" + player.getLobby().getId());
             });
 
             //////////// Player actions ////////////////
@@ -119,7 +120,8 @@ module.exports = class Game {
 
     //Create new lobby
     createLobby() {
-        var lobby = new Lobby(this._io);
+        this._lobbyIndex++;
+        var lobby = new Lobby(this._io, this._lobbyIndex);
         this._lobbies.push(lobby);
 
         return lobby;
@@ -137,9 +139,6 @@ module.exports = class Game {
 
     //Find a lobby and put user into it
     setPlayerLobby(player) {
-        if (!(player instanceof Player))
-            throw new Error("Incorrect class for player.");
-
         var game = this;
         //If lobby count is 0, creates a lobby and puts the player in it
         if (game._lobbies.length == 0) {
@@ -149,7 +148,7 @@ module.exports = class Game {
         } else {
             var playerJoinedFreeLobby = false;
             //Check if there's a lobby with free spaces to user join
-            for (var i = 0; game._lobbies.length; i++) {
+            for (var i = 0; i < game._lobbies.length; i++) {
                 var lobby = game._lobbies[i];
                 if (lobby.getPlayerCount() < lobby.getMaxPlayerCount()) {
                     lobby.addPlayer(player);

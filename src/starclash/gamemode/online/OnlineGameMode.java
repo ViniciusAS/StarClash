@@ -33,25 +33,10 @@ public class OnlineGameMode implements GameModeFactory {
     }
 
     private void iniciarMetodosSocket() {
-        socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
-
-            @Override
-            public void call(Object... args) {
-                //socket.emit("foo", "hi");
-            }
-
-        }).on("event", new Emitter.Listener() {
-
-            @Override
-            public void call(Object... args) {
-            }
-
-        }).on(Socket.EVENT_DISCONNECT, new Emitter.Listener() {
-
-            @Override
-            public void call(Object... args) {
-            }
-
+        socket.on(Socket.EVENT_CONNECT, args -> {
+            socket.emit("joinLobby", "1,2,3");
+        }).on("event", args -> {
+        }).on(Socket.EVENT_DISCONNECT, args -> {
         });
     }
 

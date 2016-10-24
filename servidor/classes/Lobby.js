@@ -7,7 +7,8 @@ var Player = require('./Player');
 const maxPlayers = 2;
 
 module.exports = class Lobby {
-    constructor(io) {
+    constructor(io, id) {
+        this._id = id;
         this._io = io;
         this._players = [];
         this._maxPlayers = maxPlayers;
@@ -95,6 +96,11 @@ module.exports = class Lobby {
         return this._players.length;
     }
 
+    //Return the lobby ID
+    getId() {
+        return this._id;
+    }
+
     //Returns the number of how many players can play in this lobby
     getMaxPlayerCount() {
         return this._maxPlayers;
@@ -102,9 +108,6 @@ module.exports = class Lobby {
 
     //Add a player to the lobby
     addPlayer(player) {
-        if (!(player instanceof Player))
-            throw new Error("Incorrect class for player.");
-
         if ((this.getPlayerCount() + 1) > this.getMaxPlayerCount())
             throw new Error("Lobby full.");
 
@@ -121,9 +124,6 @@ module.exports = class Lobby {
 
     //Removes a player from the lobby
     removePlayer(player) {
-        if (!(player instanceof Player))
-            throw new Error("Incorrect class for player.");
-
         player.leaveLobby();
         this._players.splice(this._players.indexOf(player), 1);
     }
@@ -134,6 +134,7 @@ module.exports = class Lobby {
             throw new Error("Insufficient players.");
 
         var lobby = this;
+        var io = this._io;
 
         for (var i = 0; i < lobby._players.length; i++) {
             var player = lobby._players[i];
