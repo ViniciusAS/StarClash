@@ -12,6 +12,7 @@ module.exports = class Lobby {
         this._io = io;
         this._players = [];
         this._maxPlayers = maxPlayers;
+        this._gameStarted = false;
     }
 
     //Called to update the location of player, used to synchronize it in all other players at this lobby
@@ -107,6 +108,20 @@ module.exports = class Lobby {
         return this._maxPlayers;
     }
 
+    //Returns if the game is running or not (boolean)
+    isGameStarted() {
+        return this._gameStarted;
+    }
+
+    //Returns if a player can join the game or not (boolean)
+    canPlayerJoin() {
+        if ((this.getPlayerCount() < this.getMaxPlayerCount()) && !this.isGameStarted()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     //Add a player to the lobby
     addPlayer(player) {
         if ((this.getPlayerCount() + 1) > this.getMaxPlayerCount())
@@ -119,6 +134,7 @@ module.exports = class Lobby {
 
         //If the lobby is full, starts the game
         if (this.getPlayerCount() == this.getMaxPlayerCount()) {
+            this._gameStarted = true;
             this.startGame();
         }
     }

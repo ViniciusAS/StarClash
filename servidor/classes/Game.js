@@ -150,7 +150,7 @@ module.exports = class Game {
             //Check if there's a lobby with free spaces to user join
             for (var i = 0; i < game._lobbies.length; i++) {
                 var lobby = game._lobbies[i];
-                if (lobby.getPlayerCount() < lobby.getMaxPlayerCount()) {
+                if (lobby.canPlayerJoin()) {
                     lobby.addPlayer(player);
                     playerJoinedFreeLobby = true;
                     break;
