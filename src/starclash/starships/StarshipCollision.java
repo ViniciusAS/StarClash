@@ -10,7 +10,7 @@ public interface StarshipCollision {
     
     public float wallCollisionHorizontalFilter(float x);
     
-    public boolean shotCollision(StarshipShot starshipShot, StarshipFactory enemyShip);
+    public boolean shotCollision(StarshipShot starshipShot, StarshipFactory enemyShip, StarshipComponents components);
     
     
 }
