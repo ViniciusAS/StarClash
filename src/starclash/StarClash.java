@@ -48,7 +48,7 @@ public class StarClash {
         
         GameModeFactory gameMode = new OfflineGameMode( gui.getKeysListener(), gui, myStarship, enemy );
         
-        new Batle( gui, myStarship ).start(gameMode);
+        new Batle( gui, myStarship, Scenario.scenarioDefault ).start(gameMode);
         
     }
     
@@ -61,7 +61,8 @@ public class StarClash {
             
             GameModeFactory gameMode = new OnlineGameMode(this, myStarship);
 
-            new Batle( gui, myStarship ).start(gameMode);
+            new Batle(gui, myStarship, Scenario.scenarioDefault).start(gameMode);
+            
         } catch (NullPointerException e){
             Logger.getLogger(StarClash.class.getName()).log(Level.WARNING, e.getMessage());
             startMenu();

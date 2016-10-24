@@ -7,6 +7,7 @@ import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.components.Color;
 import starclash.gui.components.Line;
 import starclash.gui.components.Point;
+import starclash.starships.StarshipCollision;
 import starclash.starships.StarshipFactory;
 import starclash.starships.StarshipShot;
 
@@ -21,22 +22,32 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
     
     private final Timer timer = new Timer();
     private static long time = 0;
+    private StarshipCollision collision;
+    private StarshipFactory starship, enemyShip;
     
     private float posX, posY;
     private final boolean isEnemy;
     
     private GameInterfaceAdaptor gui;
     
-    public TheIncredableStarshipShot(StarshipFactory starship) {
+    public TheIncredableStarshipShot(
+            StarshipFactory starship,
+            StarshipCollision collision
+    ) {
         this.posX = starship.getX();
         this.posY = starship.getY();
         this.isEnemy = starship.isEnemy();
+        this.collision = collision;
+        this.starship = starship;
     }
+    
     public TheIncredableStarshipShot(StarshipFactory starship, float x, float y) {
         this.posX = x;
         this.posY = y;
         this.isEnemy = starship.isEnemy();
+        this.starship = starship;
     }
+    
     
     @Override
     public int getDamage() {
@@ -44,8 +55,9 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
     }
 
     @Override
-    public void start(GameInterfaceAdaptor gui) {
+    public void start(GameInterfaceAdaptor gui,StarshipFactory enemy) {
         this.gui = gui;
+        this.enemyShip = enemy;
         if(!isEnemy){
             if(System.currentTimeMillis()-time <= NEW_SHOT_DELAY){
                 gui.removeDrawable(this);
@@ -54,6 +66,7 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
             time = System.currentTimeMillis();
         }
         timer.scheduleAtFixedRate(this, 1,SHOT_DELAY); 
+        
     }
     
     @Override
@@ -68,6 +81,9 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
     @Override
     public void run() {
         shotMove();
+        if(collision.shotCollision(this,enemyShip)){
+            
+        }
         if(posY>=1){
             timer.cancel();
             gui.removeDrawable(this);
@@ -90,4 +106,5 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
     public float getY() {
         return this.posY;
     }
+    
 }

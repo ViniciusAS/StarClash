@@ -59,17 +59,17 @@ public class TheIncredableStarship implements StarshipFactory {
 
     @Override
     public StarshipCollision newStarshipCollision() {
-        return new TheIncredableStarshipCollision( components, this.enemy );
+        return new TheIncredableStarshipCollision( this , components);        
     }
 
     @Override
     public StarshipShot newShot() {
-        return new TheIncredableStarshipShot(this);
+        return new TheIncredableStarshipShot(this,newStarshipCollision());
     }
 
     @Override
     public StarshipShot newShot(float x, float y) {
-        return new TheIncredableStarshipShot(this, x, y);
+        return new TheIncredableStarshipShot(this,newStarshipCollision());
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

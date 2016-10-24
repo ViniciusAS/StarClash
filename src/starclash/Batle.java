@@ -23,8 +23,10 @@ public class Batle implements
 
     private final GameInterfaceAdaptor gui;
     private StarshipFactory me, enemy;
+    private Scenario scenario;
     
-    public Batle(GameInterfaceAdaptor gui, StarshipFactory me) {
+    public Batle(GameInterfaceAdaptor gui, StarshipFactory me,Scenario scenario) {
+        this.scenario = scenario;
         this.gui = gui;
         this.me = me;
     }
@@ -49,8 +51,11 @@ public class Batle implements
         
         gui.clearDrawables();
         
+        
+        
         commandSender = gameMode.newCommandSender();
         
+        gui.addDrawable( scenario);
         gui.addDrawable( me.newStarshipDraw() );
         gui.addDrawable( enemy.newStarshipDraw() );
         
@@ -75,13 +80,13 @@ public class Batle implements
     public void shotFired() {
         StarshipShot shot = enemy.newShot();
         gui.addDrawable( shot );
-        shot.start(gui);
+        shot.start(gui,enemy);
     }
     @Override
     public void shotFired(float x, float y) {
         StarshipShot shot = enemy.newShot( x, y );
         gui.addDrawable( shot );
-        shot.start(gui);
+        shot.start(gui,enemy);
     }
     
     @Override

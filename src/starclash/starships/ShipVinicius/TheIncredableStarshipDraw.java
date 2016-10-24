@@ -32,8 +32,8 @@ public class TheIncredableStarshipDraw implements StarshipDraw {
         }else{
             Component[] cps = components.getComponents();
             for (Component component : cps) {
-                drawAdaptor.drawComponent(component);
-                //drawAdaptor.setRotate(component);
+                //drawAdaptor.drawComponent(component);
+                drawAdaptor.setRotate(component);
             } 
         }
         

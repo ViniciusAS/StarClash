@@ -13,16 +13,22 @@ import starclash.starships.StarshipShot;
 public class OnlineCommandSender implements CommandSender {
 
     private final GameInterfaceAdaptor gui;
-    private final StarshipFactory starship;
+    private final StarshipFactory me, enemy;
     private final MoveListener moveListener;
     
     private final Socket socket;
 
-    public OnlineCommandSender(GameInterfaceAdaptor gui, Socket socket, StarshipFactory starship) {
+    public OnlineCommandSender(
+            GameInterfaceAdaptor gui,
+            Socket socket,
+            StarshipFactory me,
+            StarshipFactory enemy
+    ) {
         this.socket = socket;
         this.gui = gui;
-        this.starship = starship;
-        this.moveListener = new StarshipMovementListener( starship );
+        this.me = me;
+        this.enemy = enemy;
+        this.moveListener = new StarshipMovementListener( me );
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -43,7 +49,7 @@ public class OnlineCommandSender implements CommandSender {
     @Override
     public void moved(Movement movement) {
         moveListener.moved(movement);
-        emit("move", starship.getX(), starship.getY());
+        emit("move", me.getX(), me.getY());
     }
 
     @Override
@@ -57,17 +63,17 @@ public class OnlineCommandSender implements CommandSender {
 
     @Override
     public void shotFired() {
-        StarshipShot shot = starship.newShot();
+        StarshipShot shot = me.newShot();
         gui.addDrawable(shot);
-        shot.start(gui);
+        shot.start(gui,enemy);
         emit("fire", shot.getX(), shot.getY());
     }
 
     @Override
     public void shotFired(float x, float y) {
-        StarshipShot shot = starship.newShot(x, y);
+        StarshipShot shot = me.newShot(x, y);
         gui.addDrawable(shot);
-        shot.start(gui);
+        shot.start(gui,enemy);
         emit("fire", x, y);
     }
     
@@ -75,13 +81,13 @@ public class OnlineCommandSender implements CommandSender {
 
     @Override
     public void specialLaunched() {
-        starship.doSpecial();
-        emit("special", starship.getX(), starship.getY());
+        me.doSpecial();
+        emit("special", me.getX(), me.getY());
     }
 
     @Override
     public void specialLaunched(float x, float y) {
-        starship.doSpecial(x, y);
+        me.doSpecial(x, y);
         emit("special", x, y);
     }
 

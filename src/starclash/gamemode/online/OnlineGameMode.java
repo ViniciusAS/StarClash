@@ -122,7 +122,7 @@ public class OnlineGameMode implements GameModeFactory {
 
     @Override
     public CommandSender newCommandSender() {
-        return new OnlineCommandSender( starClash.gui, socket, me );
+        return new OnlineCommandSender( starClash.gui, socket, me, enemy );
     }
 
 

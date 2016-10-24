@@ -28,7 +28,7 @@ public class OfflineGameMode implements GameModeFactory {
 
     @Override
     public CommandSender newCommandSender() {
-        return new OfflineCommandSender( me ,gui);
+        return new OfflineCommandSender( me, enemy, gui );
     }
 
     @Override

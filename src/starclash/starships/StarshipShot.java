@@ -9,11 +9,10 @@ import starclash.gui.GameInterfaceAdaptor;
  */
 public interface StarshipShot extends Drawable {
     
-    public void start(GameInterfaceAdaptor gui);
+    public void start(GameInterfaceAdaptor gui,StarshipFactory enemy);
     
     public int getDamage();
     
     public float getX();
     public float getY();
-    
 }
