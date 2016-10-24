@@ -65,6 +65,8 @@ public class Batle implements
         observableEnemy.setShotListener(this);
         observableEnemy.setSpecialListener(this);
         
+        
+        
         // me
         initKeyListeners();
     }
