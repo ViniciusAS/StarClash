@@ -16,18 +16,19 @@ import starclash.gui.KeysListenerAdaptor;
 
 public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
     
-    private static final long FRAMES_DELAY_MS = 16;
+    private static final long FRAMES_DELAY_MS = 1;
     
     private Timer repaintTimer;
     private final JFrame frame;    
     private final SwingDrawAdaptor swingDrawAdaptor;
     private final SwingKeysListener keysListener;
     
+    
     public SwingGameInterface()
     {
-        swingDrawAdaptor = new SwingDrawAdaptor();
-        frame = new JFrame("StarClash");
-        frame.setSize(500, 500);
+        this.frame = new JFrame();
+        swingDrawAdaptor = new SwingDrawAdaptor(this.frame);
+        frame.setSize( 500, 650 );
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
         frame.getContentPane().add(this, BorderLayout.CENTER);
@@ -35,7 +36,7 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
         keysListener = new SwingKeysListener();
         frame.addKeyListener( keysListener.new SwingKeyListener() );
     }
-
+    
     @Override
     public KeysListenerAdaptor getKeysListener() {
         return keysListener;
@@ -75,17 +76,17 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
     private final List<Drawable> drawables = new ArrayList<>();
     
     @Override
-    public void addDrawable(Drawable drawable) {
+    public synchronized void addDrawable(Drawable drawable) {
         drawables.add(drawable);
     }
 
     @Override
-    public void removeDrawable(Drawable drawable) {
+    public synchronized void removeDrawable(Drawable drawable) {
         drawables.remove(drawable);
     }
 
     @Override
-    public void clearDrawables() {
+    public synchronized void clearDrawables() {
         drawables.clear();
     }
     
@@ -99,9 +100,9 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
         
         graphics.clearRect(0, 0, getWidth(), getHeight());
         
-        for (Drawable drawable : drawables)
-        {
-            drawable.draw(swingDrawAdaptor);
+        for (int i = 0; i < drawables.size(); i++) {
+            
+            drawables.get(i).draw(swingDrawAdaptor);
         }
     }
     

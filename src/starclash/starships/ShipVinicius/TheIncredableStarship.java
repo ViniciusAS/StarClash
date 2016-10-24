@@ -1,6 +1,7 @@
 package starclash.starships.ShipVinicius;
 
 import starclash.starships.StarshipCollision;
+import starclash.starships.StarshipComponents;
 import starclash.starships.StarshipDraw;
 import starclash.starships.StarshipFactory;
 import starclash.starships.StarshipShot;
@@ -10,23 +11,30 @@ public class TheIncredableStarship implements StarshipFactory {
 
     private float x, y;
     private float speed;
+    private final StarshipComponents components;
     
     public TheIncredableStarship() {
-        x = 0;
-        y = 0;
-        speed = 1.5f;
+        components = new TheIncreadableStarshipComponents(this);
+        x = 50;
+        y = 50;
+        speed = 0.002f;
+    }
+
+    @Override
+    public String getName() {
+        return "The Incredable Starship";
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     @Override
     public StarshipDraw newStarshipDraw() {
-        return new TheIncredableStarshipDraw( this );
+        return new TheIncredableStarshipDraw( this , components);
     }
 
     @Override
     public StarshipCollision newStarshipCollision() {
-        return new TheIncredableStarshipCollision();
+        return new TheIncredableStarshipCollision(components);
     }
 
     @Override

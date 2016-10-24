@@ -6,4 +6,8 @@ package starclash.starships;
  */
 public interface StarshipCollision {
     
+    public boolean wallCollision();
+    public boolean shotCollision(StarshipShot starshipShot);
+    
+    
 }

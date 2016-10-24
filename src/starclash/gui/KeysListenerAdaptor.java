@@ -58,7 +58,9 @@ public interface KeysListenerAdaptor {
             this.key = key;
         }
         
-        public abstract void clicked();
+        public abstract void pressed();
+        
+        public void clicked(){}
         
     }
     

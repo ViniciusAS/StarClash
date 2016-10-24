@@ -1,7 +1,7 @@
 package starclash.gui.components;
 
 
-public class Image {
+public class Image implements Component{
 
     private String filename;
     private Rectangle rectangle;
@@ -14,6 +14,7 @@ public class Image {
         this.rectangle = rectangle;
     }
     
+    @Override
     public boolean contains(Point point){
         return this.rectangle.contains(point);
     }

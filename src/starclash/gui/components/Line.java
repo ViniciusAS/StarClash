@@ -4,7 +4,7 @@ package starclash.gui.components;
  *
  * @author Vinicius Santos
  */
-public class Line {
+public class Line implements Component{
 
     private Point p0, p1;
     private Color color;
@@ -43,6 +43,26 @@ public class Line {
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    @Override
+    public boolean contains(Point point) {
+        float precision = 100;
+        for(float x=p0.getX(); x<p1.getX(); x+=1/precision){
+            float y= p0.getY()+ ((p1.getY()-p0.getY())/(p1.getX()-p0.getY()))*(1/precision) *x;
+            
+            int px = (int) Math.round(point.getX()*precision);
+            int py = (int) Math.round(point.getY()*precision);
+            int lx = (int) Math.round(x*precision);
+            int ly = (int) Math.round(y*precision);
+            
+            if(px == lx && py == ly){
+                return true;    
+            }
+                
+        }
+        
+        return false;
     }
     
 }

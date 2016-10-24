@@ -2,6 +2,7 @@ package starclash.starships;
 
 import starclash.gui.Drawable;
 
+
 /**
  *
  * @author viniciusas

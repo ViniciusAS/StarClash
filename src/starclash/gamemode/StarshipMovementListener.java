@@ -1,5 +1,6 @@
 package starclash.gamemode;
 
+import javax.swing.JFrame;
 import starclash.gamemode.listeners.MoveListener;
 import starclash.gamemode.listeners.Movement;
 import starclash.starships.StarshipFactory;

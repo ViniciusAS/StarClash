@@ -43,7 +43,7 @@ public class LWJGLKeysListener implements KeysListenerAdaptor {
     public void notifyObservers(Key key) {
         for (KeyListener observer : observers) {
             if ( observer.getKey() == key ){
-                observer.clicked();
+                observer.pressed();
             }
         }
     }

@@ -1,7 +1,7 @@
 package starclash.gui.components;
 
 
-public class Triangle {
+public class Triangle implements Component{
 
     private Point p0, p1 ,p2;
     private Color color;
@@ -20,6 +20,8 @@ public class Triangle {
         this.color = color;
     }
 
+
+    @Override
     public boolean contains(Point point){
         
         float s = p0.getY() * p2.getX()

@@ -16,6 +16,11 @@ public class ColoredShip implements StarshipFactory {
         this.color = color;
         this.starship = starship;
     }
+
+    @Override
+    public String getName() {
+        return starship.getName() + " colored";
+    }
     
     @Override
     public StarshipDraw newStarshipDraw() {
