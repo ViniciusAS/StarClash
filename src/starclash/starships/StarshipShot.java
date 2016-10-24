@@ -15,4 +15,7 @@ public interface StarshipShot extends Drawable {
     
     public float getX();
     public float getY();
+    
+    public float getSize();
+    
 }

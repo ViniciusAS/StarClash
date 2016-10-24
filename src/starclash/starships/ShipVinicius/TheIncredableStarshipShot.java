@@ -21,6 +21,8 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
     private static final long SHOT_DELAY = 10;
     private static final long NEW_SHOT_DELAY = 300;
     
+    private static final float SHOT_SIZE = 0.05f;
+    
     private final Timer timer = new Timer();
     private static long time = 0;
     private StarshipCollision collision;
@@ -35,11 +37,10 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
     
     public TheIncredableStarshipShot(
             StarshipFactory starship,
-            StarshipCollision collision
-    ) {
+            StarshipCollision collision,
             StarshipComponents components) {
-        this.posX = starship.getX();
-        this.posY = starship.getY();
+        this.posX = starship.getX()+starship.getWidth()/2;
+        this.posY = starship.getY()+starship.getHeight()/2;
         this.isEnemy = starship.isEnemy();
         this.collision = collision;
         this.starship = starship;
@@ -77,30 +78,31 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
     
     @Override
     public void draw(DrawAdaptor drawAdaptor) {
-        if(!isEnemy)
-            drawAdaptor.drawLine(new Line(new Point(posX, posY), new Point(posX,posY-0.05f), Color.RED));
-        else               
-            drawAdaptor.drawLine(new Line(new Point(posX, posY), new Point(posX,posY+0.05f), Color.RED));
+        if(isEnemy)
+            drawAdaptor.drawLine(new Line(new Point(posX, posY), new Point(posX,posY+SHOT_SIZE), Color.RED));
+        else
+            drawAdaptor.drawLine(new Line(new Point(posX, posY), new Point(posX,posY-SHOT_SIZE), Color.RED));
          
     }
 
     @Override
     public void run() {
         shotMove();
-        if(collision.shotCollision(this,enemyShip,components)){
-            gui.removeDrawable(this);
-        }
-        if(posY>=1){
+        if(    collision.shotCollision(this,enemyShip,components)
+            || posY>=1
+            || posY <= 0
+        )
+        {
             timer.cancel();
             gui.removeDrawable(this);
-        }  
+        }
     }
     
     public void shotMove(){
-        if(!isEnemy)
-            posY -= 0.01f;
-        else
+        if( isEnemy )
             posY += 0.01f;
+        else
+            posY -= 0.01f;
     }
 
     @Override
@@ -111,6 +113,11 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
     @Override
     public float getY() {
         return this.posY;
+    }
+    
+    @Override
+    public float getSize(){
+        return ( isEnemy ? SHOT_SIZE : 0 );
     }
     
 }

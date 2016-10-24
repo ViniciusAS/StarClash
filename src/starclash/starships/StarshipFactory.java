@@ -32,6 +32,9 @@ public interface StarshipFactory {
     public float getShipSpeed();
     public void setShipSpeed(float speed);
     
+    public float getWidth();
+    public float getHeight();
+    
     public float getX();
     public float getY();
     

@@ -22,16 +22,16 @@ public class TheIncreadableStarshipComponents implements StarshipComponents{
         this.starship = starship;
 
         triangle = new Triangle(
-            new Point(    0f, -0.03f ),
-            new Point(-0.02f,     0f ),
-            new Point( 0.02f,     0f ),
+            new Point( 0.02f, 0f ),
+            new Point(    0f, 0.03f ),
+            new Point( 0.04f, 0.03f ),
             Color.BLUE
         );
 
         retangle = new Rectangle(
-            -0.02f,    0f,
+                0f, 0.03f,
              0.04f, 0.03f,
-            Color.BLACK
+            new Color(0.1f, 0.1f, 0.1f, 1)
         );
         
     }
