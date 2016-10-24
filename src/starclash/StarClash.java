@@ -2,41 +2,57 @@ package starclash;
 
 import starclash.gamemode.GameModeFactory;
 import starclash.gamemode.offline.OfflineGameMode;
-import starclash.gamemode.online.OnlineGameMode;
 import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.swing.SwingGameInterface;
+import starclash.menu.MenuInterface;
 import starclash.starships.ShipVinicius.TheIncredableStarship;
 import starclash.starships.StarshipFactory;
-import starclash.starships.mods.FasterShip;
 
 
 public class StarClash {
 
-    private final GameInterfaceAdaptor gui;
+    private final MenuInterface menu;
     
-    private StarshipFactory myStarship;
+    public final GameInterfaceAdaptor gui;
+    
+    public StarshipFactory myStarship;    
     
     public StarClash() {
         gui = new SwingGameInterface();
-        
+        menu = new MenuInterface( this );
         gui.start();
+    }
+    
+    public void startMenu(){
+        gui.clearDrawables();
+        gui.addDrawable(menu);
         
-        myStarship = new TheIncredableStarship();
-        myStarship.newStarshipCollision();
-        myStarship = new FasterShip(myStarship);
+        myStarship = new TheIncredableStarship(gui);
+        
+        menu.start(gui);
     }
     
     /** 
-     * Inicia uma batalha
+     * Inicia uma batalha offline
      * 
      * @param enemy
      */
-    public void startBatle(StarshipFactory enemy){
+    public void startOfflineBatle(StarshipFactory enemy){
         
-        //GameModeFactory gameMode = new OfflineGameMode( gui.getKeysListener(), myStarship );
-        GameModeFactory gameMode = new OnlineGameMode( gui.getKeysListener(), myStarship );
-
-        new Batle(gui, myStarship, enemy).start(gameMode);
+        GameModeFactory gameMode = new OfflineGameMode( gui.getKeysListener(), gui, myStarship, enemy );
+        
+        new Batle( gui, myStarship ).start(gameMode);
+        
+    }
+    /** 
+     * Inicia uma batalha online
+     * 
+     */
+    public void startOnlineBatle(){
+        
+//        GameModeFactory gameMode = new OfflineGameMode( gui.getKeysListener(), myStarship );
+        
+//        new Batle(gui, myStarship, enemy).start(gameMode);
         
     }
     
@@ -44,8 +60,7 @@ public class StarClash {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new StarClash()
-            .startBatle( new TheIncredableStarship(true) );
+        new StarClash().startMenu();
     }
     
 }

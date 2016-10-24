@@ -1,16 +1,19 @@
 package starclash.gui.swing;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
-import javax.swing.JFrame;
+import java.io.File;
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import starclash.gui.DrawAdaptor;
 import starclash.gui.components.Component;
 import starclash.gui.components.Image;
 import starclash.gui.components.Line;
 import starclash.gui.components.Rectangle;
+import starclash.gui.components.Text;
 import starclash.gui.components.Triangle;
 
 /**
@@ -108,6 +111,15 @@ public class SwingDrawAdaptor implements DrawAdaptor {
             (int) ( image.getRectangle().getWidht()*getWidth() ),
             (int) ( image.getRectangle().getHeight()*getHeight() )
         );
+        try {
+            graphics.drawImage(
+                ImageIO.read(new File(image.getFilename())),
+                0, 0,
+                (int) getWidth(),
+                (int) getHeight(),
+                panel
+            );
+        } catch (Exception ex) {}
     }
 
     @Override
@@ -119,6 +131,49 @@ public class SwingDrawAdaptor implements DrawAdaptor {
             (int) ( line.getP1().getX()*getWidth() ),
             (int) ( line.getP1().getY()*getHeight() )
         );
+    }
+
+    @Override
+    public void drawText(Text text) {
+        
+        
+    graphics.setFont(new Font("TimesRoman", Font.PLAIN, 20));
+     
+        
+        setColor(text.getColor());
+        
+        graphics.setFont(
+            new Font(
+                text.getFontFamily(),
+                text.isBold() ? Font.BOLD : Font.PLAIN,
+                text.getFontSize()
+            )
+        );    
+        
+        int textWidth = graphics.getFontMetrics().stringWidth(text.getText());
+        
+        graphics.drawString(
+                text.getText(),
+                (int) (text.getX()*getWidth()-textWidth/2),
+                (int) (text.getY()*(getHeight())-text.getFontSize()/2)
+        );
+        
+    }
+
+    @Override
+    public void setRotate(Component component) {
+        
+        Graphics2D g = (Graphics2D) component;
+        g.rotate(180);
+        
+        if(component instanceof Triangle){
+            ((Triangle) component).getP0().setX(((Triangle) component).getP0().getX()+0.3f);
+            ((Triangle) component).getP0().setY(((Triangle) component).getP0().getY()+0.3f);
+            drawTriangle((Triangle)component);
+        }
+        
+
+
     }
     
 }

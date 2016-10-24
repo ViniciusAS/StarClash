@@ -8,11 +8,14 @@ public class Color {
 
     public static final Color BLACK = new Color(0, 0, 0, 1);
     public static final Color WHITE = new Color(1, 1, 1, 1);
-    public static final Color BLUE = new Color(0, 0, 1, 1);
+    public static final Color GREEN = new Color(0, 1, 0, 1);
+    public static final Color BLUE  = new Color(0, 0, 1, 1);
+    public static final Color RED   = new Color(1, 0, 0, 1);
     
     private float r, g, b, a;
 
     public Color() {
+        r = g = b = a = 0;
     }
 
     public Color(float r, float g, float b, float a) {
@@ -53,7 +56,5 @@ public class Color {
     public void setR(float r) {
         this.r = r;
     }
-    
-    
     
 }

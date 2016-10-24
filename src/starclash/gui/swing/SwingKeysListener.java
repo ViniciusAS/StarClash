@@ -1,5 +1,6 @@
 package starclash.gui.swing;
 
+import static com.sun.corba.se.impl.util.Utility.printStackTrace;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +9,7 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 import starclash.gui.KeysListenerAdaptor;
+import static starclash.gui.KeysListenerAdaptor.KEY_PRESSED_PROCCESS_DELAY_MS;
 
 
 public class SwingKeysListener implements KeysListenerAdaptor{
@@ -17,15 +19,15 @@ public class SwingKeysListener implements KeysListenerAdaptor{
     private final List<KeyListener> keyObservers = new ArrayList<>();
     
     @Override
-    public void addKeyListener(KeyListener keyListener) {
-        keyObservers.add(keyListener);
-    }
-    
-    @Override
     public void addKeyListener(Key key, KeyListener keyListener) {
         keyListener.setKey(key);
         addKeyListener(keyListener);
     }
+    
+    @Override
+    public void addKeyListener(KeyListener keyListener) {
+        keyObservers.add(keyListener);
+    }    
 
     @Override
     public void removeKeyListener(KeyListener keyListener) {
@@ -41,7 +43,7 @@ public class SwingKeysListener implements KeysListenerAdaptor{
     public void notifyObservers(Key key) {
         for (KeyListener keyListener : keyObservers) {
             if ( keyListener.getKey() == key ){
-                keyListener.clicked();
+                keyListener.pressed();
             }
         }
     }
@@ -52,7 +54,7 @@ public class SwingKeysListener implements KeysListenerAdaptor{
 
         private final Map<Key,Timer> timers = new HashMap<>();
         
-        private synchronized void startTimer(Key key){
+        private void startTimer(Key key){
             if ( timers.get(key) != null )
                 return;
             Timer timer = new Timer();
@@ -62,11 +64,12 @@ public class SwingKeysListener implements KeysListenerAdaptor{
                     notifyObservers( key );
                 }
             };
+            task.run();
             timer.scheduleAtFixedRate(task, 1, KEY_PRESSED_PROCCESS_DELAY_MS);
             timers.put(key, timer);            
         }
         
-        private synchronized void endTimer(Key key){
+        private void endTimer(Key key){
             timers.get(key).cancel();
             timers.remove(key);
         }
@@ -91,8 +94,17 @@ public class SwingKeysListener implements KeysListenerAdaptor{
         
         @Override public void keyTyped(KeyEvent ke) {}
         
-        @Override public void keyReleased(KeyEvent ke) {
+        @Override public void keyReleased(KeyEvent ke)
+        {
             endTimer( swingEventToKey(ke) );
+            
+            Key key = swingEventToKey(ke);
+            
+            for (int i = 0; i < keyObservers.size(); i++) {
+                if ( keyObservers.get(i).getKey() == key ){
+                    keyObservers.get(i).clicked();
+                }
+            }
         }
 
         @Override

@@ -7,7 +7,6 @@ import starclash.gamemode.ObservableEnemy;
 import starclash.gamemode.StarshipMovementListener;
 import starclash.gamemode.listeners.ShotFiredListener;
 import starclash.gamemode.listeners.SpecialLaunchListener;
-import starclash.gamemode.offline.OfflineGameMode;
 import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.KeysListenerAdaptor;
 import starclash.starships.StarshipFactory;
@@ -26,23 +25,10 @@ public class Batle implements
 
     public Batle() {
     }
-
-    public void setGui(GameInterfaceAdaptor gui) {
-        this.gui = gui;
-    }
-
-    public void setMe(StarshipFactory me) {
-        this.me = me;
-    }
     
-    public void setEnemy(StarshipFactory enemy) {
-        this.enemy = enemy;
-    }
-    
-    public Batle(GameInterfaceAdaptor gui, StarshipFactory me, StarshipFactory enemy) {
+    public Batle(GameInterfaceAdaptor gui, StarshipFactory me) {
         this.gui = gui;
         this.me = me;
-        this.enemy = enemy;
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -50,6 +36,10 @@ public class Batle implements
     private CommandSender commandSender;
     
     public void start(GameModeFactory gameMode){
+        
+        this.enemy = gameMode.getEnemy();
+        
+        //// drawables //// 
         
         gui.clearDrawables();
         
@@ -59,11 +49,17 @@ public class Batle implements
         gui.addDrawable( enemy.newStarshipDraw() );
         
         
+        //// listeners ////
+        
         gui.getKeysListener().clearListeners();
+        
+        // enemy
         ObservableEnemy observableEnemy = gameMode.newObservableEnemy();
         observableEnemy.setMoveListener(new StarshipMovementListener( enemy ));
         observableEnemy.setShotListener(this);
         observableEnemy.setSpecialListener(this);
+        
+        // me
         initKeyListeners();
     }
     
@@ -87,7 +83,7 @@ public class Batle implements
         // ARROW - UP ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         gui.getKeysListener()
                 .addKeyListener(KeysListenerAdaptor.Key.KEY_UP, new KeysListenerAdaptor.KeyListener() {
-            @Override public void clicked(){
+            @Override public void pressed(){
                 
                 commandSender.moved(Movement.UP);
                 
@@ -97,7 +93,7 @@ public class Batle implements
         // ARROW - LEFT ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         gui.getKeysListener()
                 .addKeyListener(KeysListenerAdaptor.Key.KEY_LEFT, new KeysListenerAdaptor.KeyListener() {
-            @Override public void clicked(){
+            @Override public void pressed(){
                 
                 commandSender.moved(Movement.LEFT);
                 
@@ -107,7 +103,7 @@ public class Batle implements
         // ARROW - DOWN ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         gui.getKeysListener()
                 .addKeyListener(KeysListenerAdaptor.Key.KEY_DOWN, new KeysListenerAdaptor.KeyListener() {
-            @Override public void clicked(){
+            @Override public void pressed(){
                 
                 commandSender.moved(Movement.DOWN);
                 
@@ -117,7 +113,7 @@ public class Batle implements
         // ARROW - RIGHT +++++++++++++++++++++++++++++++++++++++++++++++++++++++
         gui.getKeysListener()
                 .addKeyListener(KeysListenerAdaptor.Key.KEY_RIGHT, new KeysListenerAdaptor.KeyListener() {
-            @Override public void clicked(){
+            @Override public void pressed(){
                 
                 commandSender.moved(Movement.RIGHT);
                 
@@ -127,17 +123,17 @@ public class Batle implements
         // SPACE - SHOT ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         gui.getKeysListener()
                 .addKeyListener(KeysListenerAdaptor.Key.KEY_SPACE, new KeysListenerAdaptor.KeyListener() {
-            @Override public void clicked(){
+            @Override public void pressed(){
                 
                 commandSender.shotFired();
                 
             }
         });
         
-        // M - SPECIAL +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        // ENTER - SPECIAL +++++++++++++++++++++++++++++++++++++++++++++++++++++
         gui.getKeysListener()
-                .addKeyListener(KeysListenerAdaptor.Key.KEY_M, new KeysListenerAdaptor.KeyListener() {
-            @Override public void clicked(){
+                .addKeyListener(KeysListenerAdaptor.Key.KEY_ENTER, new KeysListenerAdaptor.KeyListener() {
+            @Override public void pressed(){
                 
                 commandSender.specialLaunched();
                 

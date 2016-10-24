@@ -8,4 +8,6 @@ import starclash.gui.Drawable;
  */
 public interface StarshipShot extends Drawable {
     
+    public void start();
+    
 }
