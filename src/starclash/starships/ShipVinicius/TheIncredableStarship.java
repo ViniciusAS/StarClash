@@ -1,6 +1,5 @@
 package starclash.starships.ShipVinicius;
 
-import starclash.gui.GameInterfaceAdaptor;
 import starclash.starships.StarshipCollision;
 import starclash.starships.StarshipComponents;
 import starclash.starships.StarshipDraw;
@@ -17,14 +16,15 @@ public class TheIncredableStarship implements StarshipFactory {
     
     
     public TheIncredableStarship(boolean enemy) {
-        x = 0.5f;
+        x = 0.5f - components.getWidth()/2;
         y = ( enemy ) ? 0.25f : 0.75f;
+        y -= components.getHeigth()/2;
         this.enemy = enemy;
     }
     
     public TheIncredableStarship() {
-        x = 0.5f;
-        y = 0.75f;
+        x = 0.5f - components.getWidth()/2;
+        y = 0.75f - components.getHeigth()/2;
         enemy = false;
     }
 
@@ -64,12 +64,12 @@ public class TheIncredableStarship implements StarshipFactory {
 
     @Override
     public StarshipShot newShot() {
-        return new TheIncredableStarshipShot(this,newStarshipCollision());
+        return new TheIncredableStarshipShot(this,newStarshipCollision(),components);
     }
 
     @Override
     public StarshipShot newShot(float x, float y) {
-        return new TheIncredableStarshipShot(this,newStarshipCollision());
+        return new TheIncredableStarshipShot(this,newStarshipCollision(),components);
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -89,6 +89,16 @@ public class TheIncredableStarship implements StarshipFactory {
         return speed;
     }
 
+    @Override
+    public float getWidth() {
+        return components.getWidth();
+    }
+
+    @Override
+    public float getHeight() {
+        return components.getHeigth();
+    }
+    
     @Override
     public float getX() {
         return x;

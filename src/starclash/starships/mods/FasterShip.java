@@ -68,6 +68,16 @@ public class FasterShip implements StarshipFactory{
     public float getShipSpeed() {
         return starship.getShipSpeed()*1.2f;
     }
+
+    @Override
+    public float getWidth() {
+        return starship.getWidth();
+    }
+
+    @Override
+    public float getHeight() {
+        return starship.getHeight();
+    }
     
     @Override
     public float getX() {

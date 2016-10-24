@@ -32,7 +32,7 @@ public class OnlineObservableEnemy implements ObservableEnemy {
         return 1 - x;
     }
     private float filterY(float y){
-        return y - 0.5f;
+        return 1 - y;
     }
     
     private float[] filterResult(Object[] args){

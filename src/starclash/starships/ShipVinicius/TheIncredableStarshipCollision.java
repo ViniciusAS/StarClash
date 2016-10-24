@@ -21,11 +21,11 @@ public class TheIncredableStarshipCollision implements StarshipCollision {
     public float wallCollisionHorizontalFilter(float x)
     {
         // left
-        if ( x - components.getWidth()/2 <= 0 )
-            return 0 + components.getWidth()/2;
+        if ( x <= 0 )
+            return 0;
         // right
-        if ( x + components.getWidth()/2 >= 1 )
-            return 1 - components.getWidth()/2;
+        if ( x + components.getWidth() >= 1 )
+            return 1 - components.getWidth();
         // nothing
         return x;
     }
@@ -35,8 +35,8 @@ public class TheIncredableStarshipCollision implements StarshipCollision {
     {
         float topLimit = ( enemy ) ? 0 : 0.5f;
         float botLimit = ( enemy ) ? 0.5f : 1;
-        topLimit += components.getHeigth()/2;
-        botLimit -= components.getHeigth()/2;
+        topLimit += components.getHeigth();
+        botLimit -= components.getHeigth();
         // top
         if ( y <= topLimit )
             return topLimit;
@@ -48,16 +48,14 @@ public class TheIncredableStarshipCollision implements StarshipCollision {
     }
 
     @Override
-    public boolean shotCollision(StarshipShot starshipShot, StarshipFactory enemyShip) {
-        //System.out.println(starshipShot.getShotPosY());   
-        
-        if(starshipShot.getY()>=enemyShip.getY()){
-            if(starshipShot.getX() == enemyShip.getY()){
-                System.out.println("COLISION");
+    public boolean shotCollision(StarshipShot starshipShot, StarshipFactory enemyShip, StarshipComponents components) {
+        if( starshipShot.getY()+starshipShot.getSize() <= enemyShip.getY() + components.getHeigth() ){
+            if(    starshipShot.getX() >= enemyShip.getX()
+                && starshipShot.getX() <= enemyShip.getX() + components.getWidth()){
+                return true;
             }
         }
-        
-        return true;
+        return false;
     }
 
 }
