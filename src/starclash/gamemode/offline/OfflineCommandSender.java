@@ -14,12 +14,13 @@ public class OfflineCommandSender implements CommandSender {
 
     private final MoveListener moveListener;
     private final GameInterfaceAdaptor gui;
-    private final StarshipFactory starship;
+    private final StarshipFactory me, enemy;
 
-    public OfflineCommandSender(StarshipFactory starship, GameInterfaceAdaptor gui) {
-        this.moveListener = new StarshipMovementListener( starship );
+    public OfflineCommandSender(StarshipFactory me, StarshipFactory enemy, GameInterfaceAdaptor gui) {
+        this.moveListener = new StarshipMovementListener( me );
         this.gui = gui;
-        this.starship = starship;
+        this.me = me;
+        this.enemy = enemy;
     }
     
     @Override
@@ -29,9 +30,9 @@ public class OfflineCommandSender implements CommandSender {
 
     @Override
     public void shotFired() {
-        StarshipShot shot = starship.newShot();
+        StarshipShot shot = me.newShot();
         gui.addDrawable(shot);
-        shot.start();
+        shot.start(enemy);
     }
 
     @Override

@@ -22,11 +22,13 @@ public class Batle implements
 
     private GameInterfaceAdaptor gui;
     private StarshipFactory me, enemy;
+    private Scenario scenario;
 
     public Batle() {
     }
     
-    public Batle(GameInterfaceAdaptor gui, StarshipFactory me) {
+    public Batle(GameInterfaceAdaptor gui, StarshipFactory me,Scenario scenario) {
+        this.scenario = scenario;
         this.gui = gui;
         this.me = me;
     }
@@ -39,12 +41,16 @@ public class Batle implements
         
         this.enemy = gameMode.getEnemy();
         
+        
         //// drawables //// 
         
         gui.clearDrawables();
         
+        
+        
         commandSender = gameMode.newCommandSender();
         
+        gui.addDrawable( scenario);
         gui.addDrawable( me.newStarshipDraw() );
         gui.addDrawable( enemy.newStarshipDraw() );
         

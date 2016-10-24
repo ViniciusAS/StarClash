@@ -8,7 +8,7 @@ import starclash.gui.Drawable;
  */
 public interface StarshipShot extends Drawable {
     
-    public void start();
+    public void start(StarshipFactory enemy);
     
     public float getShotPosX();
     

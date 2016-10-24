@@ -48,12 +48,16 @@ public class TheIncredableStarshipCollision implements StarshipCollision {
     }
 
     @Override
-    public boolean shotCollision(StarshipShot starshipShot) {
-        System.out.println(starshipShot.getShotPosX());   
-        if(enemy){
-            if(starshipShot.getShotPosX() >= starship.getX());
-        }
-        starshipShot.start();
+    public boolean shotCollision(StarshipShot starshipShot, StarshipFactory enemyShip) {
+        //System.out.println(starshipShot.getShotPosY());   
+        System.out.println(starshipShot.getShotPosY()+" -> "+enemyShip.getY());
+        
+            if(starshipShot.getShotPosY()>=enemyShip.getY()){
+                if(starshipShot.getShotPosX() == enemyShip.getY()){
+                    System.out.println("COLISION");
+                }
+            }
+        
         return true;
     }
 

@@ -55,7 +55,7 @@ public class TheIncredableStarship implements StarshipFactory {
 
     @Override
     public StarshipShot newShot() {
-        return new TheIncredableStarshipShot(gui,this);
+        return new TheIncredableStarshipShot(gui,this,newStarshipCollision());
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
