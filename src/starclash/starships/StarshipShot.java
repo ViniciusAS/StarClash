@@ -1,6 +1,7 @@
 package starclash.starships;
 
 import starclash.gui.Drawable;
+import starclash.gui.GameInterfaceAdaptor;
 
 /**
  *
@@ -8,6 +9,11 @@ import starclash.gui.Drawable;
  */
 public interface StarshipShot extends Drawable {
     
-    public void start();
+    public void start(GameInterfaceAdaptor gui);
+    
+    public int getDamage();
+    
+    public float getX();
+    public float getY();
     
 }

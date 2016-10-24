@@ -10,6 +10,7 @@ import starclash.gamemode.listeners.SpecialLaunchListener;
 import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.KeysListenerAdaptor;
 import starclash.starships.StarshipFactory;
+import starclash.starships.StarshipShot;
 
 /**
  *
@@ -20,11 +21,8 @@ public class Batle implements
                         SpecialLaunchListener
 {
 
-    private GameInterfaceAdaptor gui;
+    private final GameInterfaceAdaptor gui;
     private StarshipFactory me, enemy;
-
-    public Batle() {
-    }
     
     public Batle(GameInterfaceAdaptor gui, StarshipFactory me) {
         this.gui = gui;
@@ -37,7 +35,15 @@ public class Batle implements
     
     public void start(GameModeFactory gameMode){
         
+        System.out.println("Searching for enemies");
+        
         this.enemy = gameMode.getEnemy();
+        
+        if ( enemy == null ) {
+            throw new NullPointerException("Enemy not found");
+        }
+        
+        System.out.println("Got an enemy: "+enemy.getName());
         
         //// drawables //// 
         
@@ -67,12 +73,24 @@ public class Batle implements
     
     @Override
     public void shotFired() {
-        gui.addDrawable( enemy.newShot() );
+        StarshipShot shot = enemy.newShot();
+        gui.addDrawable( shot );
+        shot.start(gui);
     }
-
+    @Override
+    public void shotFired(float x, float y) {
+        StarshipShot shot = enemy.newShot( x, y );
+        gui.addDrawable( shot );
+        shot.start(gui);
+    }
+    
     @Override
     public void specialLaunched() {
         enemy.doSpecial();
+    }
+    @Override
+    public void specialLaunched(float x, float y) {
+        enemy.doSpecial(x, y);
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    

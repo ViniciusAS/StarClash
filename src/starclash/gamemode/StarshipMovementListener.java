@@ -37,4 +37,10 @@ public class StarshipMovementListener implements MoveListener {
         this.starship.setY( y );
     }
 
+    @Override
+    public void moved(float x, float y) {
+        this.starship.setX(x);
+        this.starship.setY(y);
+    }
+
 }

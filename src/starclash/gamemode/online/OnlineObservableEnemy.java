@@ -1,22 +1,47 @@
 package starclash.gamemode.online;
 
+import io.socket.client.Socket;
+import starclash.StarClash;
 import starclash.gamemode.ObservableEnemy;
 import starclash.gamemode.listeners.MoveListener;
-import starclash.gamemode.listeners.Movement;
 import starclash.gamemode.listeners.ShotFiredListener;
 import starclash.gamemode.listeners.SpecialLaunchListener;
-import starclash.gui.KeysListenerAdaptor;
-import starclash.gui.KeysListenerAdaptor.KeyListener;
+import starclash.starships.StarshipFactory;
 
 
 public class OnlineObservableEnemy implements ObservableEnemy {
-
+    
+    private final StarClash starClash;
+    
+    private final StarshipFactory me, enemy;
+    
     private ShotFiredListener shotListener;
     private MoveListener moveListener;
     private SpecialLaunchListener specialListener;
 
-    public OnlineObservableEnemy(KeysListenerAdaptor keysListener) {
-        initEnemyObserving(keysListener);
+    public OnlineObservableEnemy(StarClash starClash, Socket socket, StarshipFactory me, StarshipFactory enemy) {
+        this.starClash = starClash;
+        this.me = me;
+        this.enemy = enemy;
+        initEnemyObserving(socket);
+    }
+    
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+    private float filterX(float x){
+        return 1 - x;
+    }
+    private float filterY(float y){
+        return y - 0.5f;
+    }
+    
+    private float[] filterResult(Object[] args){
+        String[] data = ((String) args[0]).split(",");
+        float[] res = new float[data.length];
+        for (int i = 0; i < data.length; i++) {
+            res[i] = Float.parseFloat(data[i]);
+        }
+        return res;
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -38,65 +63,40 @@ public class OnlineObservableEnemy implements ObservableEnemy {
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
-    private void initEnemyObserving(KeysListenerAdaptor keysListener){
-        
-        // W - UP ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        keysListener.addKeyListener(KeysListenerAdaptor.Key.KEY_W, new KeyListener() {
-            @Override public void clicked() {
-                
-                if ( moveListener != null )
-                    moveListener.moved(Movement.UP);
-                
-            }
+    private void initEnemyObserving(Socket socket){
+        socket.on("enemy_move", (Object... os) -> {
+            if ( moveListener == null ) return;
+            float data[] = filterResult(os);
+            
+            moveListener.moved(
+                filterX(data[0]),
+                filterY(data[1])
+            );
         });
-        
-        // A - LEFT ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++        
-        keysListener.addKeyListener(KeysListenerAdaptor.Key.KEY_A, new KeyListener() {
-            @Override public void clicked() {
-                
-                if ( moveListener != null )
-                    moveListener.moved(Movement.LEFT);
-                
-            }
+        socket.on("enemy_fire", (Object... os) -> {
+            if ( shotListener == null ) return;
+            float data[] = filterResult(os);
+            
+            shotListener.shotFired(
+                filterX(data[0]),
+                filterY(data[1])
+            );
         });
-        
-        // S - DOWN ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        keysListener.addKeyListener(KeysListenerAdaptor.Key.KEY_S, new KeyListener() {
-            @Override public void clicked() {
-                
-                if ( moveListener != null )
-                    moveListener.moved(Movement.DOWN);
-                
-            }
+        socket.on("enemy_special", (Object... os) -> {
+            if ( shotListener == null ) return;
+            float data[] = filterResult(os);
+            
+            specialListener.specialLaunched(
+                filterX(data[0]),
+                filterY(data[1])
+            );
         });
-        
-        // D - RIGHT +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        keysListener.addKeyListener(KeysListenerAdaptor.Key.KEY_D, new KeyListener() {
-            @Override public void clicked() {
-                
-                if ( moveListener != null )
-                    moveListener.moved(Movement.RIGHT);
-                
-            }
-        });
-        
-        // G - SHOT ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        keysListener.addKeyListener(KeysListenerAdaptor.Key.KEY_G, new KeyListener() {
-            @Override public void clicked() {
-                
-                if ( shotListener != null )
-                    shotListener.shotFired();
-                
-            }
-        });
-        
-        // T - SPECIAL +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        keysListener.addKeyListener(KeysListenerAdaptor.Key.KEY_G, new KeyListener() {
-            @Override public void clicked() {
-                
-                if ( specialListener != null )
-                    specialListener.specialLaunched();
-                
+        socket.on("enemy_getShot", (Object... os) -> {
+            
+            if ( enemy.takeDamage( me.newShot() ) ){
+                // if the enemy is dead
+                socket.disconnect();
+                starClash.endOfBatle();
             }
         });
     }

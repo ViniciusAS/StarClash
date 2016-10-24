@@ -18,6 +18,11 @@ public class FasterShip implements StarshipFactory{
     public String getName() {
         return starship.getName() + " faster";
     }
+
+    @Override
+    public StarshipFactory getNext() {
+        return starship;
+    }
     
     @Override
     public boolean isEnemy() {
@@ -40,8 +45,23 @@ public class FasterShip implements StarshipFactory{
     }
 
     @Override
+    public StarshipShot newShot(float x, float y) {
+        return starship.newShot(x, y);
+    }
+    
+    @Override
+    public boolean takeDamage(StarshipShot shot) {
+        return starship.takeDamage(shot);
+    }
+
+    @Override
     public void doSpecial() {
         starship.doSpecial();
+    }
+
+    @Override
+    public void doSpecial(float x, float y) {
+        starship.doSpecial(x, y);
     }
 
     @Override

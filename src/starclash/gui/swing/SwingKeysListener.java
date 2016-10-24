@@ -70,7 +70,9 @@ public class SwingKeysListener implements KeysListenerAdaptor{
         }
         
         private void endTimer(Key key){
-            timers.get(key).cancel();
+            Timer timer = timers.get(key);
+            if ( timer != null )
+                timer.cancel();
             timers.remove(key);
         }
         

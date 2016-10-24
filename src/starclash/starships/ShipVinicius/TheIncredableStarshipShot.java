@@ -18,22 +18,34 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
     
     private static final long SHOT_DELAY = 10;
     private static final long NEW_SHOT_DELAY = 300;
-    private Timer timer;
-    private GameInterfaceAdaptor gui;
-    private float posX,posY;
-    private final boolean isEnemy;
+    
+    private final Timer timer = new Timer();
     private static long time = 0;
     
-    public TheIncredableStarshipShot(GameInterfaceAdaptor gui, StarshipFactory starship) {
-        timer = new Timer();  
-        this.gui = gui;
+    private float posX, posY;
+    private final boolean isEnemy;
+    
+    private GameInterfaceAdaptor gui;
+    
+    public TheIncredableStarshipShot(StarshipFactory starship) {
         this.posX = starship.getX();
         this.posY = starship.getY();
         this.isEnemy = starship.isEnemy();
     }
+    public TheIncredableStarshipShot(StarshipFactory starship, float x, float y) {
+        this.posX = x;
+        this.posY = y;
+        this.isEnemy = starship.isEnemy();
+    }
     
     @Override
-    public void start() {
+    public int getDamage() {
+        return 1;
+    }
+
+    @Override
+    public void start(GameInterfaceAdaptor gui) {
+        this.gui = gui;
         if(!isEnemy){
             if(System.currentTimeMillis()-time <= NEW_SHOT_DELAY){
                 gui.removeDrawable(this);
@@ -69,4 +81,13 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
             posY += 0.01f;
     }
 
+    @Override
+    public float getX() {
+        return this.posX;
+    }
+
+    @Override
+    public float getY() {
+        return this.posY;
+    }
 }

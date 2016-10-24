@@ -1,7 +1,10 @@
 package starclash;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import starclash.gamemode.GameModeFactory;
 import starclash.gamemode.offline.OfflineGameMode;
+import starclash.gamemode.online.OnlineGameMode;
 import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.swing.SwingGameInterface;
 import starclash.menu.MenuInterface;
@@ -27,9 +30,13 @@ public class StarClash {
         gui.clearDrawables();
         gui.addDrawable(menu);
         
-        myStarship = new TheIncredableStarship(gui);
+        myStarship = new TheIncredableStarship();
         
         menu.start(gui);
+    }
+    
+    public void endOfBatle(){
+        startMenu();
     }
     
     /** 
@@ -44,16 +51,21 @@ public class StarClash {
         new Batle( gui, myStarship ).start(gameMode);
         
     }
+    
     /** 
-     * Inicia uma batalha online
+     * Inicia uma batalha online.
      * 
      */
     public void startOnlineBatle(){
-        
-//        GameModeFactory gameMode = new OfflineGameMode( gui.getKeysListener(), myStarship );
-        
-//        new Batle(gui, myStarship, enemy).start(gameMode);
-        
+        try {
+            
+            GameModeFactory gameMode = new OnlineGameMode(this, myStarship);
+
+            new Batle( gui, myStarship ).start(gameMode);
+        } catch (NullPointerException e){
+            Logger.getLogger(StarClash.class.getName()).log(Level.WARNING, e.getMessage());
+            startMenu();
+        }
     }
     
     /**

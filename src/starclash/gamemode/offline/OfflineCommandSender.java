@@ -28,14 +28,32 @@ public class OfflineCommandSender implements CommandSender {
     }
 
     @Override
+    public void moved(float x, float y) {
+        moveListener.moved(x, y);
+    }
+
+    @Override
     public void shotFired() {
         StarshipShot shot = starship.newShot();
         gui.addDrawable(shot);
-        shot.start();
+        shot.start(gui);
+    }
+
+    @Override
+    public void shotFired(float x, float y) {
+        StarshipShot shot = starship.newShot(x, y);
+        gui.addDrawable(shot);
+        shot.start(gui);
     }
 
     @Override
     public void specialLaunched() {
+        starship.doSpecial();
+    }
+
+    @Override
+    public void specialLaunched(float x, float y) {
+        starship.doSpecial(x, y);
     }
 
 }

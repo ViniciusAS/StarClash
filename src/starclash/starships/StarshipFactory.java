@@ -8,15 +8,24 @@ public interface StarshipFactory {
     
     public String getName();
     
+    public StarshipFactory getNext();
+    
     public StarshipDraw newStarshipDraw();
     
     public StarshipCollision newStarshipCollision();
     
     public StarshipShot newShot();
+    public StarshipShot newShot(float x, float y);
     
-    
+    /** proccess taken damage
+     *
+     * @param shot
+     * @return if enemy is dead
+     */
+    public boolean takeDamage(StarshipShot shot);
     
     public void doSpecial();
+    public void doSpecial(float x, float y);
     
     public boolean isEnemy();
     
