@@ -64,17 +64,21 @@ public class OnlineCommandSender implements CommandSender {
     @Override
     public void shotFired() {
         StarshipShot shot = me.newShot();
-        gui.addDrawable(shot);
-        shot.start(gui,enemy);
-        emit("fire", shot.getX(), shot.getY());
+        boolean allowed = shot.start(gui,enemy);
+        if ( allowed ) {
+            gui.addDrawable(shot);
+            emit("fire", shot.getX(), shot.getY());
+        }
     }
 
     @Override
     public void shotFired(float x, float y) {
         StarshipShot shot = me.newShot(x, y);
-        gui.addDrawable(shot);
-        shot.start(gui,enemy);
-        emit("fire", x, y);
+        boolean allowed = shot.start(gui,enemy);
+        if ( allowed ) {
+            gui.addDrawable(shot);
+            emit("fire", x, y);
+        }
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

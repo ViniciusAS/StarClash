@@ -23,7 +23,7 @@ public class Batle implements
 
     private final GameInterfaceAdaptor gui;
     private StarshipFactory me, enemy;
-    private Scenario scenario;
+    private final Scenario scenario;
     
     public Batle(GameInterfaceAdaptor gui, StarshipFactory me,Scenario scenario) {
         this.scenario = scenario;

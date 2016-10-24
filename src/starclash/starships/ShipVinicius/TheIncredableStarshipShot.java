@@ -55,17 +55,18 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
     }
 
     @Override
-    public void start(GameInterfaceAdaptor gui,StarshipFactory enemy) {
+    public boolean start(GameInterfaceAdaptor gui,StarshipFactory enemy) {
         this.gui = gui;
         this.enemyShip = enemy;
         if(!isEnemy){
             if(System.currentTimeMillis()-time <= NEW_SHOT_DELAY){
                 gui.removeDrawable(this);
-                return;
+                return false;
             }
             time = System.currentTimeMillis();
         }
         timer.scheduleAtFixedRate(this, 1,SHOT_DELAY); 
+        return true;
         
     }
     

@@ -87,6 +87,9 @@ public class SwingKeysListener implements KeysListenerAdaptor{
                 case KeyEvent.VK_A:     return Key.KEY_A;
                 case KeyEvent.VK_S:     return Key.KEY_S;
                 case KeyEvent.VK_D:     return Key.KEY_D;
+                
+                case KeyEvent.VK_G:     return Key.KEY_G;
+                case KeyEvent.VK_T:     return Key.KEY_T;
                    
                 case KeyEvent.VK_SPACE: return Key.KEY_SPACE;
                 case KeyEvent.VK_ENTER: return Key.KEY_ENTER;
