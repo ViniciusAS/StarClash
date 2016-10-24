@@ -36,7 +36,7 @@ public class TheIncredableStarship implements StarshipFactory {
     
     @Override
     public StarshipDraw newStarshipDraw() {
-        return new TheIncredableStarshipDraw( this , components);
+        return new TheIncredableStarshipDraw( components );
     }
 
     @Override
