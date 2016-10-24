@@ -80,14 +80,13 @@ module.exports = class Lobby {
         var lobby = this;
         var io = this._io;
 
-//        io.to(player.getSocketId()).emit("player_join", "");
+        io.to(player.getSocketId()).emit("player_join", "");
 
         for (var i = 0; i < lobby._players.length; i++) {
             var otherPlayer = lobby._players[i];
 
             if (player.getSocketId() != otherPlayer.getSocketId()) {
-                io.to(otherPlayer.getSocketId()).emit("enemy_join", player.getShipType());
-                io.to(player.getSocketId()).emit("enemy_join", otherPlayer.getShipType());
+                io.to(otherPlayer.getSocketId()).emit("enemy_join", "");
             }
         }
     }
