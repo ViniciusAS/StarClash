@@ -20,9 +20,10 @@ public class StarClash {
         
         gui.start();
         
-        myStarship = new TheIncredableStarship();
-        myStarship.newStarshipCollision();
+        myStarship = new TheIncredableStarship(gui);
         myStarship = new FasterShip(myStarship);
+        
+        startBatle(new TheIncredableStarship(gui,true));
     }
     
     /** 
@@ -32,7 +33,7 @@ public class StarClash {
      */
     public void startBatle(StarshipFactory enemy){
         
-        GameModeFactory gameMode = new OfflineGameMode( gui.getKeysListener(), myStarship );
+        GameModeFactory gameMode = new OfflineGameMode( gui.getKeysListener(), myStarship, gui );
         
         new Batle(gui, myStarship, enemy).start(gameMode);
         
@@ -42,8 +43,7 @@ public class StarClash {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new StarClash()
-            .startBatle( new TheIncredableStarship(true) );
+        new StarClash();
     }
     
 }
