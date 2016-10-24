@@ -162,14 +162,15 @@ public class SwingDrawAdaptor implements DrawAdaptor {
 
     @Override
     public void setRotate(Component component) {
-        
-        Graphics2D g = (Graphics2D) component;
-        g.rotate(180);
-        
+         
         if(component instanceof Triangle){
-            ((Triangle) component).getP0().setX(((Triangle) component).getP0().getX()+0.3f);
-            ((Triangle) component).getP0().setY(((Triangle) component).getP0().getY()+0.3f);
+            ((Triangle) component).getP0().setX(((Triangle) component).getP0().getX());
+            ((Triangle) component).getP0().setY(((Triangle) component).getP0().getY()+0.06f);
             drawTriangle((Triangle)component);
+        }
+        if(component instanceof Rectangle){
+            ((Rectangle) component).setY((((Rectangle) component).getY()-((Rectangle) component).getHeight()));
+            drawRectangle((Rectangle)component);
         }
         
 
