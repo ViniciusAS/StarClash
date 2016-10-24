@@ -1,21 +1,21 @@
 package starclash;
 
-import starclash.menu.MenuInterface;
 import starclash.gamemode.GameModeFactory;
 import starclash.gamemode.offline.OfflineGameMode;
 import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.swing.SwingGameInterface;
+import starclash.menu.MenuInterface;
 import starclash.starships.ShipVinicius.TheIncredableStarship;
 import starclash.starships.StarshipFactory;
 
 
 public class StarClash {
 
-    private final GameInterfaceAdaptor gui;
     private final MenuInterface menu;
     
-    public StarshipFactory myStarship;
+    public final GameInterfaceAdaptor gui;
     
+    public StarshipFactory myStarship;    
     
     public StarClash() {
         gui = new SwingGameInterface();
@@ -27,7 +27,7 @@ public class StarClash {
         gui.clearDrawables();
         gui.addDrawable(menu);
         
-        myStarship = new TheIncredableStarship();
+        myStarship = new TheIncredableStarship(gui);
         
         menu.start(gui);
     }
@@ -39,7 +39,7 @@ public class StarClash {
      */
     public void startOfflineBatle(StarshipFactory enemy){
         
-        GameModeFactory gameMode = new OfflineGameMode( gui.getKeysListener(), myStarship, enemy );
+        GameModeFactory gameMode = new OfflineGameMode( gui.getKeysListener(), gui, myStarship, enemy );
         
         new Batle( gui, myStarship ).start(gameMode);
         

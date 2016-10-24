@@ -1,5 +1,6 @@
 package starclash.starships.ShipVinicius;
 
+import starclash.gui.GameInterfaceAdaptor;
 import starclash.starships.StarshipCollision;
 import starclash.starships.StarshipComponents;
 import starclash.starships.StarshipDraw;
@@ -10,29 +11,31 @@ import starclash.starships.StarshipShot;
 public class TheIncredableStarship implements StarshipFactory {
 
     private float x, y;
-
     private float speed = 0.01f;
-    private final boolean enemy;
+    private boolean enemy;
     private final StarshipComponents components = new TheIncreadableStarshipComponents(this);
+    private final GameInterfaceAdaptor gui;
     
     
-    public TheIncredableStarship(boolean enemy) {
+    public TheIncredableStarship(GameInterfaceAdaptor gui, boolean enemy) {
         x = 0.5f;
         y = ( enemy ) ? 0.25f : 0.75f;
         this.enemy = enemy;
+        this.gui = gui;
     }
     
-    public TheIncredableStarship() {
+    public TheIncredableStarship(GameInterfaceAdaptor gui) {
         x = 0.5f;
         y = 0.75f;
         enemy = false;
+        this.gui = gui;
     }
 
     @Override
     public String getName() {
         return "The Incredable Starship";
     }
-    
+
     @Override
     public boolean isEnemy() {
         return this.enemy;
@@ -42,7 +45,7 @@ public class TheIncredableStarship implements StarshipFactory {
     
     @Override
     public StarshipDraw newStarshipDraw() {
-        return new TheIncredableStarshipDraw( components );
+        return new TheIncredableStarshipDraw( components, this );
     }
 
     @Override
@@ -52,7 +55,7 @@ public class TheIncredableStarship implements StarshipFactory {
 
     @Override
     public StarshipShot newShot() {
-        return new TheIncredableStarshipShot();
+        return new TheIncredableStarshipShot(gui,this);
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

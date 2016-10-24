@@ -1,5 +1,7 @@
 package starclash.gui;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import starclash.gui.components.Component;
 import starclash.gui.components.Image;
 import starclash.gui.components.Line;
@@ -21,5 +23,6 @@ public interface DrawAdaptor {
     public void drawLine(Line line);
     
     public void drawText(Text text);
+    public void setRotate(Component component);
     
 }

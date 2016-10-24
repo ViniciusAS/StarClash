@@ -26,33 +26,34 @@ public class MenuInterface implements Drawable {
     private static final int MODS_MENU = 2;
     private static final int BATLE_MENU = 3;
     
-    private static final Menu menus[] = new Menu[]{
-        new Menu(new String[]{
-            "Escolher Nave",
-            "Adicionar MOD",
-            "Iniciar Jogo",
-            "Sair"
-        }),
-        new Menu(new String[]{
-            new TheIncredableStarship().getName(),
-            "Cancelar"
-        }),
-        new Menu(new String[]{
-            "Nave Rápida",
-            "Cancelar"
-        }),
-        new Menu(new String[]{
-            "Online",
-            "Offline",
-            "Cancelar"
-        })
-    };
+    private final Menu menus[];
     
     private int currentMenu = MAIN_MENU;
     private boolean startingOfflineBatle = false;
     
     public MenuInterface(StarClash starClash) {
         this.starClash = starClash;
+        this.menus = new Menu[]{
+            new Menu(new String[]{
+                "Escolher Nave",
+                "Adicionar MOD",
+                "Iniciar Jogo",
+                "Sair"
+            }),
+            new Menu(new String[]{
+                new TheIncredableStarship(starClash.gui).getName(),
+                "Cancelar"
+            }),
+            new Menu(new String[]{
+                "Nave Rápida",
+                "Cancelar"
+            }),
+            new Menu(new String[]{
+                "Online",
+                "Offline",
+                "Cancelar"
+            })
+        };
     }
     
     public void start(GameInterfaceAdaptor gui){
@@ -102,7 +103,7 @@ public class MenuInterface implements Drawable {
                     StarshipFactory starship = starClash.myStarship;
                     switch ( menus[SHIP_MENU].getSelected() ) {
                         case 0: // the incredable starship
-                            starship = new TheIncredableStarship( startingOfflineBatle );
+                            starship = new TheIncredableStarship( starClash.gui, startingOfflineBatle );
                             break;
                     }
                     if ( startingOfflineBatle ) {

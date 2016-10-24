@@ -23,7 +23,7 @@ public class FasterShip implements StarshipFactory{
     public boolean isEnemy() {
         return starship.isEnemy();
     }
-    
+
     @Override
     public StarshipDraw newStarshipDraw() {
         return starship.newStarshipDraw();
