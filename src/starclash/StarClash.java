@@ -8,7 +8,7 @@ import starclash.gamemode.online.OnlineGameMode;
 import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.swing.SwingGameInterface;
 import starclash.menu.MenuInterface;
-import starclash.starships.ShipVinicius.TheIncredableStarship;
+import starclash.starships.theincredablestarship.TheIncredableStarship;
 import starclash.starships.StarshipFactory;
 
 

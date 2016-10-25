@@ -1,4 +1,4 @@
-package starclash.starships.ShipVinicius;
+package starclash.starships.theincredablestarship;
 
 import starclash.starships.StarshipCollision;
 import starclash.starships.StarshipComponents;

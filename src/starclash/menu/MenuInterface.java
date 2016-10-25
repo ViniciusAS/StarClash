@@ -9,7 +9,7 @@ import starclash.gui.components.Color;
 import starclash.gui.components.Image;
 import starclash.gui.components.Rectangle;
 import starclash.gui.components.Text;
-import starclash.starships.ShipVinicius.TheIncredableStarship;
+import starclash.starships.theincredablestarship.TheIncredableStarship;
 import starclash.starships.StarshipFactory;
 import starclash.starships.mods.FasterShip;
 

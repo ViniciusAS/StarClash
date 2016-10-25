@@ -1,4 +1,4 @@
-package starclash.starships.ShipVinicius;
+package starclash.starships.theincredablestarship;
 
 
 import starclash.gui.DrawAdaptor;

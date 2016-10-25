@@ -77,18 +77,21 @@ public class Batle implements
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    
-    
+
+    /**
+     * enemy shot fired
+     */
     @Override
     public void shotFired() {
         StarshipShot shot = enemy.newShot();
         gui.addDrawable( shot );
-        shot.start(gui,enemy);
+        shot.start(gui,me);
     }
     @Override
     public void shotFired(float x, float y) {
         StarshipShot shot = enemy.newShot( x, y );
         gui.addDrawable( shot );
-        shot.start(gui,enemy);
+        shot.start(gui,me);
     }
     
     @Override
