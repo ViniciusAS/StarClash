@@ -169,7 +169,7 @@ module.exports = class Lobby {
     //Called when the game is over
     endGame(){
         for (var i = 0; i < lobby._players.length; i++) {
-            io.to(otherPlayer.getSocketId()).emit("enemy_fire", position);
+            io.to(otherPlayer.getSocketId()).emit("endGame", position);
         }
     }
 
