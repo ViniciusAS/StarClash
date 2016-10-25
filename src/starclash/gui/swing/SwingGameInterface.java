@@ -9,14 +9,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import starclash.Scenario;
-import static starclash.Scenario.scenarioDefault;
 import starclash.gui.Drawable;
 import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.KeysListenerAdaptor;
-import starclash.gui.components.Color;
-import starclash.gui.components.Image;
-import starclash.gui.components.Rectangle;
 
 
 public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
