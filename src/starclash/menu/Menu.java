@@ -10,7 +10,7 @@ import starclash.gui.components.Text;
 
 public class Menu implements Drawable {
 
-    private final Image background = new Image("./background.jpg", new Rectangle(0, 0, 1, 1, Color.BLUE));
+    private final Image background = new Image("/background.jpg", new Rectangle(0, 0, 1, 1, Color.BLUE));
     
     private final Text title = new Text( "StarClash", 0.5f, 0.20f, Color.WHITE, "Trebuchet", 50, true );
     
@@ -44,9 +44,6 @@ public class Menu implements Drawable {
     
     @Override
     public void draw(DrawAdaptor drawAdaptor) {
-        
-        drawAdaptor.drawImage(background);
-        
         drawAdaptor.drawText(title);
         
         for (Rectangle rect : rects) {

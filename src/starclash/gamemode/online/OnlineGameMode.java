@@ -9,7 +9,7 @@ import starclash.starships.StarshipFactory;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import starclash.StarClash;
-import starclash.starships.ShipVinicius.TheIncredableStarship;
+import starclash.starships.theincredablestarship.TheIncredableStarship;
 import starclash.starships.mods.FasterShip;
 
 

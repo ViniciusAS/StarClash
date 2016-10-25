@@ -5,7 +5,11 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
-import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import starclash.gui.DrawAdaptor;
@@ -34,6 +38,8 @@ public class SwingDrawAdaptor implements DrawAdaptor {
         this.panel = panel;
     }
     
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
     private float getWidth(){
         return panel.getWidth();
     }
@@ -58,7 +64,9 @@ public class SwingDrawAdaptor implements DrawAdaptor {
             color.getA()
         ));
     }
-
+    
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
     @Override
     public void drawComponent(Component component) {
         if( component instanceof Triangle ){
@@ -75,6 +83,8 @@ public class SwingDrawAdaptor implements DrawAdaptor {
         }
     }
     
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
     @Override
     public void drawRectangle(Rectangle rectangle) {
         setColor(rectangle.getColor());
@@ -85,6 +95,8 @@ public class SwingDrawAdaptor implements DrawAdaptor {
             (int) ( rectangle.getHeight()* getHeight() )
         );
     }
+    
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
     public void drawTriangle(Triangle triangle) {
@@ -102,6 +114,24 @@ public class SwingDrawAdaptor implements DrawAdaptor {
         );
     }
 
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+    private final Map<Image, java.awt.Image> images = new HashMap<>();
+    private java.awt.Image loadImage(Image image)
+    {
+        java.awt.Image loadedImage = images.get(image);
+        
+        if ( loadedImage == null ) {
+            try {
+                loadedImage = ImageIO.read(getClass().getResourceAsStream(image.getFilename()));
+                images.put(image, loadedImage);
+            } catch (IOException ex) {
+                Logger.getLogger(SwingDrawAdaptor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return loadedImage;
+    }
+    
     @Override
     public void drawImage(Image image) {
         setColor(image.getRectangle().getColor());
@@ -111,16 +141,16 @@ public class SwingDrawAdaptor implements DrawAdaptor {
             (int) ( image.getRectangle().getWidht()*getWidth() ),
             (int) ( image.getRectangle().getHeight()*getHeight() )
         );
-        try {
-            graphics.drawImage(
-                ImageIO.read(new File(image.getFilename())),
-                0, 0,
-                (int) getWidth(),
-                (int) getHeight(),
-                panel
-            );
-        } catch (Exception ex) {}
+        graphics.drawImage(
+            loadImage(image),
+            0, 0,
+            (int) getWidth(),
+            (int) getHeight(),
+            panel
+        );
     }
+    
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
     public void drawLine(Line line) {
@@ -132,6 +162,8 @@ public class SwingDrawAdaptor implements DrawAdaptor {
             (int) ( line.getP1().getY()*getHeight() )
         );
     }
+    
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
     public void drawText(Text text) {
@@ -159,6 +191,8 @@ public class SwingDrawAdaptor implements DrawAdaptor {
         );
         
     }
+    
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
     public void setRotate(Component component) {

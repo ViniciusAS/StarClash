@@ -17,8 +17,16 @@ public interface StarshipFactory {
     public StarshipShot newShot();
     public StarshipShot newShot(float x, float y);
     
-    /** proccess taken damage
+    public interface DieListener {
+        public void dead();
+    }
+    
+    public void setDieListener(DieListener dieListener);
+    
+    /** proccess taken damage.
      *
+     * call die listener when dead
+     * 
      * @param shot
      * @return if enemy is dead
      */

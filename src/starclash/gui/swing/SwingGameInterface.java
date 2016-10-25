@@ -9,19 +9,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import starclash.Scenario;
-import static starclash.Scenario.scenarioDefault;
 import starclash.gui.Drawable;
 import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.KeysListenerAdaptor;
-import starclash.gui.components.Color;
-import starclash.gui.components.Image;
-import starclash.gui.components.Rectangle;
 
 
 public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
     
-    private static final long FRAMES_DELAY_MS = 1;
+    private static final long FRAMES_DELAY_MS = 10;
     
     private Timer repaintTimer;
     private final JFrame frame;    
@@ -69,10 +64,15 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
     
     private class RepaintTimerTask extends TimerTask {
 
+        private long time = 0;
         @Override
         public void run()
         {
-            SwingGameInterface.this.repaint();
+            if ( System.currentTimeMillis()-time >= FRAMES_DELAY_MS ){
+                System.out.println("FPS: "+(1000/(System.currentTimeMillis()-time)));
+                SwingGameInterface.this.repaint();
+                time = System.currentTimeMillis();
+            }
         }
         
     }

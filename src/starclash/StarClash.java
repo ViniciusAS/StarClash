@@ -8,7 +8,7 @@ import starclash.gamemode.online.OnlineGameMode;
 import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.swing.SwingGameInterface;
 import starclash.menu.MenuInterface;
-import starclash.starships.ShipVinicius.TheIncredableStarship;
+import starclash.starships.theincredablestarship.TheIncredableStarship;
 import starclash.starships.StarshipFactory;
 
 
@@ -48,7 +48,7 @@ public class StarClash {
         
         GameModeFactory gameMode = new OfflineGameMode( gui.getKeysListener(), gui, myStarship, enemy );
         
-        new Batle( gui, myStarship, Scenario.scenarioDefault ).start(gameMode);
+        new Batle( this, gui, myStarship, Scenario.scenarioDefault ).start(gameMode);
         
     }
     
@@ -61,7 +61,7 @@ public class StarClash {
             
             GameModeFactory gameMode = new OnlineGameMode(this, myStarship);
 
-            new Batle(gui, myStarship, Scenario.scenarioDefault).start(gameMode);
+            new Batle( this, gui, myStarship, Scenario.scenarioDefault ).start(gameMode);
             
         } catch (NullPointerException e){
             Logger.getLogger(StarClash.class.getName()).log(Level.WARNING, e.getMessage());

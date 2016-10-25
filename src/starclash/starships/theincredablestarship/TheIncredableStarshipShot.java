@@ -1,4 +1,4 @@
-package starclash.starships.ShipVinicius;
+package starclash.starships.theincredablestarship;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,11 +24,15 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
     private static final float SHOT_SIZE = 0.05f;
     
     private final Timer timer = new Timer();
-    private static long time = 0;
+    
+    private static long timeMe = 0;
+    private static long timeEnemy = 0;
+    
     private StarshipCollision collision;
-    private StarshipFactory starship, enemyShip;
+    
+    private StarshipFactory enemyShip;
+    
     private StarshipComponents components;
-    private boolean isCollision = false;
     
     private float posX, posY;
     private final boolean isEnemy;
@@ -43,7 +47,6 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
         this.posY = starship.getY()+starship.getHeight()/2;
         this.isEnemy = starship.isEnemy();
         this.collision = collision;
-        this.starship = starship;
         this.components = components;
     }
     
@@ -51,7 +54,6 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
         this.posX = x;
         this.posY = y;
         this.isEnemy = starship.isEnemy();
-        this.starship = starship;
     }
     
     
@@ -59,18 +61,28 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
     public int getDamage() {
         return 1;
     }
-
-    @Override
-    public boolean start(GameInterfaceAdaptor gui,StarshipFactory enemy) {
-        this.gui = gui;
-        this.enemyShip = enemy;
-        if(!isEnemy){
-            if(System.currentTimeMillis()-time <= NEW_SHOT_DELAY){
-                gui.removeDrawable(this);
-                return false;
-            }
-            time = System.currentTimeMillis();
+    
+    public static boolean shotAllowed(boolean isEnemy){
+        long time = ( isEnemy ) ? timeEnemy : timeMe;
+        if ( System.currentTimeMillis()-time <= NEW_SHOT_DELAY )
+            return false;
+        if ( isEnemy ) {
+            timeEnemy = System.currentTimeMillis();
+        } else {
+            timeMe = System.currentTimeMillis();
         }
+        return true;
+    }
+    @Override
+    public boolean start(GameInterfaceAdaptor gui, StarshipFactory enemyShip) {
+        this.gui = gui;
+        this.enemyShip = enemyShip;
+        
+        if( !shotAllowed(isEnemy) ){
+            gui.removeDrawable(this);
+            return false;
+        }
+        
         timer.scheduleAtFixedRate(this, 1,SHOT_DELAY); 
         return true;
         
@@ -82,17 +94,18 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
             drawAdaptor.drawLine(new Line(new Point(posX, posY), new Point(posX,posY+SHOT_SIZE), Color.RED));
         else
             drawAdaptor.drawLine(new Line(new Point(posX, posY), new Point(posX,posY-SHOT_SIZE), Color.RED));
-         
     }
 
     @Override
     public void run() {
         shotMove();
-        if(    collision.shotCollision(this,enemyShip,components)
-            || posY>=1
-            || posY <= 0
-        )
+        if( collision.shotCollision(this,enemyShip,components) )
         {
+            timer.cancel();
+            enemyShip.takeDamage(this);
+            gui.removeDrawable(this);
+        }
+        else if (  posY >= 1 || posY <= 0  ){
             timer.cancel();
             gui.removeDrawable(this);
         }
@@ -106,14 +119,10 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
     }
 
     @Override
-    public float getX() {
-        return this.posX;
-    }
+    public float getX() { return this.posX; }
 
     @Override
-    public float getY() {
-        return this.posY;
-    }
+    public float getY() { return this.posY; }
     
     @Override
     public float getSize(){

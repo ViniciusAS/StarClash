@@ -1,4 +1,4 @@
-package starclash.starships.ShipVinicius;
+package starclash.starships.theincredablestarship;
 
 import starclash.starships.StarshipCollision;
 import starclash.starships.StarshipComponents;
@@ -35,7 +35,6 @@ public class TheIncredableStarshipCollision implements StarshipCollision {
     {
         float topLimit = ( enemy ) ? 0 : 0.5f;
         float botLimit = ( enemy ) ? 0.5f : 1;
-        topLimit += components.getHeigth();
         botLimit -= components.getHeigth();
         // top
         if ( y <= topLimit )
@@ -49,10 +48,20 @@ public class TheIncredableStarshipCollision implements StarshipCollision {
 
     @Override
     public boolean shotCollision(StarshipShot starshipShot, StarshipFactory enemyShip, StarshipComponents components) {
-        if( starshipShot.getY()+starshipShot.getSize() <= enemyShip.getY() + components.getHeigth() ){
-            if(    starshipShot.getX() >= enemyShip.getX()
-                && starshipShot.getX() <= enemyShip.getX() + components.getWidth()){
-                return true;
+        
+        if ( enemyShip.isEnemy() ) {
+            if( starshipShot.getY()+starshipShot.getSize() <= enemyShip.getY() + components.getHeigth() ){
+                if(    starshipShot.getX() >= enemyShip.getX()
+                    && starshipShot.getX() <= enemyShip.getX() + components.getWidth()){
+                    return true;
+                }
+            }
+        } else {
+            if( starshipShot.getY()+starshipShot.getSize() >= enemyShip.getY() + components.getHeigth() ){
+                if(    starshipShot.getX() >= enemyShip.getX()
+                    && starshipShot.getX() <= enemyShip.getX() + components.getWidth()){
+                    return true;
+                }
             }
         }
         return false;

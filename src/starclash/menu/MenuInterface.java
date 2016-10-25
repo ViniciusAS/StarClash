@@ -9,14 +9,14 @@ import starclash.gui.components.Color;
 import starclash.gui.components.Image;
 import starclash.gui.components.Rectangle;
 import starclash.gui.components.Text;
-import starclash.starships.ShipVinicius.TheIncredableStarship;
+import starclash.starships.theincredablestarship.TheIncredableStarship;
 import starclash.starships.StarshipFactory;
 import starclash.starships.mods.FasterShip;
 
 
 public class MenuInterface implements Drawable {
 
-    private final Image background = new Image("./background.jpg", new Rectangle(0, 0, 1, 1, Color.BLUE));
+    private final Image background = new Image("/background.jpg", new Rectangle(0, 0, 1, 1, Color.BLUE));
     private final Text title = new Text( "StarClash", 0.5f, 0.20f, Color.WHITE, "Trebuchet", 50, true );
     private final Text shipName = new Text( "", 0.5f, 0.25f, Color.WHITE, "Trebuchet", 15, true );
     private final StarClash starClash;
@@ -146,12 +146,13 @@ public class MenuInterface implements Drawable {
         drawAdaptor.drawImage(background);
         
         drawAdaptor.drawText(title);
-                
-        menus[currentMenu].draw(drawAdaptor);
         
-        shipName.setText( starClash.myStarship.getName() );
+        if ( starClash.myStarship != null ){
+            shipName.setText( starClash.myStarship.getName() );
+        }
         drawAdaptor.drawText(shipName);
         
+        menus[currentMenu].draw(drawAdaptor);
     }
 
 }

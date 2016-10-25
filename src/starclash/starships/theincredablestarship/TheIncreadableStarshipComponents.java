@@ -1,4 +1,4 @@
-package starclash.starships.ShipVinicius;
+package starclash.starships.theincredablestarship;
 
 import starclash.gui.components.Color;
 import starclash.gui.components.Component;
