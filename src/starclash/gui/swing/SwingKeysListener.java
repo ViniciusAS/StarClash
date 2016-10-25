@@ -100,27 +100,31 @@ public class SwingKeysListener implements KeysListenerAdaptor{
         
         @Override public void keyReleased(KeyEvent ke)
         {
-            Key key = swingEventToKey(ke);
+            new Thread(() -> {
+                Key key = swingEventToKey(ke);
             
-            if ( key == null ){
-                return;
-            }
-            
-            endTimer( swingEventToKey(ke) );
-            
-            
-            for (int i = 0; i < keyObservers.size(); i++) {
-                if ( keyObservers.get(i).getKey() == key ){
-                    keyObservers.get(i).clicked();
+                if ( key == null ){
+                    return;
                 }
-            }
+
+                endTimer( swingEventToKey(ke) );
+
+
+                for (int i = 0; i < keyObservers.size(); i++) {
+                    if ( keyObservers.get(i).getKey() == key ){
+                        keyObservers.get(i).clicked();
+                    }
+                }
+            }).start();
         }
 
         @Override
         public void keyPressed(KeyEvent ke) {
-            Key k = swingEventToKey(ke);
-            if ( k != null )
-                startTimer( k );
+            new Thread(() -> {
+                Key k = swingEventToKey(ke);
+                if ( k != null )
+                    startTimer( k );
+            }).start();
         }
         
     }

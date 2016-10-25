@@ -1,6 +1,7 @@
 package starclash.gui.swing;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import starclash.gui.KeysListenerAdaptor;
 
 public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
     
-    private static final long FRAMES_DELAY_MS = 10;
+    private static final long FRAMES_DELAY_MS = 4;
     
     private Timer repaintTimer;
     private final JFrame frame;    
@@ -69,7 +70,7 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
         public void run()
         {
             if ( System.currentTimeMillis()-time >= FRAMES_DELAY_MS ){
-                System.out.println("FPS: "+(1000/(System.currentTimeMillis()-time)));
+//                System.out.println("FPS: "+(1000/(System.currentTimeMillis()-time)));
                 
                 new Thread(() -> {
                     SwingGameInterface.this.repaint();
@@ -106,9 +107,10 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         
-        swingDrawAdaptor.setGraphics( (Graphics2D) graphics );
-        
+        graphics.setColor(Color.WHITE);
         graphics.clearRect(0, 0, getWidth(), getHeight());
+        
+        swingDrawAdaptor.setGraphics( (Graphics2D) graphics );
         
         for (int i = 0; i < drawables.size(); i++) {
             
