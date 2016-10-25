@@ -143,13 +143,14 @@ public class MenuInterface implements Drawable {
     @Override
     public void draw(DrawAdaptor drawAdaptor) {
         
+        drawAdaptor.drawImage(background);
+        
         drawAdaptor.drawText(title);
-                
-        menus[currentMenu].draw(drawAdaptor);
         
         shipName.setText( starClash.myStarship.getName() );
         drawAdaptor.drawText(shipName);
         
+        menus[currentMenu].draw(drawAdaptor);
     }
 
 }

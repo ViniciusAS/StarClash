@@ -44,9 +44,6 @@ public class Menu implements Drawable {
     
     @Override
     public void draw(DrawAdaptor drawAdaptor) {
-        
-        drawAdaptor.drawImage(background);
-        
         drawAdaptor.drawText(title);
         
         for (Rectangle rect : rects) {
