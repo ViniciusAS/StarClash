@@ -39,8 +39,17 @@ public class Batle implements
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     private CommandSender commandSender;
+    private ObservableEnemy observableEnemy;
     
     public void start(GameModeFactory gameMode){
+        
+        //// loading window // clear everything ////
+        
+        gui.clearDrawables();
+        gui.getKeysListener().clearListeners();
+        
+        
+        //// load ////
         
         System.out.println("Searching for enemies");
         
@@ -52,44 +61,35 @@ public class Batle implements
         
         System.out.println("Got an enemy: "+enemy.getName());
         
-        //// drawables //// 
         
-        gui.clearDrawables();
-        
-        
+        //// starships commands start ////
         
         commandSender = gameMode.newCommandSender();
-        
-        gui.addDrawable( scenario);
-        gui.addDrawable( me.newStarshipDraw() );
-        gui.addDrawable( enemy.newStarshipDraw() );
-        
+        observableEnemy = gameMode.newObservableEnemy();
         
         //// listeners ////
         
-        gui.getKeysListener().clearListeners();
-        
-        // enemy
-        ObservableEnemy observableEnemy = gameMode.newObservableEnemy();
-        observableEnemy.setMoveListener(new StarshipMovementListener( enemy ));
-        observableEnemy.setShotListener(this);
-        observableEnemy.setSpecialListener(this);
+        initListeners();
         
         
-        
-        // me
-        initKeyListeners();
-        
-        
-        //// DIE listeners ////
+        //// die listeners ////
         StarshipFactory.DieListener dieListener = () -> {
             starClash.endOfBatle();
         };
         me.setDieListener(dieListener);
         enemy.setDieListener(dieListener);
+        
+        
+        //// change drawables to start batle //// 
+        
+        gui.clearDrawables();
+        
+        gui.addDrawable( scenario);
+        gui.addDrawable( me.newStarshipDraw() );
+        gui.addDrawable( enemy.newStarshipDraw() );
     }
     
-    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     /**
      * enemy shot fired
@@ -118,8 +118,14 @@ public class Batle implements
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    
     
-    private void initKeyListeners()
+    private void initListeners()
     {
+        // enemy listeners
+        observableEnemy.setMoveListener(new StarshipMovementListener( enemy ));
+        observableEnemy.setShotListener(this);
+        observableEnemy.setSpecialListener(this);
+        
+        // player listeners
         
         // ARROW - UP ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         gui.getKeysListener()

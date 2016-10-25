@@ -1,6 +1,5 @@
 package starclash.gui.swing;
 
-import static com.sun.corba.se.impl.util.Utility.printStackTrace;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -101,9 +100,14 @@ public class SwingKeysListener implements KeysListenerAdaptor{
         
         @Override public void keyReleased(KeyEvent ke)
         {
+            Key key = swingEventToKey(ke);
+            
+            if ( key == null ){
+                return;
+            }
+            
             endTimer( swingEventToKey(ke) );
             
-            Key key = swingEventToKey(ke);
             
             for (int i = 0; i < keyObservers.size(); i++) {
                 if ( keyObservers.get(i).getKey() == key ){
@@ -114,7 +118,9 @@ public class SwingKeysListener implements KeysListenerAdaptor{
 
         @Override
         public void keyPressed(KeyEvent ke) {
-            startTimer( swingEventToKey(ke) );
+            Key k = swingEventToKey(ke);
+            if ( k != null )
+                startTimer( k );
         }
         
     }

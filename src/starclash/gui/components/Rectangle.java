@@ -48,7 +48,6 @@ public class Rectangle implements Component{
     }
     
     public void setX(float x) {
-        System.out.println("x: "+Float.toString(x));
         this.x = x;
     }
 

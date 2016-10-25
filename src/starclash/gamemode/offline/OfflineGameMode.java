@@ -11,14 +11,22 @@ import starclash.starships.StarshipFactory;
 public class OfflineGameMode implements GameModeFactory {
 
     private final KeysListenerAdaptor keysListener;
-    private final StarshipFactory me, enemy;
+    
     private final GameInterfaceAdaptor gui;
     
-    public OfflineGameMode(KeysListenerAdaptor keyListener, GameInterfaceAdaptor gui, StarshipFactory me, StarshipFactory enemy) {
+    private final StarshipFactory me, enemy;
+    
+    
+    public OfflineGameMode(
+            KeysListenerAdaptor keyListener,
+            GameInterfaceAdaptor gui,
+            StarshipFactory me,
+            StarshipFactory enemy
+    ) {
         this.keysListener = keyListener;
+        this.gui = gui;
         this.me = me;
         this.enemy = enemy;
-        this.gui = gui;
     }
     
     @Override
