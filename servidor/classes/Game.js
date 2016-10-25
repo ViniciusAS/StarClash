@@ -8,6 +8,7 @@ module.exports = class Game {
         this._io = io;
         this._lobbies = [];
         this._players = [];
+        this._disconnectTimers = [];
         this._playerIndex = 0;
         this._lobbyIndex = 0;
 
@@ -73,6 +74,10 @@ module.exports = class Game {
 
             //////////// Socket actions ////////////////
 
+            socket.on('reconnect', function () {
+                game.onSocketReconnect(socket);
+            });
+
             socket.on('disconnect', function () {
                 game.onSocketDisconnect(socket);
             });
@@ -84,7 +89,7 @@ module.exports = class Game {
     //Called when a socket connects
     onSocketConnect(socket) {
         this._playerIndex++;
-        var player = new Player("Player #" + this._playerIndex, socket.id);
+        var player = new Player("Player #" + this._playerIndex, socket);
 
         this._players[socket.id] = player;
 
@@ -93,11 +98,20 @@ module.exports = class Game {
 
     //Called when socket disconnects
     onSocketDisconnect(socket) {
-        var player = this._players[socket.id];
+        if (typeof this._players[socket.id] !== 'undefined') {
+            var player = this._players[socket.id];
 
-        this.onPlayerDisconnected(player);
+            this.onPlayerDisconnected(player);
+        }
+    }
 
-        delete this._players[socket.id];
+    //Called when socket reconnect
+    onSocketReconnect(socket) {
+        if (typeof this._players[socket.id] !== 'undefined') {
+            var player = this._players[socket.id];
+
+            this.onPlayerReconnected(player);
+        }
     }
 
     //Called after socket connects and player is in memory array
@@ -105,11 +119,27 @@ module.exports = class Game {
         console.log(player.getName() + " connected with socket " + player.getSocketId());
     }
 
-    //Called when socket disconnects
+    //Called after socket disconnects
     onPlayerDisconnected(player) {
         console.log(player.getName() + " disconnected with socket " + player.getSocketId());
-        if (player.isInLobby()) {
-            player.getLobby().removePlayer(player);
+
+        var game = this;
+        game._disconnectTimers[player.getSocketId()] = setTimeout(function () {
+            player.getLobby().onPlayerDisconnect(player);
+
+            delete game._disconnectTimers[player.getSocketId()];
+            delete this._players[player.getSocketId()];
+        }, 10000);
+    }
+
+    //Called after socket reconnects
+    onPlayerReconnected(player) {
+        if (typeof _disconnectTimers[player.getSocketId()] !== 'undefined') {
+            clearTimeout(this._disconnectTimers[player.getSocketId()]);
+
+            delete this._disconnectTimers[player.getSocketId()];
+        } else {
+
         }
     }
 
@@ -129,9 +159,20 @@ module.exports = class Game {
 
     //Removes a lobby
     removeLobby(lobby) {
+        var game = this;
         if (this._lobbies.indexOf(lobby) > -1) {
             //Removes users from lobby
+            var lobbyPlayers = lobby.getPlayers();
+
             lobby.destroy();
+
+            for (var i = 0; i < lobbyPlayers.length; i++) {
+                var player = lobbyPlayers[i];
+
+                player.getSocket().disconnect();
+
+                delete game._players[player.getSocketId()];
+            }
 
             this._lobbies.splice(this._lobbies.indexOf(lobby), 1);
         }

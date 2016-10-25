@@ -93,6 +93,11 @@ module.exports = class Lobby {
         }
     }
 
+    //When a player is disconnected (after X seconds of non-reconnection)
+    onPlayerDisconnect(player) {
+        this.removePlayer(player);
+    }
+
     //Returns the number of players in this lobby
     getPlayerCount() {
         return this._players.length;
@@ -143,6 +148,8 @@ module.exports = class Lobby {
     removePlayer(player) {
         player.leaveLobby();
         this._players.splice(this._players.indexOf(player), 1);
+
+        this.endGame();
     }
 
     //Called to start the game
@@ -159,11 +166,22 @@ module.exports = class Lobby {
         }
     }
 
+    //Called when the game is over
+    endGame(){
+        for (var i = 0; i < lobby._players.length; i++) {
+            io.to(otherPlayer.getSocketId()).emit("enemy_fire", position);
+        }
+    }
+
     //Force all players to leave lobby if the lobby is destroyed
     destroy() {
         for (var i = 0; i < this._players.length; i++) {
             this._players[i].leaveLobby();
         }
+    }
+
+    getPlayers(){
+        return this._players;
     }
 
 }
