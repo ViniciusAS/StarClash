@@ -70,7 +70,11 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
         {
             if ( System.currentTimeMillis()-time >= FRAMES_DELAY_MS ){
                 System.out.println("FPS: "+(1000/(System.currentTimeMillis()-time)));
-                SwingGameInterface.this.repaint();
+                
+                new Thread(() -> {
+                    SwingGameInterface.this.repaint();
+                }).start();
+                
                 time = System.currentTimeMillis();
             }
         }
