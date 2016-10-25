@@ -99,11 +99,13 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
     @Override
     public void run() {
         shotMove();
-        if(    collision.shotCollision(this,enemyShip,components)
-            || posY>=1
-            || posY <= 0
-        )
+        if( collision.shotCollision(this,enemyShip,components) )
         {
+            timer.cancel();
+            enemyShip.takeDamage(this);
+            gui.removeDrawable(this);
+        }
+        else if (  posY >= 1 || posY <= 0  ){
             timer.cancel();
             gui.removeDrawable(this);
         }
@@ -117,14 +119,10 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
     }
 
     @Override
-    public float getX() {
-        return this.posX;
-    }
+    public float getX() { return this.posX; }
 
     @Override
-    public float getY() {
-        return this.posY;
-    }
+    public float getY() { return this.posY; }
     
     @Override
     public float getSize(){

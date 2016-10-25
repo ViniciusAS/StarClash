@@ -147,7 +147,9 @@ public class MenuInterface implements Drawable {
         
         drawAdaptor.drawText(title);
         
-        shipName.setText( starClash.myStarship.getName() );
+        if ( starClash.myStarship != null ){
+            shipName.setText( starClash.myStarship.getName() );
+        }
         drawAdaptor.drawText(shipName);
         
         menus[currentMenu].draw(drawAdaptor);

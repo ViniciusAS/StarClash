@@ -21,11 +21,16 @@ public class Batle implements
                         SpecialLaunchListener
 {
 
+    private final StarClash starClash;
+    
     private final GameInterfaceAdaptor gui;
-    private StarshipFactory me, enemy;
     private final Scenario scenario;
     
-    public Batle(GameInterfaceAdaptor gui, StarshipFactory me,Scenario scenario) {
+    private final StarshipFactory me;
+    private StarshipFactory enemy;
+    
+    public Batle(StarClash starClash, GameInterfaceAdaptor gui, StarshipFactory me,Scenario scenario) {
+        this.starClash = starClash;
         this.scenario = scenario;
         this.gui = gui;
         this.me = me;
@@ -74,6 +79,14 @@ public class Batle implements
         
         // me
         initKeyListeners();
+        
+        
+        //// DIE listeners ////
+        StarshipFactory.DieListener dieListener = () -> {
+            starClash.endOfBatle();
+        };
+        me.setDieListener(dieListener);
+        enemy.setDieListener(dieListener);
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    

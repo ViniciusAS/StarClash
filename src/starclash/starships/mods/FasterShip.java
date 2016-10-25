@@ -48,6 +48,11 @@ public class FasterShip implements StarshipFactory{
     public StarshipShot newShot(float x, float y) {
         return starship.newShot(x, y);
     }
+
+    @Override
+    public void setDieListener(DieListener dieListener) {
+        starship.setDieListener(dieListener);
+    }
     
     @Override
     public boolean takeDamage(StarshipShot shot) {

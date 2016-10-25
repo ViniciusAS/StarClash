@@ -42,12 +42,23 @@ public class TheIncredableStarship implements StarshipFactory {
     public boolean isEnemy() {
         return this.enemy;
     }
+    
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    private DieListener dieListener;
+    @Override
+    public void setDieListener(DieListener dieListener) {
+        this.dieListener = dieListener;
+    }
 
     @Override
     public boolean takeDamage(StarshipShot shot)
     {
-        ///// INVENCIBLE /////
-        return false;
+        ///// NOT INVENCIBLE /////
+        if ( dieListener != null ){
+            dieListener.dead();
+        }
+        return true;
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
