@@ -83,8 +83,6 @@ public class OnlineGameMode implements GameModeFactory {
         socket.on(Socket.EVENT_DISCONNECT, args -> {
             starClash.startMenu();
         });
-        
-        
 //        socket.on("player_join", (Object... os) -> {
 //            
 //        });
