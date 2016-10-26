@@ -19,8 +19,8 @@ public class NyanCatStarshipComponents implements StarshipComponents{
     private final StarshipFactory starship;
 
     public NyanCatStarshipComponents(StarshipFactory starship) {
-        if (starship.isEnemy())image.getRectangle().setHeight( -image.getRectangle().getHeight() );
         this.starship = starship;
+        if (starship.isEnemy())image.getRectangle().setHeight( -image.getRectangle().getHeight() );
     }
 
     @Override
