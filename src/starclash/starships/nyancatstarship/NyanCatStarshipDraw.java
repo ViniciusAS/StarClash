@@ -22,13 +22,13 @@ public class NyanCatStarshipDraw implements StarshipDraw{
     
     @Override
     public void draw(DrawAdaptor drawAdaptor) {
-        if(!starship.isEnemy()){
+        //if(!starship.isEnemy()){
             Component[] cps = components.getComponents();
             for (Component component : cps) drawAdaptor.drawComponent(component);             
-        }else{
-            Component[] cps = components.getComponents();
-            for (Component component : cps) drawAdaptor.setRotate(component,components);    
-        }
+        //}else{
+         //   Component[] cps = components.getComponents();
+         //   for (Component component : cps) drawAdaptor.setRotate(component,components);    
+        //}
         
     }
     
