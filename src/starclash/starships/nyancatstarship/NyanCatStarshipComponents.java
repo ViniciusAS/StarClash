@@ -5,6 +5,7 @@ import starclash.gui.components.Component;
 import starclash.gui.components.Image;
 import starclash.gui.components.Rectangle;
 import starclash.starships.StarshipComponents;
+import starclash.starships.StarshipFactory;
 
 /**
  *
@@ -12,12 +13,14 @@ import starclash.starships.StarshipComponents;
  */
 public class NyanCatStarshipComponents implements StarshipComponents{
     
-    private final Image image;
-    private static final float WIDTH = 0.0463f;
-    private static final float HEIGTH = 0.0463f;
+    private final Image image = new Image("/nyanCatShip.png", new Rectangle(0, 0, WIDTH, HEIGTH, Color.TRANSPARENT));
+    private static final float WIDTH = 0.08f;
+    private static final float HEIGTH = 0.08f;
+    private final StarshipFactory starship;
 
-    public NyanCatStarshipComponents() {
-        this.image = new Image("/nyanCatShip.png", new Rectangle(0f, 0.03f, WIDTH, HEIGTH, Color.BLUE));
+    public NyanCatStarshipComponents(StarshipFactory starship) {
+        if (starship.isEnemy())image.getRectangle().setHeight( -image.getRectangle().getHeight() );
+        this.starship = starship;
     }
 
     @Override
@@ -32,9 +35,9 @@ public class NyanCatStarshipComponents implements StarshipComponents{
 
     @Override
     public Component[] getComponents() {
-        return new Component[]{
-            new Image(image.getFilename(), image.getRectangle())
-        };
+        image.getRectangle().setX(starship.getX());
+        image.getRectangle().setY(starship.getY());
+        return new Component[] { image };
     }
     
 }

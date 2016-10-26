@@ -19,7 +19,7 @@ public class ORangeStarshipComponents implements StarshipComponents{
     private final Image image  = new Image("/resources/o_range/o-range.png", new Rectangle(
             0, 0,
             width, height,
-            Color.BLUE
+            Color.TRANSPARENT
     ));
     
     private final StarshipFactory starship;

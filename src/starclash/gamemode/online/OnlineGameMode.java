@@ -11,6 +11,9 @@ import java.util.logging.Logger;
 import starclash.StarClash;
 import starclash.starships.theincredablestarship.TheIncredableStarship;
 import starclash.starships.mods.FasterShip;
+import starclash.starships.nyancatstarship.NyanCatStarship;
+import starclash.starships.o_rangestarship.ORangeStarship;
+import starclash.starships.workaroundstarship.WorkAroundStarship;
 
 
 public class OnlineGameMode implements GameModeFactory {
@@ -18,6 +21,9 @@ public class OnlineGameMode implements GameModeFactory {
     public static final class StarshipTypes {
         
         public static final int THE_INCREDABLE_STARSHIP = 1;
+        public static final int NYAN_CAT_STARSHIP = 2;
+        public static final int WORKAROUND_STARSHIP = 3;
+        public static final int O_RANGE_STARSHIP = 4;
         
         public static final int MOD_FASTER = 11;
         
@@ -25,6 +31,9 @@ public class OnlineGameMode implements GameModeFactory {
             if ( starship == null ) return "";
             String sstr = "";
             if ( starship instanceof TheIncredableStarship ) sstr = Integer.toString(THE_INCREDABLE_STARSHIP);
+            if ( starship instanceof NyanCatStarship )       sstr = Integer.toString(NYAN_CAT_STARSHIP);
+            if ( starship instanceof WorkAroundStarship )    sstr = Integer.toString(WORKAROUND_STARSHIP);
+            if ( starship instanceof ORangeStarship )        sstr = Integer.toString(O_RANGE_STARSHIP);
             
             String next = toSocketString(starship.getNext());
             if ( !next.equals("") ){
@@ -51,6 +60,12 @@ public class OnlineGameMode implements GameModeFactory {
             switch ( starshipType ) {
                 case ( StarshipTypes.THE_INCREDABLE_STARSHIP ):
                     return new TheIncredableStarship( true );
+                case ( StarshipTypes.NYAN_CAT_STARSHIP ):
+                    return new NyanCatStarship( true );
+                case ( StarshipTypes.WORKAROUND_STARSHIP ):
+                    return new WorkAroundStarship( true );
+                case ( StarshipTypes.O_RANGE_STARSHIP ):
+                    return new ORangeStarship( true );
             }
             return null;
         }

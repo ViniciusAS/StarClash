@@ -16,7 +16,7 @@ public class NyanCatStarship implements StarshipFactory{
     private float x, y;
     private float speed = 0.05f;
     private final boolean enemy;
-    private final StarshipComponents components = new NyanCatStarshipComponents();
+    private final StarshipComponents components = new NyanCatStarshipComponents(this);
 
 
     public NyanCatStarship() {
@@ -75,17 +75,17 @@ public class NyanCatStarship implements StarshipFactory{
 
     @Override
     public StarshipCollision newStarshipCollision() {
-        return new NyanCatStarshipCollision();
+        return new NyanCatStarshipCollision(this,components);
     }
 
     @Override
     public StarshipShot newShot() {
-        return new NyanCatStarshipShot();
+        return new NyanCatStarshipShot(this, newStarshipCollision(), components);
     }
 
     @Override
     public StarshipShot newShot(float x, float y) {
-        return new NyanCatStarshipShot();
+        return new NyanCatStarshipShot(this, newStarshipCollision(), components);
     }
     
     /*========================================================================================================*/

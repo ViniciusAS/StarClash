@@ -14,28 +14,18 @@ import starclash.starships.StarshipFactory;
 public class ORangeStarshipDraw implements StarshipDraw {
 
     private final  StarshipComponents components;
-    private final  StarshipFactory starship;
 
     public ORangeStarshipDraw(StarshipComponents components, StarshipFactory starship) {
         this.components = components;
-        this.starship = starship;
     }
     
     @Override
     public void draw(DrawAdaptor drawAdaptor)
     {
-//        if(!starship.isEnemy()){
-            Component[] cps = components.getComponents();
-            for (Component component : cps) {
-                drawAdaptor.drawComponent(component);
-            } 
-//        }else{
-//            Component[] cps = components.getComponents();
-//            for (Component component : cps) {
-//                drawAdaptor.drawRotated(component,components);
-//            } 
-//        }
-        
+        Component[] cps = components.getComponents();
+        for (Component component : cps) {
+            drawAdaptor.drawComponent(component);
+        }
     }
 
 }
