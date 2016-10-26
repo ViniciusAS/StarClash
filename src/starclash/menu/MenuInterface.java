@@ -13,11 +13,12 @@ import starclash.starships.theincredablestarship.TheIncredableStarship;
 import starclash.starships.StarshipFactory;
 import starclash.starships.mods.FasterShip;
 import starclash.starships.nyancatstarship.NyanCatStarship;
+import starclash.starships.o_rangestarship.ORangeStarship;
 
 
 public class MenuInterface implements Drawable {
 
-    private final Image background = new Image("/background.png", new Rectangle(0, 0, 1, 1, Color.BLUE));
+    private final Image background = new Image("/resources/backgrounds/background.png", new Rectangle(0, 0, 1, 1, Color.BLUE));
     private final Text title = new Text( "StarClash", 0.5f, 0.20f, Color.WHITE, "Trebuchet", 50, true );
     private final Text shipName = new Text( "", 0.5f, 0.25f, Color.WHITE, "Trebuchet", 15, true );
     private final StarClash starClash;
@@ -44,6 +45,7 @@ public class MenuInterface implements Drawable {
             new Menu(new String[]{
                 new TheIncredableStarship().getName(),
                 new NyanCatStarship().getName(),
+                new ORangeStarship().getName(),
                 "Cancelar"
             }),
             new Menu(new String[]{
@@ -109,6 +111,9 @@ public class MenuInterface implements Drawable {
                             break;
                         case 1: // nyan cat starship
                             starship = new NyanCatStarship( startingOfflineBatle );
+                            break;
+                        case 2: // o-range starship
+                            starship = new ORangeStarship( startingOfflineBatle );
                             break;
                     }
                     if ( startingOfflineBatle ) {

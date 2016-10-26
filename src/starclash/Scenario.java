@@ -14,7 +14,7 @@ import starclash.gui.components.Rectangle;
  */
 public class Scenario implements Drawable{
     
-    public static final Scenario scenarioDefault = new Scenario(new Image("/space.jpg", new Rectangle(0, 0, 1, 1, Color.BLUE)),Color.WHITE);
+    public static final Scenario scenarioDefault = new Scenario(new Image("/resources/backgrounds/space.jpg", new Rectangle(0, 0, 1, 1, Color.BLUE)),Color.WHITE);
     public final Image img;
     public final Color color;
     public final Line line = new Line(new Point(0, 0.5f), new Point(1, 0.5f),Color.WHITE);
