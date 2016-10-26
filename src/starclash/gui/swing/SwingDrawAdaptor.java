@@ -138,19 +138,31 @@ public class SwingDrawAdaptor implements DrawAdaptor {
     public void drawImage(Image image) {
         setColor(image.getRectangle().getColor());
         graphics.fillRect(
-            (int) ( image.getRectangle().getX()*getWidth() ),
-            (int) ( image.getRectangle().getY()*getHeight() ),
-            (int) ( image.getRectangle().getWidht()*getWidth() ),
-            (int) ( image.getRectangle().getHeight()*getHeight() )
+                (int) (image.getRectangle().getX() * getWidth()),
+                (int) (image.getRectangle().getY() * getHeight()),
+                (int) (image.getRectangle().getWidht() * getWidth()),
+                (int) (image.getRectangle().getHeight() * getHeight())
         );
-        graphics.drawImage(
-            loadImage(image),
-            (int) ( image.getRectangle().getX()*getWidth() ),
-            (int) ( image.getRectangle().getY()*getHeight() ),
-            (int) ( image.getRectangle().getWidht()*getWidth() ),
-            (int) ( image.getRectangle().getHeight()*getHeight() ),
-            panel
-        );
+
+        if (image.isInverted()) {
+            graphics.drawImage(
+                    loadImage(image),
+                    (int) (image.getRectangle().getX() * getWidth()),
+                    (int) (((image.getRectangle().getY() + image.getRectangle().getHeight()) * getHeight())),
+                    (int) (image.getRectangle().getWidht() * getWidth()),
+                    (int) -(image.getRectangle().getHeight() * getHeight()),
+                    panel
+            );
+        } else {
+            graphics.drawImage(
+                    loadImage(image),
+                    (int) (image.getRectangle().getX() * getWidth()),
+                    (int) (image.getRectangle().getY() * getHeight()),
+                    (int) (image.getRectangle().getWidht() * getWidth()),
+                    (int) (image.getRectangle().getHeight() * getHeight()),
+                    panel
+            );
+        }
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
