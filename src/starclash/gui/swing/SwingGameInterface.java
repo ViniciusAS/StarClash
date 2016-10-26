@@ -118,8 +118,6 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
         
         swingDrawAdaptor.setGraphics( (Graphics2D) graphics );
         
-        System.out.println("draws: "+drawables.size());
-        
         synchronized (drawables){
             for (Drawable drawable : drawables) {
                 drawable.draw(swingDrawAdaptor);

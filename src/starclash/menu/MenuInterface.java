@@ -12,6 +12,7 @@ import starclash.gui.components.Text;
 import starclash.starships.theincredablestarship.TheIncredableStarship;
 import starclash.starships.StarshipFactory;
 import starclash.starships.mods.FasterShip;
+import starclash.starships.nyancatstarship.NyanCatStarship;
 
 
 public class MenuInterface implements Drawable {
@@ -42,6 +43,7 @@ public class MenuInterface implements Drawable {
             }),
             new Menu(new String[]{
                 new TheIncredableStarship().getName(),
+                new NyanCatStarship().getName(),
                 "Cancelar"
             }),
             new Menu(new String[]{
@@ -104,6 +106,9 @@ public class MenuInterface implements Drawable {
                     switch ( menus[SHIP_MENU].getSelected() ) {
                         case 0: // the incredable starship
                             starship = new TheIncredableStarship( startingOfflineBatle );
+                            break;
+                        case 1: // nyan cat starship
+                            starship = new NyanCatStarship( startingOfflineBatle );
                             break;
                     }
                     if ( startingOfflineBatle ) {

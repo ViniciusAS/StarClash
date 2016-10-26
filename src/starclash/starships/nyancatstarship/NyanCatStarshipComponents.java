@@ -5,7 +5,6 @@ import starclash.gui.components.Component;
 import starclash.gui.components.Image;
 import starclash.gui.components.Rectangle;
 import starclash.starships.StarshipComponents;
-import starclash.starships.StarshipFactory;
 
 /**
  *
@@ -18,7 +17,7 @@ public class NyanCatStarshipComponents implements StarshipComponents{
     private static final float HEIGTH = 0.0463f;
 
     public NyanCatStarshipComponents() {
-        this.image = new Image("./nyanCatShip.png", new Rectangle(0f, 0.03f, WIDTH, HEIGTH, Color.BLUE));
+        this.image = new Image("/nyanCatShip.png", new Rectangle(0f, 0.03f, WIDTH, HEIGTH, Color.BLUE));
     }
 
     @Override

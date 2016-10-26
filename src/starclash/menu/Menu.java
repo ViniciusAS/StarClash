@@ -3,14 +3,11 @@ package starclash.menu;
 import starclash.gui.DrawAdaptor;
 import starclash.gui.Drawable;
 import starclash.gui.components.Color;
-import starclash.gui.components.Image;
 import starclash.gui.components.Rectangle;
 import starclash.gui.components.Text;
 
 
 public class Menu implements Drawable {
-
-    private final Image background = new Image("/background.png", new Rectangle(0, 0, 1, 1, Color.BLUE));
     
     private final Text title = new Text( "StarClash", 0.5f, 0.20f, Color.WHITE, "Trebuchet", 50, true );
     

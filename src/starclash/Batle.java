@@ -1,7 +1,5 @@
 package starclash;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import starclash.gamemode.CommandSender;
 import starclash.gamemode.GameModeFactory;
 import starclash.gamemode.listeners.Movement;
