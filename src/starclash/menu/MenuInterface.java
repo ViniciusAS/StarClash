@@ -16,7 +16,7 @@ import starclash.starships.mods.FasterShip;
 
 public class MenuInterface implements Drawable {
 
-    private final Image background = new Image("/background.jpg", new Rectangle(0, 0, 1, 1, Color.BLUE));
+    private final Image background = new Image("/background.png", new Rectangle(0, 0, 1, 1, Color.BLUE));
     private final Text title = new Text( "StarClash", 0.5f, 0.20f, Color.WHITE, "Trebuchet", 50, true );
     private final Text shipName = new Text( "", 0.5f, 0.25f, Color.WHITE, "Trebuchet", 15, true );
     private final StarClash starClash;
