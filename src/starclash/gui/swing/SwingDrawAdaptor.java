@@ -213,7 +213,7 @@ public class SwingDrawAdaptor implements DrawAdaptor {
             AffineTransform identity = new AffineTransform();
             AffineTransform trans = new AffineTransform();
             trans.setTransform(identity);
-            trans.rotate(Math.toRadians(45));
+            trans.rotate(Math.toRadians(180));
             graphics.drawImage(loadImage((Image) component), trans, panel);
         }
         if(component instanceof Line){
