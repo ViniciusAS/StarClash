@@ -13,6 +13,7 @@ import starclash.starships.theincredablestarship.TheIncredableStarship;
 import starclash.starships.StarshipFactory;
 import starclash.starships.mods.FasterShip;
 import starclash.starships.nyancatstarship.NyanCatStarship;
+import starclash.starships.workaroundstarship.WorkAroundStarship;
 import starclash.starships.o_rangestarship.ORangeStarship;
 
 
@@ -45,6 +46,7 @@ public class MenuInterface implements Drawable {
             new Menu(new String[]{
                 new TheIncredableStarship().getName(),
                 new NyanCatStarship().getName(),
+                new WorkAroundStarship().getName(),
                 new ORangeStarship().getName(),
                 "Cancelar"
             }),
@@ -112,7 +114,10 @@ public class MenuInterface implements Drawable {
                         case 1: // nyan cat starship
                             starship = new NyanCatStarship( startingOfflineBatle );
                             break;
-                        case 2: // o-range starship
+                        case 2: // work around starship
+                            starship = new WorkAroundStarship( startingOfflineBatle );
+                            break;
+                        case 3: // o-range starship
                             starship = new ORangeStarship( startingOfflineBatle );
                             break;
                     }
