@@ -8,19 +8,19 @@ public class WorkAroundStarship implements StarshipFactory {
     private float x, y;
     private float speed = 0.01f;
     private final boolean enemy;
-    private final StarshipComponents components = new WorkAroundStarshipComponents(this);
+    private final StarshipComponents components;
 
     public WorkAroundStarship(boolean enemy) {
+        this.enemy = enemy;
+        this.components = new WorkAroundStarshipComponents(this);
+
         x = 0.5f - components.getWidth() / 2;
         y = (enemy) ? 0.25f : 0.75f;
         y -= components.getHeigth() / 2;
-        this.enemy = enemy;
     }
 
     public WorkAroundStarship() {
-        x = 0.5f - components.getWidth() / 2;
-        y = 0.75f - components.getHeigth() / 2;
-        enemy = false;
+        this(false);
     }
 
     @Override

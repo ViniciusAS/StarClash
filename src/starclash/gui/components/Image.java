@@ -1,10 +1,11 @@
 package starclash.gui.components;
 
 
-public class Image implements Component{
+public class Image implements Component {
 
     private String filename;
     private Rectangle rectangle;
+    private boolean inverted = false;
 
     public Image() {
     }
@@ -13,9 +14,17 @@ public class Image implements Component{
         this.filename = filename;
         this.rectangle = rectangle;
     }
-    
+
+    public void setInverted(boolean inverted) {
+        this.inverted = inverted;
+    }
+
+    public boolean isInverted() {
+        return inverted;
+    }
+
     @Override
-    public boolean contains(Point point){
+    public boolean contains(Point point) {
         return this.rectangle.contains(point);
     }
 
@@ -34,5 +43,5 @@ public class Image implements Component{
     public void setRectangle(Rectangle rectangle) {
         this.rectangle = rectangle;
     }
-    
+
 }
