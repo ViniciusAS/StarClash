@@ -3,17 +3,17 @@ package starclash.gui.components;
 
 public class Rectangle implements Component{
 
-    private float x, y, widht, height;
+    private float x, y, width, height;
     
     private Color color;
     
     public Rectangle() {
     }
 
-    public Rectangle(float x, float y, float widht, float height, Color color) {
+    public Rectangle(float x, float y, float width, float height, Color color) {
         this.x = x;
         this.y = y;
-        this.widht = widht;
+        this.width = width;
         this.height = height;
         this.color = color;
     }
@@ -22,7 +22,7 @@ public class Rectangle implements Component{
     public boolean contains(Point point){
         return (    point.getX() >= this.x 
                  && point.getY() >= this.y
-                 && point.getX() <= this.x + this.widht
+                 && point.getX() <= this.x + this.width
                  && point.getY() <= this.y + this.height 
                );
     }
@@ -36,7 +36,7 @@ public class Rectangle implements Component{
     }
 
     public float getWidht() {
-        return widht;
+        return width;
     }
     
     public float getHeight() {
@@ -56,7 +56,7 @@ public class Rectangle implements Component{
     }
 
     public void setWidht(float widht) {
-        this.widht = widht;
+        this.width = widht;
     }
 
     public void setHeight(float height) {
