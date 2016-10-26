@@ -13,11 +13,11 @@ import starclash.starships.StarshipComponents;
 public class NyanCatStarshipComponents implements StarshipComponents{
     
     private final Image image;
-    private static final float WIDTH = 0.0463f;
-    private static final float HEIGTH = 0.0463f;
+    private static final float WIDTH = 0.08f;
+    private static final float HEIGTH = 0.08f;
 
     public NyanCatStarshipComponents() {
-        this.image = new Image("/nyanCatShip.png", new Rectangle(0f, 0.03f, WIDTH, HEIGTH, Color.BLUE));
+        this.image = new Image("/nyanCatShip.png", new Rectangle(0f, 0.03f, WIDTH, HEIGTH, Color.TRANSPARENT));
     }
 
     @Override
