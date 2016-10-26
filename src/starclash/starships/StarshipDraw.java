@@ -9,5 +9,4 @@ import starclash.gui.Drawable;
  */
 public interface StarshipDraw extends Drawable {
     
-    
 }
