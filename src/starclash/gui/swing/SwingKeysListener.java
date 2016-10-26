@@ -2,11 +2,9 @@ package starclash.gui.swing;
 
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.Set;
 import starclash.gui.KeysListenerAdaptor;
 import static starclash.gui.KeysListenerAdaptor.KEY_PRESSED_PROCCESS_DELAY_MS;
 
@@ -49,31 +47,61 @@ public class SwingKeysListener implements KeysListenerAdaptor{
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
-    public class SwingKeyListener implements java.awt.event.KeyListener {
+    public class SwingKeyListener 
+//        extends TimerTask
+        implements java.awt.event.KeyListener, Runnable
+    {
 
-        private final Map<Key,Timer> timers = new HashMap<>();
+//        private final Map<Key,Timer> timers = new HashMap<>();
+
+//        private final Timer timer = new Timer();
         
-        private void startTimer(Key key){
-            if ( timers.get(key) != null )
-                return;
-            Timer timer = new Timer();
-            TimerTask task = new TimerTask() {
-                @Override
-                public void run() {
-                    notifyObservers( key );
+        private final Thread thread;
+        private long time = 0;
+        
+        private final Set<Key> keys = new HashSet<>();
+        
+        public SwingKeyListener(){
+//            timer.scheduleAtFixedRate(this, 1, KEY_PRESSED_PROCCESS_DELAY_MS);
+            thread = new Thread(this);
+            thread.start();
+        }
+
+        @Override
+        public void run() {
+            while (true){
+                if (System.currentTimeMillis()-time >= KEY_PRESSED_PROCCESS_DELAY_MS) {
+                    time = System.currentTimeMillis();
+                    synchronized (keys){
+                        for (Key key : keys) {
+                            notifyObservers(key);
+                        }
+                    }
                 }
-            };
-            task.run();
-            timer.scheduleAtFixedRate(task, 1, KEY_PRESSED_PROCCESS_DELAY_MS);
-            timers.put(key, timer);            
+            }
         }
         
-        private void endTimer(Key key){
-            Timer timer = timers.get(key);
-            if ( timer != null )
-                timer.cancel();
-            timers.remove(key);
-        }
+//        private void startTimer(Key key) {
+//            if ( timers.get(key) != null )
+//                return;
+//            Timer timer = new Timer();
+//            TimerTask task = new TimerTask() {
+//                @Override
+//                public void run() {
+//                    notifyObservers( key );
+//                }
+//            };
+//            task.run();
+//            timer.scheduleAtFixedRate(task, 1, KEY_PRESSED_PROCCESS_DELAY_MS);
+//            timers.put(key, timer);            
+//        }
+        
+//        private void endTimer(Key key){
+//            Timer timer = timers.get(key);
+//            if ( timer != null )
+//                timer.cancel();
+//            timers.remove(key);
+//        }
         
         private Key swingEventToKey(KeyEvent ke){
             switch ( ke.getKeyCode() ){
@@ -100,31 +128,35 @@ public class SwingKeysListener implements KeysListenerAdaptor{
         
         @Override public void keyReleased(KeyEvent ke)
         {
-            new Thread(() -> {
-                Key key = swingEventToKey(ke);
+            Key key = swingEventToKey(ke);
+
+            if ( key == null ){
+                return;
+            }
+
+            // key pressed listener
+            synchronized (keys){
+                keys.remove(key);
+            }
             
-                if ( key == null ){
-                    return;
+//            endTimer( swingEventToKey(ke) );
+
+            // clicked listener
+            for (int i = 0; i < keyObservers.size(); i++) {
+                if ( keyObservers.get(i).getKey() == key ){
+                    keyObservers.get(i).clicked();
                 }
-
-                endTimer( swingEventToKey(ke) );
-
-
-                for (int i = 0; i < keyObservers.size(); i++) {
-                    if ( keyObservers.get(i).getKey() == key ){
-                        keyObservers.get(i).clicked();
-                    }
-                }
-            }).start();
+            }
         }
 
         @Override
         public void keyPressed(KeyEvent ke) {
-            new Thread(() -> {
-                Key k = swingEventToKey(ke);
-                if ( k != null )
-                    startTimer( k );
-            }).start();
+            Key k = swingEventToKey(ke);
+            if ( k != null )
+                synchronized (keys){
+                    keys.add(k);
+                }
+//                startTimer( k );
         }
         
     }

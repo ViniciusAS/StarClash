@@ -1,5 +1,7 @@
 package starclash;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import starclash.gamemode.CommandSender;
 import starclash.gamemode.GameModeFactory;
 import starclash.gamemode.listeners.Movement;
@@ -48,7 +50,6 @@ public class Batle implements
         gui.clearDrawables();
         gui.getKeysListener().clearListeners();
         
-        
         //// load ////
         
         System.out.println("Searching for enemies");
@@ -84,7 +85,7 @@ public class Batle implements
         
         gui.clearDrawables();
         
-        gui.addDrawable( scenario);
+        gui.addDrawable( scenario );
         gui.addDrawable( me.newStarshipDraw() );
         gui.addDrawable( enemy.newStarshipDraw() );
     }
