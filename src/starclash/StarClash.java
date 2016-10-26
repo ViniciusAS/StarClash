@@ -18,7 +18,7 @@ public class StarClash {
     
     public final GameInterfaceAdaptor gui;
     
-    public StarshipFactory myStarship;    
+    public StarshipFactory myStarship;
     
     public StarClash() {
         gui = new SwingGameInterface();
@@ -58,11 +58,11 @@ public class StarClash {
      */
     public void startOnlineBatle(){
         try {
-            
+
             GameModeFactory gameMode = new OnlineGameMode(this, myStarship);
 
             new Batle( this, gui, myStarship, Scenario.scenarioDefault ).start(gameMode);
-            
+
         } catch (NullPointerException e){
             Logger.getLogger(StarClash.class.getName()).log(Level.WARNING, e.getMessage());
             startMenu();

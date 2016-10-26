@@ -70,7 +70,7 @@ public class OnlineObservableEnemy implements ObservableEnemy {
             
             moveListener.moved(
                 filterX(data[0]),
-                filterY(data[1])
+                filterY(data[1]) - enemy.getHeight()
             );
         });
         socket.on("enemy_fire", (Object... os) -> {
@@ -79,7 +79,7 @@ public class OnlineObservableEnemy implements ObservableEnemy {
             
             shotListener.shotFired(
                 filterX(data[0]),
-                filterY(data[1])
+                filterY(data[1]) - enemy.getHeight()
             );
         });
         socket.on("enemy_special", (Object... os) -> {
@@ -88,7 +88,7 @@ public class OnlineObservableEnemy implements ObservableEnemy {
             
             specialListener.specialLaunched(
                 filterX(data[0]),
-                filterY(data[1])
+                filterY(data[1]) - enemy.getHeight()
             );
         });
         socket.on("enemy_getShot", (Object... os) -> {

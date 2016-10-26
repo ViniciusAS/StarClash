@@ -4,7 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -17,10 +17,11 @@ import starclash.gui.KeysListenerAdaptor;
 
 public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
     
-    private static final long FRAMES_DELAY_MS = 4;
+    private static final long FRAMES_DELAY_MS = 1;
     
     private Timer repaintTimer;
-    private final JFrame frame;    
+    private final JFrame frame;
+    
     private final SwingDrawAdaptor swingDrawAdaptor;
     private final SwingKeysListener keysListener;
     
@@ -50,7 +51,9 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
     public void start() {
         frame.setVisible(true);
         repaintTimer = new Timer();
-        repaintTimer.scheduleAtFixedRate(new RepaintTimerTask(), 1, FRAMES_DELAY_MS);
+        new Thread(() -> {
+            repaintTimer.scheduleAtFixedRate(new RepaintTimerTask(), 1, FRAMES_DELAY_MS);
+        }).start();
     }
 
 
@@ -72,9 +75,7 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
             if ( System.currentTimeMillis()-time >= FRAMES_DELAY_MS ){
 //                System.out.println("FPS: "+(1000/(System.currentTimeMillis()-time)));
                 
-                new Thread(() -> {
-                    SwingGameInterface.this.repaint();
-                }).start();
+                SwingGameInterface.this.repaint();
                 
                 time = System.currentTimeMillis();
             }
@@ -84,21 +85,27 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    private final List<Drawable> drawables = new ArrayList<>();
+    private final List<Drawable> drawables = new LinkedList<>();
     
     @Override
-    public synchronized void addDrawable(Drawable drawable) {
-        drawables.add(drawable);
+    public void addDrawable(Drawable drawable) {
+        synchronized (drawables) {
+            drawables.add(drawable);
+        }
     }
 
     @Override
-    public synchronized void removeDrawable(Drawable drawable) {
-        drawables.remove(drawable);
+    public void removeDrawable(Drawable drawable) {
+        synchronized (drawables) {
+            drawables.remove(drawable);
+        }
     }
 
     @Override
     public synchronized void clearDrawables() {
-        drawables.clear();
+        synchronized (drawables) {
+            drawables.clear();
+        }
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -107,15 +114,21 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
     protected void paintComponent(Graphics graphics) {
         super.paintComponent(graphics);
         
-        graphics.setColor(Color.WHITE);
         graphics.clearRect(0, 0, getWidth(), getHeight());
         
         swingDrawAdaptor.setGraphics( (Graphics2D) graphics );
         
-        for (int i = 0; i < drawables.size(); i++) {
-            
-            drawables.get(i).draw(swingDrawAdaptor);
+        System.out.println("draws: "+drawables.size());
+        
+        synchronized (drawables){
+            for (Drawable drawable : drawables) {
+                drawable.draw(swingDrawAdaptor);
+            }
         }
+//        for (int i = 0; i < drawables.size(); i++) {
+//            
+//            drawables.get(i).draw(swingDrawAdaptor);
+//        }
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
