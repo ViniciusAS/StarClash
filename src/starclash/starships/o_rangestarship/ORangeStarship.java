@@ -15,20 +15,20 @@ public class ORangeStarship implements StarshipFactory {
     private float x, y;
     private float speed = 0.005f;
     private final boolean enemy;
-    private final StarshipComponents components = new ORangeStarshipComponents(this);
+    private final StarshipComponents components;
     
     
     public ORangeStarship(boolean enemy) {
+        this.enemy = enemy;
+        components = new ORangeStarshipComponents(this);
+        
         x = 0.5f - components.getWidth()/2;
         y = ( enemy ) ? 0.25f : 0.75f;
         y -= components.getHeigth()/2;
-        this.enemy = enemy;
     }
     
     public ORangeStarship() {
-        x = 0.5f - components.getWidth()/2;
-        y = 0.75f - components.getHeigth()/2;
-        enemy = false;
+        this(false);
     }
 
     @Override

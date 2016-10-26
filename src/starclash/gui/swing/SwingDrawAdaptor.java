@@ -118,15 +118,15 @@ public class SwingDrawAdaptor implements DrawAdaptor {
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
-    private final Map<String, java.awt.Image> images = new HashMap<>();
+    private final Map<Image, java.awt.Image> images = new HashMap<>();
     private java.awt.Image loadImage(Image image)
     {
-        java.awt.Image loadedImage = images.get(image.getFilename());
+        java.awt.Image loadedImage = images.get(image);
         
         if ( loadedImage == null ) {
             try {
                 loadedImage = ImageIO.read(getClass().getResourceAsStream(image.getFilename()));
-                images.put(image.getFilename(), loadedImage);
+                images.put(image, loadedImage);
             } catch (IOException ex) {
                 Logger.getLogger(SwingDrawAdaptor.class.getName()).log(Level.SEVERE, null, ex);
             }
