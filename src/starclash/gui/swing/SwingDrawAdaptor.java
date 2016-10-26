@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +20,7 @@ import starclash.gui.components.Line;
 import starclash.gui.components.Rectangle;
 import starclash.gui.components.Text;
 import starclash.gui.components.Triangle;
+import starclash.starships.StarshipComponents;
 
 /**
  *
@@ -195,16 +197,26 @@ public class SwingDrawAdaptor implements DrawAdaptor {
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
-    public void setRotate(Component component) {
-         
+    public void setRotate(Component component, StarshipComponents starship) {
+       
         if(component instanceof Triangle){
             ((Triangle) component).getP0().setX(((Triangle) component).getP0().getX());
-            ((Triangle) component).getP0().setY(((Triangle) component).getP0().getY()+0.06f);
+            ((Triangle) component).getP0().setY(((Triangle) component).getP0().getY()+starship.getHeigth());
             drawTriangle((Triangle)component);
         }
         if(component instanceof Rectangle){
             ((Rectangle) component).setY((((Rectangle) component).getY()-((Rectangle) component).getHeight()));
             drawRectangle((Rectangle)component);
+        }
+        if(component instanceof Image){
+            AffineTransform identity = new AffineTransform();
+            AffineTransform trans = new AffineTransform();
+            trans.setTransform(identity);
+            trans.rotate(Math.toRadians(45));
+            graphics.drawImage(loadImage((Image) component), trans, panel);
+        }
+        if(component instanceof Line){
+            drawLine((Line) component);
         }
         
 

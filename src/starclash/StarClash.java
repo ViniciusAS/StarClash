@@ -10,6 +10,7 @@ import starclash.gui.swing.SwingGameInterface;
 import starclash.menu.MenuInterface;
 import starclash.starships.theincredablestarship.TheIncredableStarship;
 import starclash.starships.StarshipFactory;
+import starclash.starships.nyancatstarship.NyanCatStarship;
 
 
 public class StarClash {
@@ -31,6 +32,7 @@ public class StarClash {
         gui.addDrawable(menu);
         
         myStarship = new TheIncredableStarship();
+        
         
         menu.start(gui);
     }
