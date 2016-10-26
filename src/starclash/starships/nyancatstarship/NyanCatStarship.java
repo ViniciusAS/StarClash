@@ -14,23 +14,24 @@ import starclash.starships.StarshipShot;
 public class NyanCatStarship implements StarshipFactory{
     
     private float x, y;
-    private float speed = 0.05f;
+    private float speed = 0.03f;
     private final boolean enemy;
-    private final StarshipComponents components = new NyanCatStarshipComponents(this);
+    private final StarshipComponents components;
 
 
     public NyanCatStarship() {
+        enemy = false;
+        this.components = new NyanCatStarshipComponents(this);
         x = 0.5f - components.getWidth()/2;
         y = 0.75f - components.getHeigth()/2;
-        enemy = false;
     }
 
     public NyanCatStarship( boolean enemy) {
+        this.enemy = enemy;
+        this.components = new NyanCatStarshipComponents(this);
         x = 0.5f - components.getWidth()/2;
         y = ( enemy ) ? 0.25f : 0.75f;
-        y -= components.getHeigth()/2;
-        this.enemy = enemy;
-        
+        y -= components.getHeigth()/2;      
     }
     
     /*========================================================================================================*/    
