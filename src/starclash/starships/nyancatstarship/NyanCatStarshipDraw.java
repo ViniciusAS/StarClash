@@ -1,7 +1,5 @@
 package starclash.starships.nyancatstarship;
 
-import java.util.TimerTask;
-import org.lwjgl.system.macosx.LibC;
 import starclash.gui.DrawAdaptor;
 import starclash.gui.components.Color;
 import starclash.gui.components.Component;
