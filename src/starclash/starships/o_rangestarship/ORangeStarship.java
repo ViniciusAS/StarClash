@@ -17,6 +17,7 @@ public class ORangeStarship implements StarshipFactory {
     private final boolean enemy;
     private final StarshipComponents components;
     
+    private int life = 100;
     
     public ORangeStarship(boolean enemy) {
         this.enemy = enemy;
@@ -31,6 +32,8 @@ public class ORangeStarship implements StarshipFactory {
         this(false);
     }
 
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
     @Override
     public String getName() {
         return "O-Range Starship";
@@ -57,11 +60,12 @@ public class ORangeStarship implements StarshipFactory {
     @Override
     public boolean takeDamage(StarshipShot shot)
     {
-        ///// NOT INVENCIBLE /////
-        if ( dieListener != null ){
+        life -= shot.getDamage();
+        if ( life <= 0 ){
             dieListener.dead();
+            return true;
         }
-        return true;
+        return false;
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -90,10 +94,12 @@ public class ORangeStarship implements StarshipFactory {
 
     @Override
     public void doSpecial() {
+        doSpecial( getX(), getY() );
     }
 
     @Override
     public void doSpecial(float x, float y) {
+        ORangeStarshipShot.nextSpecial();
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

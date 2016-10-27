@@ -1,5 +1,6 @@
 package starclash.starships.o_rangestarship;
 
+import starclash.gui.components.Rectangle;
 import starclash.starships.StarshipCollision;
 import starclash.starships.StarshipComponents;
 import starclash.starships.StarshipFactory;
@@ -48,25 +49,82 @@ public class ORangeStarshipCollision implements StarshipCollision {
         return y;
     }
 
-    @Override
-    public boolean shotCollision(StarshipShot starshipShot, StarshipFactory enemyShip, StarshipComponents components) {
-        
+    
+    /**
+     * X
+     *   y1
+     *   |
+     *   |
+     *   y2
+     */
+    private boolean testPoints(
+            StarshipFactory enemyShip,
+            StarshipComponents components,
+            float x,
+            float y1, float y2
+    ){
         if ( enemyShip.isEnemy() ) {
-            if( starshipShot.getY()+starshipShot.getSize() <= enemyShip.getY() + components.getHeigth() ){
-                if(    starshipShot.getX() >= enemyShip.getX()
-                    && starshipShot.getX() <= enemyShip.getX() + components.getWidth()){
+            if( 
+                enemyShip.getY() + components.getHeigth() >= y2
+                &&
+                enemyShip.getY() <= y1
+            ){
+                if(    x >= enemyShip.getX()
+                    && x <= enemyShip.getX() + components.getWidth()){
                     return true;
                 }
             }
         } else {
-            if( starshipShot.getY()+starshipShot.getSize() >= enemyShip.getY() + components.getHeigth() ){
-                if(    starshipShot.getX() >= enemyShip.getX()
-                    && starshipShot.getX() <= enemyShip.getX() + components.getWidth()){
+            if(
+                enemyShip.getY() + components.getHeigth() >= y2
+                &&
+                enemyShip.getY() <= y1
+            ){
+                if(    x >= enemyShip.getX()
+                    && x <= enemyShip.getX() + components.getWidth()){
                     return true;
                 }
             }
         }
         return false;
+    }
+    
+    @Override
+    public boolean shotCollision(StarshipShot starshipShot, StarshipFactory enemyShip, StarshipComponents components) {
+        if ( !(starshipShot instanceof ORangeStarshipShot) )
+            return false;
+        
+        ORangeStarshipShot orshot = ((ORangeStarshipShot) starshipShot);
+        
+        if ( !orshot.isSpecial() )
+            return (
+                testPoints(
+                        enemyShip,
+                        components,
+                        starshipShot.getX(),
+                        starshipShot.getY(),
+                        starshipShot.getY() + starshipShot.getSize()
+                )
+            );
+        
+        Rectangle shot = orshot.getSpecialRect();
+        
+        return (
+            testPoints(
+                    enemyShip,
+                    components,
+                    shot.getX(),
+                    shot.getY(),
+                    shot.getY()+shot.getHeight()
+            ) | 
+            testPoints(
+                    enemyShip,
+                    components,
+                    shot.getX()+shot.getWidht(),
+                    shot.getY(),
+                    shot.getY()+shot.getHeight()
+            )
+        );
     }
 
 }
