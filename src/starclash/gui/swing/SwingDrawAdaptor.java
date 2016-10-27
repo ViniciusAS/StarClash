@@ -12,7 +12,8 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
+import javax.swing.*;
+
 import starclash.gui.DrawAdaptor;
 import starclash.gui.components.Component;
 import starclash.gui.components.Image;
@@ -124,12 +125,8 @@ public class SwingDrawAdaptor implements DrawAdaptor {
         java.awt.Image loadedImage = images.get(image);
         
         if ( loadedImage == null ) {
-            try {
-                loadedImage = ImageIO.read(getClass().getResourceAsStream(image.getFilename()));
-                images.put(image, loadedImage);
-            } catch (IOException ex) {
-                Logger.getLogger(SwingDrawAdaptor.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            loadedImage = new ImageIcon(getClass().getResource(image.getFilename())).getImage();
+            images.put(image, loadedImage);
         }
         return loadedImage;
     }
