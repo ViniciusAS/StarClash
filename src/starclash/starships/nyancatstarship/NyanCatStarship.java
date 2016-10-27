@@ -22,9 +22,8 @@ public class NyanCatStarship implements StarshipFactory{
     public NyanCatStarship() {
         enemy = false;
         this.components = new NyanCatStarshipComponents(this);
-        x = 0.5f - components.getWidth()/2;
-        y = 0.75f - components.getHeigth()/2;
-        
+        this.x = 0.5f - components.getWidth()/2;
+        this.y = 0.75f - components.getHeigth()/2;
     }
 
     public NyanCatStarship( boolean enemy) {
@@ -69,7 +68,17 @@ public class NyanCatStarship implements StarshipFactory{
     }
     
     /*========================================================================================================*/
-
+    
+    public StarshipShot newRainbow(float x , float  y){
+        System.out.println("ARCOIRIS");
+        return new NyanCatStarshipRainbow(this, x, y);
+    }
+    
+    public StarshipShot newRainbow(){
+        System.out.println("ARCOIRIS2");
+        return new NyanCatStarshipRainbow(this, components);
+    }
+    
     @Override
     public StarshipDraw newStarshipDraw() {
         return new NyanCatStarshipDraw(this,components);
