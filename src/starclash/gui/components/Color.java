@@ -13,6 +13,11 @@ public class Color {
     public static final Color GREEN = new Color(0, 1, 0, 1);
     public static final Color BLUE  = new Color(0, 0, 1, 1);
     public static final Color RED   = new Color(1, 0, 0, 1);
+    public static final Color ORANGE   = new Color(0.255f, 0.069f, 0, 1);
+    public static final Color YELLOW   = new Color(0.255f, 0.215f, 0, 1);
+    public static final Color BABY_BLUE   = new Color(0, 0.255f, 0.255f, 1);
+    public static final Color VIOLET   = new Color(0.148f, 0, 0.211f, 1);
+    
     
     private float r, g, b, a;
 

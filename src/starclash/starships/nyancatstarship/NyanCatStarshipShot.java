@@ -1,5 +1,6 @@
 package starclash.starships.nyancatstarship;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import starclash.gui.DrawAdaptor;
@@ -18,10 +19,10 @@ import starclash.starships.StarshipShot;
  */
 public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
 
-    private static final long SHOT_DELAY = 10;
-    private static final long NEW_SHOT_DELAY = 300;
+    private static final long SHOT_DELAY = 20;
+    private static final long NEW_SHOT_DELAY = 250;
     
-    private static final float SHOT_SIZE = 0.05f;
+    private static final float SHOT_SIZE = 0.04f;
     
     private final Timer timer = new Timer();
     
@@ -36,6 +37,8 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
     
     private float posX, posY;
     private final boolean isEnemy;
+    
+    private Color shotColor = Color.RED;
     
     private GameInterfaceAdaptor gui;
     
@@ -91,12 +94,34 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
     
     @Override
     public void draw(DrawAdaptor drawAdaptor) {
-        if(isEnemy)
-            drawAdaptor.drawLine(new Line(new Point(posX, posY), new Point(posX,posY+SHOT_SIZE), Color.RED));
-        else
-            drawAdaptor.drawLine(new Line(new Point(posX, posY), new Point(posX,posY-SHOT_SIZE), Color.RED));
+        if(isEnemy){
+            drawAdaptor.drawLine(new Line(new Point(posX, posY), new Point(posX,posY+SHOT_SIZE), shotColor));
+            drawAdaptor.drawLine(new Line(new Point(posX+0.005f, posY), new Point(posX+0.005f,posY+SHOT_SIZE), shotColor));
+        }else{
+            drawAdaptor.drawLine(new Line(new Point(posX, posY), new Point(posX,posY-SHOT_SIZE), shotColor));
+            drawAdaptor.drawLine(new Line(new Point(posX+0.002f, posY), new Point(posX+0.002f,posY+SHOT_SIZE), shotColor));
+            drawAdaptor.drawLine(new Line(new Point(posX-0.002f, posY), new Point(posX-0.002f,posY+SHOT_SIZE), shotColor));
+        }
     }
-
+    
+    public Color selectColor(){
+        Random randomGenerator = new Random();
+        int colorSelect = randomGenerator.nextInt(6);
+        switch (colorSelect) {
+            case 0:
+                return Color.RED;
+            case 1:
+                return Color.ORANGE;
+            case 2:
+                return Color.YELLOW;
+            case 3:
+                return Color.GREEN;    
+            case 4:
+                return Color.BABY_BLUE;
+            default:
+                return Color.VIOLET;
+        }
+    }
     @Override
     public void run() {
         shotMove();
@@ -105,11 +130,13 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
             timer.cancel();
             enemyShip.takeDamage(this);
             gui.removeDrawable(this);
+            shotColor = selectColor();
         }
         else if (  posY >= 1 || posY <= 0  ){
             timer.cancel();
             gui.removeDrawable(this);
         }
+        shotColor = selectColor();
     }
     
     public void shotMove(){
