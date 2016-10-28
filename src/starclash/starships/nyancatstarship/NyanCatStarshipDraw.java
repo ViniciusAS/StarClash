@@ -1,11 +1,7 @@
 package starclash.starships.nyancatstarship;
 
 import starclash.gui.DrawAdaptor;
-import starclash.gui.GameInterfaceAdaptor;
-import starclash.gui.components.Color;
 import starclash.gui.components.Component;
-import starclash.gui.components.Line;
-import starclash.gui.components.Point;
 import starclash.starships.StarshipCollision;
 import starclash.starships.StarshipComponents;
 import starclash.starships.StarshipDraw;
@@ -41,6 +37,5 @@ public class NyanCatStarshipDraw implements StarshipDraw{
         for (Component component : cps) {
             drawAdaptor.drawComponent(component);
         }  
-       // rainbow.run();
     }  
 }

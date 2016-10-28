@@ -4,7 +4,6 @@ import starclash.gamemode.CommandSender;
 import starclash.gamemode.StarshipMovementListener;
 import starclash.gamemode.listeners.MoveListener;
 import starclash.gamemode.listeners.Movement;
-import starclash.gamemode.listeners.ShotFiredListener;
 import starclash.gui.GameInterfaceAdaptor;
 import starclash.starships.StarshipFactory;
 import starclash.starships.StarshipShot;
