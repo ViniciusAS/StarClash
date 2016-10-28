@@ -111,15 +111,15 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
             case 0:
                 return Color.RED;
             case 1:
-                return Color.ORANGE;
+                return Color.BLUE;
             case 2:
-                return Color.YELLOW;
+                return Color.GREEN;
             case 3:
                 return Color.GREEN;    
             case 4:
                 return Color.BABY_BLUE;
             default:
-                return Color.VIOLET;
+                return Color.WHITE;
         }
     }
     @Override

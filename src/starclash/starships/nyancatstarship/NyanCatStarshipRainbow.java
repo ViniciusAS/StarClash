@@ -16,8 +16,8 @@ import starclash.starships.StarshipFactory;
 public class NyanCatStarshipRainbow {
     
     private static final float RAINBOW_SIZE = 0.05f;
-    private static final long RAINBOW_DELAY = 50;
-    private static final long NEW_RAINBOW_DELAY = 5;
+    private static final long RAINBOW_DELAY = 10;
+    private static final long NEW_RAINBOW_DELAY = 1;
     
     private static String imgName = "/resources/nyancat/rainbow.png";
            
@@ -46,15 +46,15 @@ public class NyanCatStarshipRainbow {
     
     
     public void rainbowMove(){
-        if(!isEnemy) posY=posY + RAINBOW_SIZE;
-        else posY-= RAINBOW_SIZE;
+        if(!isEnemy) posY=posY + RAINBOW_SIZE/2;
+        else posY-= RAINBOW_SIZE/2;
     }
     
     public void draw(DrawAdaptor drawAdaptor){
         if(!isEnemy){
-            drawAdaptor.drawImage(new Image(imgName, new Rectangle(posX+(width/2)/2, posY+heigth, width/2, heigth/2, Color.TRANSPARENT)));
+            drawAdaptor.drawImage(new Image(imgName, new Rectangle(posX+(width/2)/2, posY+heigth/2, width/2, heigth/2, Color.TRANSPARENT)));
         }else{
-            drawAdaptor.drawImage(new Image(imgName, new Rectangle(posX+(width/2)/2, posY-heigth-heigth/2, width/2, heigth/2, Color.TRANSPARENT))); 
+            drawAdaptor.drawImage(new Image(imgName, new Rectangle(posX+(width/2)/2, posY-heigth, width/2, heigth/2, Color.TRANSPARENT))); 
         }
     }
 
