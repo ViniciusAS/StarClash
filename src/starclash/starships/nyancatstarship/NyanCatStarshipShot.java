@@ -19,8 +19,8 @@ import starclash.starships.StarshipShot;
  */
 public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
 
-    private static final long SHOT_DELAY = 20;
-    private static final long NEW_SHOT_DELAY = 250;
+    private static final long SHOT_DELAY = 10;
+    private static final long NEW_SHOT_DELAY = 400;
     
     private static final float SHOT_SIZE = 0.04f;
     
