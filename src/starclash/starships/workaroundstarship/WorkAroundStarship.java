@@ -3,7 +3,7 @@ package starclash.starships.workaroundstarship;
 import starclash.starships.*;
 
 
-public class WorkAroundStarship implements StarshipFactory {
+public class WorkAroundStarship extends StarshipFactory {
 
     private float x, y;
     private float speed = 0.01f;
@@ -40,19 +40,14 @@ public class WorkAroundStarship implements StarshipFactory {
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    private DieListener dieListener;
-
     @Override
-    public void setDieListener(DieListener dieListener) {
-        this.dieListener = dieListener;
+    public float getLifePercent() {
+        return 1;
     }
-
+    
     @Override
     public boolean takeDamage(StarshipShot shot) {
-        ///// NOT INVENCIBLE /////
-        if (dieListener != null) {
-            dieListener.dead();
-        }
+        super.notifyDie();
         return true;
     }
 

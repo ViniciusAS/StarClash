@@ -63,11 +63,11 @@ module.exports = class Game {
                 console.log(player.getName() + " used special");
             });
 
-            socket.on('getShot', function (damage) {
+            socket.on('getShot', function () {
                 var player = game.getPlayerFromSocket(socket);
                 var lobby = player.getLobby();
 
-                lobby.onPlayerGetShot(player,damage);
+                lobby.onPlayerGetShot(player);
 
                 console.log(player.getName() + " got shot");
             });

@@ -45,6 +45,18 @@ public class OnlineCommandSender implements CommandSender {
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    @Override
+    public void onDamageTaken(int damage) {
+        emit("getShot",damage);
+    }
+
+    @Override
+    public void onDie() {
+        System.out.println("Player dead");
+    }
+    
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     @Override
     public void moved(Movement movement) {

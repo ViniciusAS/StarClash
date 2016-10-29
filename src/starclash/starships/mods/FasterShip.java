@@ -6,7 +6,7 @@ import starclash.starships.StarshipFactory;
 import starclash.starships.StarshipShot;
 
 
-public class FasterShip implements StarshipFactory{
+public class FasterShip extends StarshipFactory{
 
     private final StarshipFactory starship;
 
@@ -50,8 +50,8 @@ public class FasterShip implements StarshipFactory{
     }
 
     @Override
-    public void setDieListener(DieListener dieListener) {
-        starship.setDieListener(dieListener);
+    public float getLifePercent() {
+        return starship.getLifePercent();
     }
     
     @Override

@@ -61,17 +61,17 @@ module.exports = class Lobby {
     }
 
     //Called when a player get hit by a shot, used to synchronize it in all other players at this lobby
-    onPlayerGetShot(player,damage) {
+    onPlayerGetShot(player) {
         var lobby = this;
         var io = this._io;
 
-//        io.to(player.getSocketId()).emit("player_getShot", damage);
+        io.to(player.getSocketId()).emit("player_getShot", "");
 
         for (var i = 0; i < lobby._players.length; i++) {
             var otherPlayer = lobby._players[i];
 
             if (player.getSocketId() != otherPlayer.getSocketId()) {
-                io.to(otherPlayer.getSocketId()).emit("enemy_getShot", damage);
+                io.to(otherPlayer.getSocketId()).emit("enemy_getShot", "");
             }
         }
     }

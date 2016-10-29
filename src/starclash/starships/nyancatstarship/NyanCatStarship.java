@@ -11,7 +11,7 @@ import starclash.starships.StarshipShot;
  *
  * @author samuel
  */
-public class NyanCatStarship implements StarshipFactory{
+public class NyanCatStarship extends StarshipFactory{
     
     private float x, y;
     private float speed = 0.02f;
@@ -52,19 +52,16 @@ public class NyanCatStarship implements StarshipFactory{
     }
     
     /*========================================================================================================*/
-    
-    private DieListener dieListener;
-    @Override
-    public void setDieListener(DieListener dieListener) {
-        this.dieListener = dieListener;
-    }
 
+    @Override
+    public float getLifePercent() {
+        return 1;
+    }
+    
     @Override
     public boolean takeDamage(StarshipShot shot)
     {
-        if ( dieListener != null ){
-            dieListener.dead();
-        }
+        super.notifyDie();
         return true;
     }
     

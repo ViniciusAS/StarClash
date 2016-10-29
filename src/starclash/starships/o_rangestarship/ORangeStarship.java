@@ -10,7 +10,7 @@ import starclash.starships.StarshipShot;
  *
  * @author Vinicius Santos
  */
-public class ORangeStarship implements StarshipFactory {
+public class ORangeStarship extends StarshipFactory {
 
     private float x, y;
     private float speed = 0.005f;
@@ -51,18 +51,19 @@ public class ORangeStarship implements StarshipFactory {
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-    private DieListener dieListener;
     @Override
-    public void setDieListener(DieListener dieListener) {
-        this.dieListener = dieListener;
+    public float getLifePercent() {
+        return life/100f;
     }
 
+    
     @Override
     public boolean takeDamage(StarshipShot shot)
     {
+        super.notifyDamage(shot.getDamage());
         life -= shot.getDamage();
         if ( life <= 0 ){
-            dieListener.dead();
+            super.notifyDie();
             return true;
         }
         return false;

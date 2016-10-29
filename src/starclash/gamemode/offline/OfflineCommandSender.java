@@ -57,4 +57,12 @@ public class OfflineCommandSender implements CommandSender {
         me.doSpecial(x, y);
     }
 
+    @Override
+    public void onDamageTaken(int damage) {
+    }
+    
+    @Override
+    public void onDie() {
+    }
+
 }

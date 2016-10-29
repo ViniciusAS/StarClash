@@ -1,52 +1,78 @@
 package starclash.starships;
 
+import java.util.LinkedList;
+import java.util.List;
+import starclash.gamemode.listeners.DamageListener;
+
 /**
  *
  * @author viniciusas
  */
-public interface StarshipFactory {
+public abstract class StarshipFactory {
     
-    public String getName();
+    public abstract String getName();
     
-    public StarshipFactory getNext();
+    public abstract StarshipFactory getNext();
     
-    public StarshipDraw newStarshipDraw();
+    public abstract StarshipDraw newStarshipDraw();
     
-    public StarshipCollision newStarshipCollision();
+    public abstract StarshipCollision newStarshipCollision();
     
-    public StarshipShot newShot();
-    public StarshipShot newShot(float x, float y);
+    public abstract StarshipShot newShot();
+    public abstract StarshipShot newShot(float x, float y);
     
-    public interface DieListener {
-        public void dead();
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+    private final List<DamageListener> damageListeners = new LinkedList<>();
+    
+    public void addDamageListener(DamageListener damageListener){
+        damageListeners.add(damageListener);
     }
     
-    public void setDieListener(DieListener dieListener);
+    protected void notifyDamage(int damage){
+        for (DamageListener damageListener : damageListeners) {
+            damageListener.onDamageTaken(damage);
+        }
+    }
+    protected void notifyDie(){
+        for (DamageListener damageListener : damageListeners) {
+            damageListener.onDie();
+        }
+    }
     
-    /** proccess taken damage.
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    /**
      *
+     * @return life percentual between 0 and 1
+     */
+    public abstract float getLifePercent();
+    
+    /** Proccess taken damage.
+     *
+     * call damage taken listener
      * call die listener when dead
      * 
      * @param shot
      * @return if enemy is dead
      */
-    public boolean takeDamage(StarshipShot shot);
+    public abstract boolean takeDamage(StarshipShot shot);
     
-    public void doSpecial();
-    public void doSpecial(float x, float y);
+    public abstract void doSpecial();
+    public abstract void doSpecial(float x, float y);
     
-    public boolean isEnemy();
+    public abstract boolean isEnemy();
     
-    public float getShipSpeed();
-    public void setShipSpeed(float speed);
+    public abstract float getShipSpeed();
+    public abstract void setShipSpeed(float speed);
     
-    public float getWidth();
-    public float getHeight();
+    public abstract float getWidth();
+    public abstract float getHeight();
     
-    public float getX();
-    public float getY();
+    public abstract float getX();
+    public abstract float getY();
     
-    public void setX(float x);
-    public void setY(float y);
+    public abstract void setX(float x);
+    public abstract void setY(float y);
     
 }

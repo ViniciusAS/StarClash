@@ -5,8 +5,10 @@ import starclash.gamemode.GameModeFactory;
 import starclash.gamemode.listeners.Movement;
 import starclash.gamemode.ObservableEnemy;
 import starclash.gamemode.StarshipMovementListener;
+import starclash.gamemode.listeners.DamageListener;
 import starclash.gamemode.listeners.ShotFiredListener;
 import starclash.gamemode.listeners.SpecialLaunchListener;
+import starclash.gui.Drawable;
 import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.KeysListenerAdaptor;
 import starclash.starships.StarshipFactory;
@@ -72,11 +74,16 @@ public class Batle implements
         
         
         //// die listeners ////
-        StarshipFactory.DieListener dieListener = () -> {
-            starClash.endOfBatle();
+        DamageListener damageListener = new DamageListener() {
+            @Override public void onDamageTaken(int damage) {}
+
+            @Override
+            public void onDie() {
+                starClash.endOfBatle();
+            }
         };
-        me.setDieListener(dieListener);
-        enemy.setDieListener(dieListener);
+        me.addDamageListener(damageListener);
+        enemy.addDamageListener(damageListener);
         
         
         //// change drawables to start batle //// 
@@ -86,6 +93,7 @@ public class Batle implements
         gui.addDrawable( scenario );
         gui.addDrawable( me.newStarshipDraw() );
         gui.addDrawable( enemy.newStarshipDraw() );
+        gui.addDrawable( new LifePercentDisplay(me, enemy) );
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
