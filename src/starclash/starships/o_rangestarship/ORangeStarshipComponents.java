@@ -16,7 +16,7 @@ public class ORangeStarshipComponents implements StarshipComponents{
     private final float width  = 0.1f;
     private final float height = 0.1f;
     
-    private final Image image  = new Image("/resources/o_range/o-range.png", new Rectangle(
+    private final Image image  = new Image("/resources/nyancat/o-range.png", new Rectangle(
             0, 0,
             width, height,
             Color.TRANSPARENT

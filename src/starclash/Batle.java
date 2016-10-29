@@ -131,6 +131,7 @@ public class Batle implements
         observableEnemy.setMoveListener(new StarshipMovementListener( enemy ));
         observableEnemy.setShotListener(this);
         observableEnemy.setSpecialListener(this);
+ 
         
         // player listeners
         

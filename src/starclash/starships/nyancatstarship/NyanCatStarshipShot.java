@@ -19,8 +19,8 @@ import starclash.starships.StarshipShot;
  */
 public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
 
-    private static final long SHOT_DELAY = 20;
-    private static final long NEW_SHOT_DELAY = 250;
+    private static final long SHOT_DELAY = 10;
+    private static final long NEW_SHOT_DELAY = 400;
     
     private static final float SHOT_SIZE = 0.04f;
     
@@ -111,15 +111,15 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
             case 0:
                 return Color.RED;
             case 1:
-                return Color.ORANGE;
+                return Color.BLUE;
             case 2:
-                return Color.YELLOW;
+                return Color.GREEN;
             case 3:
                 return Color.GREEN;    
             case 4:
                 return Color.BABY_BLUE;
             default:
-                return Color.VIOLET;
+                return Color.WHITE;
         }
     }
     @Override

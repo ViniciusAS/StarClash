@@ -1,5 +1,6 @@
 package starclash.starships.nyancatstarship;
 
+import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.components.Component;
 import starclash.starships.StarshipCollision;
 import starclash.starships.StarshipComponents;
@@ -18,13 +19,11 @@ public class NyanCatStarship extends StarshipFactory{
     private final boolean enemy;
     private final StarshipComponents components;
 
-
     public NyanCatStarship() {
         enemy = false;
         this.components = new NyanCatStarshipComponents(this);
-        x = 0.5f - components.getWidth()/2;
-        y = 0.75f - components.getHeigth()/2;
-        
+        this.x = 0.5f - components.getWidth()/2;
+        this.y = 0.75f - components.getHeigth()/2;
     }
 
     public NyanCatStarship( boolean enemy) {
@@ -66,10 +65,11 @@ public class NyanCatStarship extends StarshipFactory{
     }
     
     /*========================================================================================================*/
-
+    
+    
     @Override
     public StarshipDraw newStarshipDraw() {
-        return new NyanCatStarshipDraw(this,components);
+        return new NyanCatStarshipDraw(this,components,newStarshipCollision());
     }
 
     @Override
@@ -92,11 +92,12 @@ public class NyanCatStarship extends StarshipFactory{
 
     @Override
     public void doSpecial() {
-      
+        System.out.println("SPECIAL");
     }
 
     @Override
     public void doSpecial(float x, float y) {
+        System.out.println("SPECIAISS");
         
     }
     /*========================================================================================================*/
