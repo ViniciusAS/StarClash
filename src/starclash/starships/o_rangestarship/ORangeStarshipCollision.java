@@ -48,81 +48,52 @@ public class ORangeStarshipCollision implements StarshipCollision {
         // nothing
         return y;
     }
-
     
-    /**
-     * X
-     *   y1
-     *   |
-     *   |
-     *   y2
-     */
-    private boolean testPoints(
-            StarshipFactory enemyShip,
-            StarshipComponents components,
-            float x,
-            float y1, float y2
-    ){
-        if ( enemyShip.isEnemy() ) {
-            if( 
-                enemyShip.getY() + components.getHeigth() >= y2
-                &&
-                enemyShip.getY() <= y1
-            ){
-                if(    x >= enemyShip.getX()
-                    && x <= enemyShip.getX() + components.getWidth()){
-                    return true;
-                }
-            }
-        } else {
-            if(
-                enemyShip.getY() + components.getHeigth() >= y2
-                &&
-                enemyShip.getY() <= y1
-            ){
-                if(    x >= enemyShip.getX()
-                    && x <= enemyShip.getX() + components.getWidth()){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
     
     @Override
-    public boolean shotCollision(StarshipShot starshipShot, StarshipFactory enemyShip, StarshipComponents components) {
-        if ( !(starshipShot instanceof ORangeStarshipShot) )
+    public boolean shotCollision(StarshipShot shot, StarshipFactory enemyShip, StarshipComponents components) {
+        if ( !(shot instanceof ORangeStarshipShot) )
             return false;
         
-        ORangeStarshipShot orshot = ((ORangeStarshipShot) starshipShot);
+        ORangeStarshipShot orshot = ((ORangeStarshipShot) shot);
         
-        if ( !orshot.isSpecial() )
-            return (
-                testPoints(
-                        enemyShip,
-                        components,
-                        starshipShot.getX(),
-                        starshipShot.getY(),
-                        starshipShot.getY() + starshipShot.getSize()
-                )
-            );
-        
-        Rectangle shot = orshot.getSpecialRect();
+        Rectangle eShot = orshot.getSpecialRect();
         
         return (
-            testPoints(
-                    enemyShip,
-                    components,
-                    shot.getX(),
-                    shot.getY(),
-                    shot.getY()+shot.getHeight()
-            ) | 
-            testPoints(
-                    enemyShip,
-                    components,
-                    shot.getX()+shot.getWidht(),
-                    shot.getY(),
-                    shot.getY()+shot.getHeight()
+            // se NAO e especial
+            !orshot.isSpecial() && (
+                enemyShip.isEnemy() && (
+                    // logica utilizando a nave acima
+                    (enemyShip.getY()+enemyShip.getHeight()) >= shot.getY() // se ja chegou: eixo Y
+                    && (shot.getY()+shot.getSize()) >= enemyShip.getY() // se nao passou: eixo Y
+                    && shot.getX() >= enemyShip.getX()  // se nao esta pra esquerda: eixo X
+                    && shot.getX() <= enemyShip.getX()+enemyShip.getWidth()  // se nao esta pra direita: eixo X
+                ) || 
+                !enemyShip.isEnemy() && (
+                    // logica utilizando a nave abaixo
+                    enemyShip.getY() <= shot.getY()+shot.getSize() // se ja chegou: eixo Y
+                    && shot.getY() <= enemyShip.getY()+enemyShip.getHeight() // se nao passou: eixo Y
+                    && shot.getX() >= enemyShip.getX()  // se nao esta pra esquerda: eixo X
+                    && shot.getX() <= enemyShip.getX()+enemyShip.getWidth()  // se nao esta pra direita: eixo X
+                )
+            )
+            || 
+            // se E especial
+            orshot.isSpecial() && (
+                enemyShip.isEnemy() && (
+                    // logica utilizando a nave acima
+                    (enemyShip.getY()+enemyShip.getHeight()) >= eShot.getY() // se ja chegou: eixo Y
+                    && (eShot.getY()+eShot.getHeight()) >= enemyShip.getY() // se nao passou: eixo Y
+                    && eShot.getX()+eShot.getWidth() >= enemyShip.getX()  // se nao esta pra esquerda: eixo X
+                    && eShot.getX() <= enemyShip.getX()+enemyShip.getWidth()  // se nao esta pra direita: eixo X
+                ) || 
+                !enemyShip.isEnemy() && (
+                    // logica utilizando a nave abaixo
+                    enemyShip.getY() <= eShot.getY()+eShot.getHeight() // se ja chegou: eixo Y
+                    && eShot.getY() <= enemyShip.getY()+enemyShip.getHeight() // se nao passou: eixo Y
+                    && eShot.getX()+eShot.getWidth() >= enemyShip.getX()  // se nao esta pra esquerda: eixo X
+                    && eShot.getX() <= enemyShip.getX()+enemyShip.getWidth()  // se nao esta pra direita: eixo X
+                )
             )
         );
     }

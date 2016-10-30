@@ -39,6 +39,11 @@ public class WorkAroundStarship extends StarshipFactory {
     }
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+    @Override
+    public float getManaPercent() {
+        return 1;
+    }
 
     @Override
     public float getLifePercent() {
@@ -46,7 +51,7 @@ public class WorkAroundStarship extends StarshipFactory {
     }
     
     @Override
-    public boolean takeDamage(StarshipShot shot) {
+    public boolean takeDamage(int damage) {
         super.notifyDie();
         return true;
     }

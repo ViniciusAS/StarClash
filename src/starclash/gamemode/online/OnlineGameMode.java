@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import starclash.StarClash;
 import starclash.starships.theincredablestarship.TheIncredableStarship;
 import starclash.starships.mods.FasterShip;
+import starclash.starships.mods.StrongerShip;
 import starclash.starships.nyancatstarship.NyanCatStarship;
 import starclash.starships.o_rangestarship.ORangeStarship;
 import starclash.starships.workaroundstarship.WorkAroundStarship;
@@ -21,11 +22,12 @@ public class OnlineGameMode implements GameModeFactory {
     public static final class StarshipTypes {
         
         public static final int THE_INCREDABLE_STARSHIP = 1;
-        public static final int NYAN_CAT_STARSHIP = 2;
-        public static final int WORKAROUND_STARSHIP = 3;
-        public static final int O_RANGE_STARSHIP = 4;
+        public static final int NYAN_CAT_STARSHIP       = 2;
+        public static final int WORKAROUND_STARSHIP     = 3;
+        public static final int O_RANGE_STARSHIP        = 4;
         
-        public static final int MOD_FASTER = 11;
+        public static final int MOD_FASTER   = 11;
+        public static final int MOD_STRONGER = 12;
         
         public static String toSocketString(StarshipFactory starship){
             if ( starship == null ) return "";
@@ -50,6 +52,9 @@ public class OnlineGameMode implements GameModeFactory {
                 switch (code) {
                     case MOD_FASTER:
                         starship = new FasterShip(starship);
+                        break;
+                    case MOD_STRONGER:
+                        starship = new StrongerShip(starship);
                         break;
                 }
             }

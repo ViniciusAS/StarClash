@@ -102,7 +102,7 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
         if( collision.shotCollision(this,enemyShip,components) )
         {
             timer.cancel();
-            enemyShip.takeDamage(this);
+            enemyShip.takeDamage(getDamage());
             gui.removeDrawable(this);
         }
         else if (  posY >= 1 || posY <= 0  ){

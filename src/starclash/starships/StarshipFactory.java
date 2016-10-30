@@ -2,6 +2,7 @@ package starclash.starships;
 
 import java.util.LinkedList;
 import java.util.List;
+import starclash.gamemode.CommandSender;
 import starclash.gamemode.listeners.DamageListener;
 
 /**
@@ -44,6 +45,11 @@ public abstract class StarshipFactory {
 
     /**
      *
+     * @return man percentual between 0 and 1
+     */
+    public abstract float getManaPercent();
+    /**
+     *
      * @return life percentual between 0 and 1
      */
     public abstract float getLifePercent();
@@ -53,10 +59,24 @@ public abstract class StarshipFactory {
      * call damage taken listener
      * call die listener when dead
      * 
-     * @param shot
+     * @param damage
      * @return if enemy is dead
      */
-    public abstract boolean takeDamage(StarshipShot shot);
+    public abstract boolean takeDamage(int damage);
+    
+    
+    protected CommandSender commandSender;
+
+    /**
+     * Criado para enviar instancias ainda nao criadas
+     * ao instanciar a nave, antes de comecar uma batalha
+     * 
+     * @param commandSender
+     */
+    public void prepareStarship(CommandSender commandSender){
+        this.commandSender = commandSender;
+    }
+    
     
     public abstract void doSpecial();
     public abstract void doSpecial(float x, float y);

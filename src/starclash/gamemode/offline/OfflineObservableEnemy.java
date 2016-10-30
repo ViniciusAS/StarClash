@@ -93,6 +93,7 @@ public class OfflineObservableEnemy implements ObservableEnemy {
         // T - SPECIAL +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         keysListener.addKeyListener(KeysListenerAdaptor.Key.KEY_T, new KeyListener() {
             @Override public void pressed() {
+                super.clicked();
                 
                 if ( specialListener != null )
                     specialListener.specialLaunched();

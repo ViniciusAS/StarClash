@@ -53,12 +53,17 @@ public class NyanCatStarship extends StarshipFactory{
     /*========================================================================================================*/
 
     @Override
+    public float getManaPercent() {
+        return 1;
+    }
+    
+    @Override
     public float getLifePercent() {
         return 1;
     }
     
     @Override
-    public boolean takeDamage(StarshipShot shot)
+    public boolean takeDamage(int damage)
     {
         super.notifyDie();
         return true;

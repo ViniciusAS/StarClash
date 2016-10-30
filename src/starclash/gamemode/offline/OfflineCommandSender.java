@@ -57,6 +57,11 @@ public class OfflineCommandSender implements CommandSender {
     }
 
     @Override
+    public void proccessHitPerformed(int damage) {
+        enemy.takeDamage(damage);
+    }
+    
+    @Override
     public void onDamageTaken(int damage) {
     }
     

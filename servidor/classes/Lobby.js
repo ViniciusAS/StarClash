@@ -87,6 +87,7 @@ module.exports = class Lobby {
             var otherPlayer = lobby._players[i];
 
             if (player.getSocketId() != otherPlayer.getSocketId()) {
+                console.log("Game Starting");
                 io.to(otherPlayer.getSocketId()).emit("enemy_join", player.getShipType());
                 io.to(player.getSocketId()).emit("enemy_join", otherPlayer.getShipType());
             }
@@ -168,8 +169,13 @@ module.exports = class Lobby {
 
     //Called when the game is over
     endGame(){
-        for (var i = 0; i < lobby._players.length; i++) {
-            io.to(otherPlayer.getSocketId()).emit("endGame", position);
+
+        var lobby = this;
+        var io = this._io;
+
+        for (var i = 0; i < this._players.length; i++) {
+            var player = lobby._players[i];
+            io.to(player.getSocketId()).emit("endGame", "");
         }
     }
 

@@ -52,16 +52,21 @@ public class ORangeStarship extends StarshipFactory {
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
+    public float getManaPercent() {
+        return ORangeStarshipShot.getNextShotTime( isEnemy() )/1000f;
+    }
+    
+    @Override
     public float getLifePercent() {
         return life/100f;
     }
 
     
     @Override
-    public boolean takeDamage(StarshipShot shot)
+    public boolean takeDamage(int damage)
     {
-        super.notifyDamage(shot.getDamage());
-        life -= shot.getDamage();
+        super.notifyDamage(damage);
+        life -= damage;
         if ( life <= 0 ){
             super.notifyDie();
             return true;
@@ -83,12 +88,12 @@ public class ORangeStarship extends StarshipFactory {
 
     @Override
     public StarshipShot newShot() {
-        return new ORangeStarshipShot(this,newStarshipCollision(),components);
+        return new ORangeStarshipShot(this,newStarshipCollision(),components,super.commandSender);
     }
 
     @Override
     public StarshipShot newShot(float x, float y) {
-        return new ORangeStarshipShot(this,newStarshipCollision(),components);
+        return new ORangeStarshipShot(this,newStarshipCollision(),components,super.commandSender);
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -100,7 +105,12 @@ public class ORangeStarship extends StarshipFactory {
 
     @Override
     public void doSpecial(float x, float y) {
-        ORangeStarshipShot.nextSpecial();
+        if ( getManaPercent() < 1 )
+            return;
+        if ( enemy )
+            ORangeStarshipShot.nextSpecialEnemy();
+        else
+            ORangeStarshipShot.nextSpecial();
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

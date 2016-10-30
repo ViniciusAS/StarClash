@@ -2,6 +2,7 @@ package starclash.starships.o_rangestarship;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import starclash.gamemode.CommandSender;
 import starclash.gui.DrawAdaptor;
 import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.components.Color;
@@ -19,7 +20,7 @@ import starclash.starships.StarshipShot;
  */
 public class ORangeStarshipShot extends TimerTask implements StarshipShot  {
     
-    private static final long SHOT_DELAY = 10;
+    private static final long SHOT_MOVE_DELAY = 10;
     private static final long NEW_SHOT_DELAY = 225;
     
     private static final float SHOT_SIZE = 0.025f;
@@ -33,6 +34,7 @@ public class ORangeStarshipShot extends TimerTask implements StarshipShot  {
     
     private final StarshipFactory myShip;
     private StarshipFactory enemyShip;
+    private CommandSender commandSender;
     
     private StarshipComponents components;
     
@@ -48,7 +50,8 @@ public class ORangeStarshipShot extends TimerTask implements StarshipShot  {
     public ORangeStarshipShot(
             StarshipFactory starship,
             StarshipCollision collision,
-            StarshipComponents components
+            StarshipComponents components,
+            CommandSender commandSender
     ) {
         this.myShip = starship;
         this.posX = starship.getX() + starship.getWidth()/2;
@@ -56,19 +59,22 @@ public class ORangeStarshipShot extends TimerTask implements StarshipShot  {
         this.isEnemy = starship.isEnemy();
         this.collision = collision;
         this.components = components;
+        this.commandSender = commandSender;
         // correcao do Y
         if ( isEnemy ){
             posY += starship.getHeight();
         }
-        // se tem a flag de especial
-        if ( nextSpecial ){
+        // se tem a flag ativa de especial
+        if ( !isEnemy & nextSpecial ){
             this.isSpecial = true;
             nextSpecial = false;
+            timeMe += 1000;
             initSpecial();
-        // se tem a flag de especial inimigo
-        } else if ( nextSpecialEnemy ) {
+        // se tem a flag ativa de especial inimigo
+        } else if ( isEnemy & nextSpecialEnemy ) {
             this.isSpecial = true;
             nextSpecialEnemy = false;
+            timeEnemy += 1000;
             initSpecial();
         } else {
             this.isSpecial = false;
@@ -89,13 +95,17 @@ public class ORangeStarshipShot extends TimerTask implements StarshipShot  {
     
     @Override
     public int getDamage() {
-        return ( isSpecial ) ? 40:2;
+        return ( isSpecial ) ? 30:2;
     }
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     public static boolean shotAllowed(boolean isEnemy){
         long time = ( isEnemy ) ? timeEnemy : timeMe;
+        if ( time == 0 ){
+            nextSpecial = false;
+            nextSpecialEnemy = false;
+        }
         if ( System.currentTimeMillis()-time <= NEW_SHOT_DELAY )
             return false;
         if ( isEnemy ) {
@@ -116,7 +126,7 @@ public class ORangeStarshipShot extends TimerTask implements StarshipShot  {
             return false;
         }
         
-        timer.scheduleAtFixedRate(this, 1,SHOT_DELAY);
+        timer.scheduleAtFixedRate(this, 1, SHOT_MOVE_DELAY);
         
         startSpeedUpTimer();
         
@@ -162,14 +172,18 @@ public class ORangeStarshipShot extends TimerTask implements StarshipShot  {
 
     @Override
     public void run() {
-        shotMove();
+        proccessMove();
         if( collision.shotCollision(this,enemyShip,components) )
         {
             timer.cancel();
-            enemyShip.takeDamage(this);
+            if ( commandSender == null ){
+                enemyShip.takeDamage(getDamage());
+            } else {
+                commandSender.proccessHitPerformed(getDamage());
+            }
             gui.removeDrawable(this);
         }
-        else if (  posY >= 1 || posY <= 0  ){
+        else if (  posY > 1 || posY < 0  ){
             timer.cancel();
             gui.removeDrawable(this);
         }
@@ -188,7 +202,7 @@ public class ORangeStarshipShot extends TimerTask implements StarshipShot  {
         );
     }
     
-    private void shotMove(){
+    private void proccessMove(){
         if( isEnemy ){
             posY += shotSpeed;
         } else {
@@ -206,14 +220,14 @@ public class ORangeStarshipShot extends TimerTask implements StarshipShot  {
     
     @Override
     public float getSize(){
-        return ( isEnemy ? (SHOT_SIZE ) : 0 );
+        return SHOT_SIZE;
     }
     
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     // SPECIAL FUNCTIONS
     
-    private Image specialImage = null;
+    private Image specialImage = new Image();
     
     private void initSpecial(){
         specialImage = new Image("/resources/o_range/shot.png", new Rectangle(
@@ -250,6 +264,10 @@ public class ORangeStarshipShot extends TimerTask implements StarshipShot  {
     
     public static void nextSpecialEnemy(){
         nextSpecialEnemy = true;
+    }
+    
+    public static float getNextShotTime(boolean enemy){
+        return System.currentTimeMillis() - ( enemy ? timeEnemy : timeMe );
     }
     
 }

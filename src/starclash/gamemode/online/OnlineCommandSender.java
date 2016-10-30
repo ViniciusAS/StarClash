@@ -47,6 +47,17 @@ public class OnlineCommandSender implements CommandSender {
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
+    public void proccessHitPerformed(int damage) {
+        // do nothing
+        // muahahahahahaha
+        /* Obs.:
+         * No modo online, o dano e processado pelo listener de dano,
+         * e se o dano for processado em dois lugares, sera processado
+         * o dobro do dano
+        */
+    }
+    
+    @Override
     public void onDamageTaken(int damage) {
         emit("getShot",damage);
     }

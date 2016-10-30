@@ -8,7 +8,6 @@ import starclash.gamemode.StarshipMovementListener;
 import starclash.gamemode.listeners.DamageListener;
 import starclash.gamemode.listeners.ShotFiredListener;
 import starclash.gamemode.listeners.SpecialLaunchListener;
-import starclash.gui.Drawable;
 import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.KeysListenerAdaptor;
 import starclash.starships.StarshipFactory;
@@ -68,6 +67,8 @@ public class Batle implements
         commandSender = gameMode.newCommandSender();
         observableEnemy = gameMode.newObservableEnemy();
         
+        me.prepareStarship(commandSender);
+        
         //// listeners ////
         
         initListeners();
@@ -84,7 +85,7 @@ public class Batle implements
         };
         me.addDamageListener(damageListener);
         enemy.addDamageListener(damageListener);
-        
+        me.addDamageListener(commandSender);
         
         //// change drawables to start batle //// 
         
@@ -93,7 +94,7 @@ public class Batle implements
         gui.addDrawable( scenario );
         gui.addDrawable( me.newStarshipDraw() );
         gui.addDrawable( enemy.newStarshipDraw() );
-        gui.addDrawable( new LifePercentDisplay(me, enemy) );
+        gui.addDrawable( new PercentualIndicatorsDisplay(me, enemy) );
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -189,10 +190,9 @@ public class Batle implements
         gui.getKeysListener()
                 .addKeyListener(KeysListenerAdaptor.Key.KEY_ENTER, new KeysListenerAdaptor.KeyListener() {
             @Override public void pressed(){
-                
                 commandSender.specialLaunched();
-                
             }
+            
         });
     }
     

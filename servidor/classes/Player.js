@@ -3,9 +3,10 @@
 var Lobby = require('./Lobby');
 
 module.exports = class Player {
-    constructor(name, socketId) {
+    constructor(name, socket) {
         this._name = name;
         this._socket = socket;
+        this._socketId = socket.id;
         this._lobby = null;
         this._shipType = null;
     }
@@ -22,7 +23,8 @@ module.exports = class Player {
 
     //Returns the player socket id to be able to send commands to him
     getSocketId() {
-        return this._socket.id;
+        //return this._socket.id;
+        return this._socketId;
     }
 
     //Returns the player selected ship type

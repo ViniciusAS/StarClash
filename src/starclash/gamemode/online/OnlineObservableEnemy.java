@@ -69,7 +69,7 @@ public class OnlineObservableEnemy implements ObservableEnemy {
             float data[] = filterResult(os);
             
             moveListener.moved(
-                filterX(data[0]),
+                filterX(data[0]) - enemy.getWidth(),
                 filterY(data[1]) - enemy.getHeight()
             );
         });
@@ -92,8 +92,7 @@ public class OnlineObservableEnemy implements ObservableEnemy {
             );
         });
         socket.on("enemy_getShot", (Object... os) -> {
-            
-            if ( enemy.takeDamage( me.newShot() ) ){
+            if ( enemy.takeDamage( (int) Float.parseFloat((String) os[0]) ) ){
                 // if the enemy is dead
                 socket.disconnect();
                 starClash.endOfBatle();

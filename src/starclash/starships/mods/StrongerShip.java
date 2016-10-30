@@ -6,17 +6,17 @@ import starclash.starships.StarshipFactory;
 import starclash.starships.StarshipShot;
 
 
-public class FasterShip extends StarshipFactory{
+public class StrongerShip extends StarshipFactory{
 
     private final StarshipFactory starship;
 
-    public FasterShip(StarshipFactory starship) {
+    public StrongerShip(StarshipFactory starship) {
         this.starship = starship;
     }
 
     @Override
     public String getName() {
-        return starship.getName() + " faster";
+        return starship.getName() + " stronger";
     }
 
     @Override
@@ -45,15 +45,15 @@ public class FasterShip extends StarshipFactory{
     }
 
     @Override
+    public float getManaPercent() {
+        return starship.getManaPercent();
+    }
+
+    @Override
     public StarshipShot newShot(float x, float y) {
         return starship.newShot(x, y);
     }
 
-    @Override
-    public float getManaPercent() {
-        return starship.getManaPercent();
-    }
-    
     @Override
     public float getLifePercent() {
         return starship.getLifePercent();
@@ -61,7 +61,7 @@ public class FasterShip extends StarshipFactory{
     
     @Override
     public boolean takeDamage(int damage) {
-        return starship.takeDamage(damage);
+        return starship.takeDamage( damage - 1 );
     }
 
     @Override
@@ -76,7 +76,7 @@ public class FasterShip extends StarshipFactory{
 
     @Override
     public float getShipSpeed() {
-        return starship.getShipSpeed()*1.2f;
+        return starship.getShipSpeed();
     }
 
     @Override

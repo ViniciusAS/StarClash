@@ -12,6 +12,7 @@ import starclash.gui.components.Text;
 import starclash.starships.theincredablestarship.TheIncredableStarship;
 import starclash.starships.StarshipFactory;
 import starclash.starships.mods.FasterShip;
+import starclash.starships.mods.StrongerShip;
 import starclash.starships.nyancatstarship.NyanCatStarship;
 import starclash.starships.workaroundstarship.WorkAroundStarship;
 import starclash.starships.o_rangestarship.ORangeStarship;
@@ -52,6 +53,7 @@ public class MenuInterface implements Drawable {
             }),
             new Menu(new String[]{
                 "Nave Rápida",
+                "Nave Forte",
                 "Cancelar"
             }),
             new Menu(new String[]{
@@ -136,6 +138,9 @@ public class MenuInterface implements Drawable {
                 switch ( menus[MODS_MENU].getSelected() ) {
                     case 0: // nave rapida
                         starClash.myStarship = new FasterShip( starClash.myStarship );
+                        break;
+                    case 1: // nave forte
+                        starClash.myStarship = new StrongerShip( starClash.myStarship );
                         break;
                 }
                 currentMenu = MAIN_MENU;

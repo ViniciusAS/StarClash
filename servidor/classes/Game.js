@@ -128,7 +128,7 @@ module.exports = class Game {
             player.getLobby().onPlayerDisconnect(player);
 
             delete game._disconnectTimers[player.getSocketId()];
-            delete this._players[player.getSocketId()];
+            //delete this._players[player.getSocketId()];
         }, 10000);
     }
 

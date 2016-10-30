@@ -60,7 +60,7 @@ public class TheIncreadableStarshipComponents implements StarshipComponents{
             
             new Rectangle(starship.getX()+retangle.getX(),
                           starship.getY()+retangle.getY(),
-                          retangle.getWidht(),
+                          retangle.getWidth(),
                           retangle.getHeight(),
                           retangle.getColor()
             )

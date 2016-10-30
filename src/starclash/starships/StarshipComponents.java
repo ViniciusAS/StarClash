@@ -1,6 +1,5 @@
 package starclash.starships;
 
-import starclash.gui.Drawable;
 import starclash.gui.components.Component;
 
 /**

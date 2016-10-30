@@ -149,8 +149,8 @@ public class LWJGLGameInterface implements GameInterfaceAdaptor, Runnable {
                 
             GL11.glColor4f(rect.getColor().getR(), rect.getColor().getG(), rect.getColor().getB(), rect.getColor().getA());
             GL11.glVertex3f(rect.getX(), rect.getY(), 0);
-            GL11.glVertex3f(rect.getX()+rect.getWidht(), rect.getY(), 0);
-            GL11.glVertex3f(rect.getX()+rect.getWidht(), rect.getY()+rect.getHeight(), 0);
+            GL11.glVertex3f(rect.getX()+rect.getWidth(), rect.getY(), 0);
+            GL11.glVertex3f(rect.getX()+rect.getWidth(), rect.getY()+rect.getHeight(), 0);
             GL11.glVertex3f(rect.getX(), rect.getY()+rect.getHeight(), 0);
             
             GL11.glEnd();

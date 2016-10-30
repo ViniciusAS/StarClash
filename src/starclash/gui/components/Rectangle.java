@@ -35,7 +35,7 @@ public class Rectangle implements Component{
         return y;
     }
 
-    public float getWidht() {
+    public float getWidth() {
         return width;
     }
     
@@ -55,7 +55,7 @@ public class Rectangle implements Component{
         this.y = y;
     }
 
-    public void setWidht(float widht) {
+    public void setWidth(float widht) {
         this.width = widht;
     }
 

@@ -102,7 +102,7 @@ public class WorkAroundStarshipShot extends TimerTask implements StarshipShot {
         shotMove();
         if (collision.shotCollision(this, enemyShip, components)) {
             timer.cancel();
-            enemyShip.takeDamage(this);
+            enemyShip.takeDamage(getDamage());
             gui.removeDrawable(this);
         } else if (posY >= 1 || posY <= 0) {
             timer.cancel();

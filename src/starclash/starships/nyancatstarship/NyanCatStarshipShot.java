@@ -128,7 +128,7 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
         if( collision.shotCollision(this,enemyShip,components) )
         {
             timer.cancel();
-            enemyShip.takeDamage(this);
+            enemyShip.takeDamage(getDamage());
             gui.removeDrawable(this);
             shotColor = selectColor();
         }

@@ -94,7 +94,7 @@ public class SwingDrawAdaptor implements DrawAdaptor {
         graphics.fillRect(
             (int) ( rectangle.getX()* getWidth() ),
             (int) ( rectangle.getY()* getHeight() ),
-            (int) ( rectangle.getWidht()* getWidth() ),
+            (int) ( rectangle.getWidth()* getWidth() ),
             (int) ( rectangle.getHeight()* getHeight() )
         );
     }
@@ -137,7 +137,7 @@ public class SwingDrawAdaptor implements DrawAdaptor {
         graphics.fillRect(
                 (int) (image.getRectangle().getX() * getWidth()),
                 (int) (image.getRectangle().getY() * getHeight()),
-                (int) (image.getRectangle().getWidht() * getWidth()),
+                (int) (image.getRectangle().getWidth() * getWidth()),
                 (int) (image.getRectangle().getHeight() * getHeight())
         );
 
@@ -146,7 +146,7 @@ public class SwingDrawAdaptor implements DrawAdaptor {
                     loadImage(image),
                     (int) (image.getRectangle().getX() * getWidth()),
                     (int) (((image.getRectangle().getY() + image.getRectangle().getHeight()) * getHeight())),
-                    (int) (image.getRectangle().getWidht() * getWidth()),
+                    (int) (image.getRectangle().getWidth() * getWidth()),
                     (int) -(image.getRectangle().getHeight() * getHeight()),
                     panel
             );
@@ -155,7 +155,7 @@ public class SwingDrawAdaptor implements DrawAdaptor {
                     loadImage(image),
                     (int) (image.getRectangle().getX() * getWidth()),
                     (int) (image.getRectangle().getY() * getHeight()),
-                    (int) (image.getRectangle().getWidht() * getWidth()),
+                    (int) (image.getRectangle().getWidth() * getWidth()),
                     (int) (image.getRectangle().getHeight() * getHeight()),
                     panel
             );

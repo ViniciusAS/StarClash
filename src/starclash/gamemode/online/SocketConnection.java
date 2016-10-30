@@ -14,8 +14,8 @@ public final class SocketConnection {
 
     private SocketConnection() {}
 
-    private static final String HOST = "vps0232.publiccloud.com.br";
-//    private static final String HOST = "localhost";
+//    private static final String HOST = "vps0232.publiccloud.com.br";
+    private static final String HOST = "10.0.0.134";
     
     private static final int    PORT = 90;
     
