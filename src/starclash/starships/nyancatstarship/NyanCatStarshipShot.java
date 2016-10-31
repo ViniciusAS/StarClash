@@ -3,11 +3,14 @@ package starclash.starships.nyancatstarship;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import starclash.gamemode.CommandSender;
 import starclash.gui.DrawAdaptor;
 import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.components.Color;
+import starclash.gui.components.Image;
 import starclash.gui.components.Line;
 import starclash.gui.components.Point;
+import starclash.gui.components.Rectangle;
 import starclash.starships.StarshipCollision;
 import starclash.starships.StarshipComponents;
 import starclash.starships.StarshipFactory;
@@ -42,28 +45,61 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
     
     private GameInterfaceAdaptor gui;
     
+    private static boolean special = false;
+    private static boolean specialEnemy = false;
+    private final boolean isSpecial;
+    private CommandSender commandSender;
+    
     public NyanCatStarshipShot(
             StarshipFactory starship,
             StarshipCollision collision,
-            StarshipComponents components
+            StarshipComponents components,
+            CommandSender commandSender
     ) {
         this.posX = starship.getX()+starship.getWidth()/2;
         this.posY = starship.getY()+starship.getHeight()/2;
         this.isEnemy = starship.isEnemy();
         this.collision = collision;
         this.components = components;
+        this.commandSender = commandSender;
+        
+        if ( isEnemy ){
+            posY += starship.getHeight();
+        }
+        // se tem a flag ativa de especial
+        if ( !isEnemy & special ){
+            this.isSpecial = true;
+            special = false;
+            timeMe += 1000;
+            System.out.println("ESPECIAL AMIGO");
+            initSpecial();
+        // se tem a flag ativa de especial inimigo
+        } else if ( isEnemy & specialEnemy ) {
+            this.isSpecial = true;
+            specialEnemy = false;
+            timeEnemy += 1000;
+            System.out.println("ESPECIAL INIMIGO");
+            initSpecial();
+        } else {
+            this.isSpecial = false;
+        }
+        
     }
     
     public NyanCatStarshipShot(StarshipFactory starship, float x, float y) {
         this.posX = x;
         this.posY = y;
         this.isEnemy = starship.isEnemy();
+        this.isSpecial = false;
     }
     
     
     @Override
     public int getDamage() {
-        return 1;
+        if(isSpecial)
+            return 25;
+        else
+            return 5;
     }
     
     public static boolean shotAllowed(boolean isEnemy){
@@ -81,26 +117,32 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
     public boolean start(GameInterfaceAdaptor gui, StarshipFactory enemyShip) {
         this.gui = gui;
         this.enemyShip = enemyShip;
-        
-        if( !shotAllowed(isEnemy) ){
-            gui.removeDrawable(this);
-            return false;
-        }
-        
-        timer.scheduleAtFixedRate(this, 1,SHOT_DELAY); 
-        return true;
-        
+            if( !shotAllowed(isEnemy) ){
+                gui.removeDrawable(this);
+                return false;
+            }
+            timer.scheduleAtFixedRate(this, 1,SHOT_DELAY); 
+            if ( isSpecial ) {
+                initSpecial();
+                System.out.println("initSpecial");
+            } 
+            return true;
     }
     
     @Override
     public void draw(DrawAdaptor drawAdaptor) {
-        if(isEnemy){
-            drawAdaptor.drawLine(new Line(new Point(posX, posY), new Point(posX,posY+SHOT_SIZE), shotColor));
-            drawAdaptor.drawLine(new Line(new Point(posX+0.005f, posY), new Point(posX+0.005f,posY+SHOT_SIZE), shotColor));
+        if(isSpecial){
+            drawSpecial(drawAdaptor);
+            System.out.println("ESPECIAL DESENHADO");
         }else{
-            drawAdaptor.drawLine(new Line(new Point(posX, posY), new Point(posX,posY-SHOT_SIZE), shotColor));
-            drawAdaptor.drawLine(new Line(new Point(posX+0.002f, posY), new Point(posX+0.002f,posY+SHOT_SIZE), shotColor));
-            drawAdaptor.drawLine(new Line(new Point(posX-0.002f, posY), new Point(posX-0.002f,posY+SHOT_SIZE), shotColor));
+            if(isEnemy){
+                drawAdaptor.drawLine(new Line(new Point(posX, posY), new Point(posX,posY+SHOT_SIZE), shotColor));
+                drawAdaptor.drawLine(new Line(new Point(posX+0.005f, posY), new Point(posX+0.005f,posY+SHOT_SIZE), shotColor));
+            }else{
+                drawAdaptor.drawLine(new Line(new Point(posX, posY), new Point(posX,posY-SHOT_SIZE), shotColor));
+                drawAdaptor.drawLine(new Line(new Point(posX+0.002f, posY), new Point(posX+0.002f,posY+SHOT_SIZE), shotColor));
+                drawAdaptor.drawLine(new Line(new Point(posX-0.002f, posY), new Point(posX-0.002f,posY+SHOT_SIZE), shotColor));
+            }
         }
     }
     
@@ -128,7 +170,11 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
         if( collision.shotCollision(this,enemyShip,components) )
         {
             timer.cancel();
-            enemyShip.takeDamage(getDamage());
+            if ( commandSender == null ){
+                enemyShip.takeDamage(getDamage());
+            } else {
+                commandSender.proccessHitPerformed(getDamage());
+            }
             gui.removeDrawable(this);
             shotColor = selectColor();
         }
@@ -154,7 +200,50 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
     
     @Override
     public float getSize(){
-        return ( isEnemy ? SHOT_SIZE : 0 );
+        return SHOT_SIZE;
     }
     
+    
+    private Image specialImage = new Image();
+    
+    private void initSpecial(){
+        specialImage = new Image("/resources/nyancat/rainbow.png", new Rectangle(
+            0,0,
+            0.08f, 0.08f,
+            Color.TRANSPARENT
+        ));
+        specialImage.setInverted(isEnemy);
+        posX -= 0.02f;
+        if ( !isEnemy ){
+            posY -= specialImage.getRectangle().getHeight()/2 - 0.005f;
+        } else {
+            posY -= 0.005f;
+        }
+    }
+    
+    private void drawSpecial(DrawAdaptor drawAdaptor){
+        specialImage.getRectangle().setX(posX);
+        specialImage.getRectangle().setY(posY);
+        drawAdaptor.drawImage(specialImage);
+    }
+    
+    public static void special(){
+        special = true;
+    }
+    
+    public static void specialEnemy(){
+        specialEnemy = true;
+    }
+    
+    public static float getNextShotTime(boolean enemy){
+        return System.currentTimeMillis() - ( enemy ? timeEnemy : timeMe );
+    }
+    
+    public boolean isSpecial(){
+        return isSpecial;
+    }
+    
+    public Rectangle getSpecialRect(){
+        return specialImage.getRectangle();
+    }
 }

@@ -18,12 +18,15 @@ public class NyanCatStarship extends StarshipFactory{
     private float speed = 0.02f;
     private final boolean enemy;
     private final StarshipComponents components;
+    
+    private int life = 100;
 
     public NyanCatStarship() {
-        enemy = false;
+        this(false);
+        /*enemy = false;
         this.components = new NyanCatStarshipComponents(this);
         this.x = 0.5f - components.getWidth()/2;
-        this.y = 0.75f - components.getHeigth()/2;
+        this.y = 0.75f - components.getHeigth()/2;*/
     }
 
     public NyanCatStarship( boolean enemy) {
@@ -54,19 +57,24 @@ public class NyanCatStarship extends StarshipFactory{
 
     @Override
     public float getManaPercent() {
-        return 1;
+        return NyanCatStarshipShot.getNextShotTime(isEnemy()) / 1000f;
     }
     
     @Override
     public float getLifePercent() {
-        return 1;
+        return life/100f;
     }
     
     @Override
     public boolean takeDamage(int damage)
     {
-        super.notifyDie();
-        return true;
+        super.notifyDamage(damage);
+        life -= damage;
+        if ( life <= 0 ){
+            super.notifyDie();
+            return true;
+        }
+        return false;
     }
     
     /*========================================================================================================*/
@@ -84,12 +92,12 @@ public class NyanCatStarship extends StarshipFactory{
 
     @Override
     public StarshipShot newShot() {
-        return new NyanCatStarshipShot(this, newStarshipCollision(), components);
+        return new NyanCatStarshipShot(this, newStarshipCollision(), components, super.commandSender);
     }
 
     @Override
     public StarshipShot newShot(float x, float y) {
-        return new NyanCatStarshipShot(this, newStarshipCollision(), components);
+        return new NyanCatStarshipShot(this, newStarshipCollision(), components, super.commandSender);
     }
     
     
@@ -97,14 +105,25 @@ public class NyanCatStarship extends StarshipFactory{
 
     @Override
     public void doSpecial() {
-        System.out.println("SPECIAL");
+        doSpecial( getX(), getY() );
     }
 
     @Override
     public void doSpecial(float x, float y) {
-        System.out.println("SPECIAISS");
+        if ( getManaPercent() < 1 )return;
         
+        
+        if ( enemy ){
+            NyanCatStarshipShot.specialEnemy();
+            System.out.println("ESPECIAL inimigo ATIVADO");
+        }
+        else{
+            NyanCatStarshipShot.special();
+            System.out.println("ESPECIAL amigo ATIVADO");
+            
+        }
     }
+        
     /*========================================================================================================*/
 
 
