@@ -3,7 +3,6 @@ package starclash.starships.theincredablestarship;
 import java.util.Timer;
 import java.util.TimerTask;
 import starclash.gui.DrawAdaptor;
-import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.components.Color;
 import starclash.gui.components.Line;
 import starclash.gui.components.Point;
@@ -60,7 +59,7 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
     
     @Override
     public int getDamage() {
-        return 1;
+        return 10;
     }
     
     public static boolean shotAllowed(boolean isEnemy){

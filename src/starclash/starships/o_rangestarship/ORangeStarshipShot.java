@@ -86,7 +86,7 @@ public class ORangeStarshipShot extends TimerTask implements StarshipShot  {
     
     @Override
     public int getDamage() {
-        return ( isSpecial ) ? 30:2;
+        return ( isSpecial ) ? 40:3;
     }
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -181,14 +181,14 @@ public class ORangeStarshipShot extends TimerTask implements StarshipShot  {
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
-    private float shotSpeed = 0.003f;
+    private float shotSpeed = 0.002f;
     
     private void startSpeedUpTimer(){
         timer.schedule(new TimerTask() {
             @Override public void run() {
-                shotSpeed = 0.03f;
+                shotSpeed = ( isSpecial ) ? 0.013f : 0.04f;
             }
-        }, ( isSpecial ) ? 800 : 500
+        }, ( isSpecial ) ? 200 : 500
         );
     }
     
