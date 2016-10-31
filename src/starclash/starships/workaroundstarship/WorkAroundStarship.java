@@ -81,13 +81,13 @@ public class WorkAroundStarship extends StarshipFactory {
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
-    public boolean doSpecial() {
-        return false;
+    public void doSpecial() {
+
     }
 
     @Override
-    public boolean doSpecial(float x, float y) {
-        return false;
+    public void doSpecial(float x, float y) {
+
     }
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

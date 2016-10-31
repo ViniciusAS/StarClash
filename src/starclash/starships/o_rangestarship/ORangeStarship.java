@@ -99,21 +99,18 @@ public class ORangeStarship extends StarshipFactory {
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
-    public boolean doSpecial() {
+    public void doSpecial() {
         doSpecial( getX(), getY() );
-        return true;
     }
 
     @Override
-    public boolean doSpecial(float x, float y) {
+    public void doSpecial(float x, float y) {
         if ( getManaPercent() < 1 )
-            return false;
+            return;
         if ( enemy ){
             ORangeStarshipShot.nextSpecialEnemy();
-            return true;
         } else{
             ORangeStarshipShot.nextSpecial();
-            return true;
         }
     }
     

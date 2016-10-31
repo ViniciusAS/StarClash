@@ -65,15 +65,13 @@ public class FasterShip extends StarshipFactory{
     }
 
     @Override
-    public boolean doSpecial() {
+    public void doSpecial() {
         starship.doSpecial();
-        return true;
     }
 
     @Override
-    public boolean doSpecial(float x, float y) {
+    public void doSpecial(float x, float y) {
         starship.doSpecial(x, y);
-        return true;
     }
 
     @Override

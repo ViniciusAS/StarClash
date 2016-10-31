@@ -67,8 +67,8 @@ public abstract class StarshipFactory {
     
     protected CommandSender commandSender;
     
-    public abstract boolean doSpecial();
-    public abstract boolean doSpecial(float x, float y);
+    public abstract void doSpecial();
+    public abstract void doSpecial(float x, float y);
     
     public abstract boolean isEnemy();
     
