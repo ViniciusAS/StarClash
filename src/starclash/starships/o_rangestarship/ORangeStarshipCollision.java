@@ -82,7 +82,7 @@ public class ORangeStarshipCollision implements StarshipCollision {
             orshot.isSpecial() && (
                 enemyShip.isEnemy() && (
                     // logica utilizando a nave acima
-                    (enemyShip.getY()+enemyShip.getHeight()) <= eShot.getY() // se ja chegou: eixo Y
+                    (enemyShip.getY()+enemyShip.getHeight()) >= eShot.getY() // se ja chegou: eixo Y
                     && (eShot.getY()+eShot.getHeight()) >= enemyShip.getY() // se nao passou: eixo Y
                     && eShot.getX()+eShot.getWidth() >= enemyShip.getX()  // se nao esta pra esquerda: eixo X
                     && eShot.getX() <= enemyShip.getX()+enemyShip.getWidth()  // se nao esta pra direita: eixo X
