@@ -3,7 +3,6 @@ package starclash.starships.theincredablestarship;
 import java.util.Timer;
 import java.util.TimerTask;
 import starclash.gui.DrawAdaptor;
-import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.components.Color;
 import starclash.gui.components.Line;
 import starclash.gui.components.Point;
@@ -28,16 +27,16 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
     private static long timeMe = 0;
     private static long timeEnemy = 0;
     
-    private StarshipCollision collision;
+    private final StarshipCollision collision;
     
     private StarshipFactory enemyShip;
     
     private StarshipComponents components;
     
+    private EndShotLifeListener endShotLifeListener = null;
+    
     private float posX, posY;
     private final boolean isEnemy;
-    
-    private GameInterfaceAdaptor gui;
     
     public TheIncredableStarshipShot(
             StarshipFactory starship,
@@ -54,12 +53,13 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
         this.posX = x;
         this.posY = y;
         this.isEnemy = starship.isEnemy();
+        this.collision = starship.newStarshipCollision();
     }
     
     
     @Override
     public int getDamage() {
-        return 1;
+        return 10;
     }
     
     public static boolean shotAllowed(boolean isEnemy){
@@ -73,19 +73,21 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
         }
         return true;
     }
+    
     @Override
-    public boolean start(GameInterfaceAdaptor gui, StarshipFactory enemyShip) {
-        this.gui = gui;
-        this.enemyShip = enemyShip;
+    public boolean start(StarshipFactory enemy, EndShotLifeListener endShotLifeListener){
+        this.enemyShip = enemy;
+        this.endShotLifeListener = endShotLifeListener;
         
         if( !shotAllowed(isEnemy) ){
-            gui.removeDrawable(this);
+            if ( endShotLifeListener != null ){
+                endShotLifeListener.onExit();
+            }
             return false;
         }
         
-        timer.scheduleAtFixedRate(this, 1,SHOT_DELAY); 
+        timer.scheduleAtFixedRate(this, 1, SHOT_DELAY);
         return true;
-        
     }
     
     @Override
@@ -102,12 +104,13 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
         if( collision.shotCollision(this,enemyShip,components) )
         {
             timer.cancel();
-            enemyShip.takeDamage(getDamage());
-            gui.removeDrawable(this);
+            if ( endShotLifeListener != null )
+                endShotLifeListener.onHit();
         }
         else if (  posY >= 1 || posY <= 0  ){
             timer.cancel();
-            gui.removeDrawable(this);
+            if ( endShotLifeListener != null )
+                endShotLifeListener.onExit();
         }
     }
     

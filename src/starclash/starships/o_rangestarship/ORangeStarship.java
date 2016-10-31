@@ -13,7 +13,7 @@ import starclash.starships.StarshipShot;
 public class ORangeStarship extends StarshipFactory {
 
     private float x, y;
-    private float speed = 0.005f;
+    private float speed = 0.008f;
     private final boolean enemy;
     private final StarshipComponents components;
     
@@ -88,12 +88,12 @@ public class ORangeStarship extends StarshipFactory {
 
     @Override
     public StarshipShot newShot() {
-        return new ORangeStarshipShot(this,newStarshipCollision(),components,super.commandSender);
+        return new ORangeStarshipShot(this,components);
     }
 
     @Override
     public StarshipShot newShot(float x, float y) {
-        return new ORangeStarshipShot(this,newStarshipCollision(),components,super.commandSender);
+        return new ORangeStarshipShot(this,components);
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

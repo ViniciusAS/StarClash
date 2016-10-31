@@ -2,9 +2,7 @@ package starclash.starships.o_rangestarship;
 
 import java.util.Timer;
 import java.util.TimerTask;
-import starclash.gamemode.CommandSender;
 import starclash.gui.DrawAdaptor;
-import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.components.Color;
 import starclash.gui.components.Image;
 import starclash.gui.components.Line;
@@ -30,18 +28,15 @@ public class ORangeStarshipShot extends TimerTask implements StarshipShot  {
     private static long timeMe = 0;
     private static long timeEnemy = 0;
     
-    private StarshipCollision collision;
+    private final StarshipCollision collision;
     
-    private final StarshipFactory myShip;
+    private EndShotLifeListener endShotLifeListener = null;
     private StarshipFactory enemyShip;
-    private CommandSender commandSender;
     
     private StarshipComponents components;
     
     private float posX, posY;
     private final boolean isEnemy;
-    
-    private GameInterfaceAdaptor gui;
     
     private static boolean nextSpecial = false;
     private static boolean nextSpecialEnemy = false;
@@ -49,17 +44,13 @@ public class ORangeStarshipShot extends TimerTask implements StarshipShot  {
     
     public ORangeStarshipShot(
             StarshipFactory starship,
-            StarshipCollision collision,
-            StarshipComponents components,
-            CommandSender commandSender
+            StarshipComponents components
     ) {
-        this.myShip = starship;
         this.posX = starship.getX() + starship.getWidth()/2;
         this.posY = starship.getY();
         this.isEnemy = starship.isEnemy();
-        this.collision = collision;
+        this.collision = starship.newStarshipCollision();
         this.components = components;
-        this.commandSender = commandSender;
         // correcao do Y
         if ( isEnemy ){
             posY += starship.getHeight();
@@ -83,10 +74,10 @@ public class ORangeStarshipShot extends TimerTask implements StarshipShot  {
     
     
     public ORangeStarshipShot(StarshipFactory starship, float x, float y) {
-        this.myShip = null;
         this.posX = x;
         this.posY = y;
         this.isEnemy = starship.isEnemy();
+        this.collision = starship.newStarshipCollision();
         this.isSpecial = false;
     }
 
@@ -95,7 +86,7 @@ public class ORangeStarshipShot extends TimerTask implements StarshipShot  {
     
     @Override
     public int getDamage() {
-        return ( isSpecial ) ? 30:2;
+        return ( isSpecial ) ? 40:3;
     }
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -117,12 +108,14 @@ public class ORangeStarshipShot extends TimerTask implements StarshipShot  {
     }
     
     @Override
-    public boolean start(GameInterfaceAdaptor gui, StarshipFactory enemyShip) {
-        this.gui = gui;
-        this.enemyShip = enemyShip;
+    public boolean start(StarshipFactory enemy, EndShotLifeListener endShotLifeListener){
+        this.enemyShip = enemy;
+        this.endShotLifeListener = endShotLifeListener;
         
         if( !shotAllowed(isEnemy) ){
-            gui.removeDrawable(this);
+            if ( endShotLifeListener != null ){
+                endShotLifeListener.onExit();
+            }
             return false;
         }
         
@@ -176,29 +169,26 @@ public class ORangeStarshipShot extends TimerTask implements StarshipShot  {
         if( collision.shotCollision(this,enemyShip,components) )
         {
             timer.cancel();
-            if ( commandSender == null ){
-                enemyShip.takeDamage(getDamage());
-            } else {
-                commandSender.proccessHitPerformed(getDamage());
-            }
-            gui.removeDrawable(this);
+            if ( endShotLifeListener != null )
+                endShotLifeListener.onHit();
         }
         else if (  posY > 1 || posY < 0  ){
             timer.cancel();
-            gui.removeDrawable(this);
+            if ( endShotLifeListener != null )
+                endShotLifeListener.onExit();
         }
     }
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
-    private float shotSpeed = 0.003f;
+    private float shotSpeed = 0.002f;
     
     private void startSpeedUpTimer(){
         timer.schedule(new TimerTask() {
             @Override public void run() {
-                shotSpeed = 0.03f;
+                shotSpeed = ( isSpecial ) ? 0.013f : 0.04f;
             }
-        }, ( isSpecial ) ? 800 : 500
+        }, ( isSpecial ) ? 200 : 500
         );
     }
     

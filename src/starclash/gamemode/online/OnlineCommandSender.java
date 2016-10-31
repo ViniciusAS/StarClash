@@ -45,17 +45,6 @@ public class OnlineCommandSender implements CommandSender {
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-    @Override
-    public void proccessHitPerformed(int damage) {
-        // do nothing
-        // muahahahahahaha
-        /* Obs.:
-         * No modo online, o dano e processado pelo listener de dano,
-         * e se o dano for processado em dois lugares, sera processado
-         * o dobro do dano
-        */
-    }
     
     @Override
     public void onDamageTaken(int damage) {
@@ -83,11 +72,22 @@ public class OnlineCommandSender implements CommandSender {
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+    private void shotFired(StarshipShot shot){
+        boolean allowed = shot.start(enemy, new StarshipShot.EndShotLifeListener() {
+            
+            @Override
+            public void onExit()
+            {
+                gui.removeDrawable(shot);
+            }
 
-    @Override
-    public void shotFired() {
-        StarshipShot shot = me.newShot();
-        boolean allowed = shot.start(gui,enemy);
+            @Override
+            public void onHit()
+            {
+                gui.removeDrawable(shot);
+            }
+            
+        });
         if ( allowed ) {
             gui.addDrawable(shot);
             emit("fire", shot.getX(), shot.getY());
@@ -95,13 +95,13 @@ public class OnlineCommandSender implements CommandSender {
     }
 
     @Override
+    public void shotFired() {
+        shotFired( me.newShot() );
+    }
+
+    @Override
     public void shotFired(float x, float y) {
-        StarshipShot shot = me.newShot(x, y);
-        boolean allowed = shot.start(gui,enemy);
-        if ( allowed ) {
-            gui.addDrawable(shot);
-            emit("fire", x, y);
-        }
+        shotFired( me.newShot(x, y) );        
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

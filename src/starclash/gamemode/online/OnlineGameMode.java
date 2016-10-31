@@ -120,14 +120,15 @@ public class OnlineGameMode implements GameModeFactory {
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
-    public synchronized StarshipFactory getEnemy() {
-        if ( this.enemy == null ){
-            try {
-                this.wait();
-            } catch (InterruptedException ex) {
-                Logger.getLogger(OnlineGameMode.class.getName()).log(Level.SEVERE, null, ex);
+    public StarshipFactory getEnemy() {
+        if ( this.enemy == null )
+            synchronized (OnlineGameMode.this) {
+                try {
+                    OnlineGameMode.this.wait();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(OnlineGameMode.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
-        }
         return this.enemy;
     }
 

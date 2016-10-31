@@ -32,8 +32,9 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
     private static long timeMe = 0;
     private static long timeEnemy = 0;
     
-    private StarshipCollision collision;
+    private final StarshipCollision collision;
     
+    private EndShotLifeListener endShotLifeListener = null;
     private StarshipFactory enemyShip;
     
     private StarshipComponents components;
@@ -43,25 +44,19 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
     
     private Color shotColor = Color.RED;
     
-    private GameInterfaceAdaptor gui;
-    
     private static boolean special = false;
     private static boolean specialEnemy = false;
     private final boolean isSpecial;
-    private CommandSender commandSender;
     
     public NyanCatStarshipShot(
             StarshipFactory starship,
-            StarshipCollision collision,
-            StarshipComponents components,
-            CommandSender commandSender
+            StarshipComponents components
     ) {
         this.posX = starship.getX()+starship.getWidth()/2;
         this.posY = starship.getY()+starship.getHeight()/2;
         this.isEnemy = starship.isEnemy();
-        this.collision = collision;
+        this.collision = starship.newStarshipCollision();
         this.components = components;
-        this.commandSender = commandSender;
         
         if ( isEnemy ){
             posY += starship.getHeight();
@@ -87,6 +82,7 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
     public NyanCatStarshipShot(StarshipFactory starship, float x, float y) {
         this.posX = x;
         this.posY = y;
+        this.collision = starship.newStarshipCollision();
         this.isEnemy = starship.isEnemy();
         this.isSpecial = false;
     }
@@ -111,20 +107,24 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
         }
         return true;
     }
+    
     @Override
-    public boolean start(GameInterfaceAdaptor gui, StarshipFactory enemyShip) {
-        this.gui = gui;
-        this.enemyShip = enemyShip;
-            if( !shotAllowed(isEnemy) ){
-                gui.removeDrawable(this);
-                return false;
+    public boolean start(StarshipFactory enemy, EndShotLifeListener endShotLifeListener){
+        this.enemyShip = enemy;
+        this.endShotLifeListener = endShotLifeListener;
+        
+        if( !shotAllowed(isEnemy) ){
+            if ( endShotLifeListener != null ){
+                endShotLifeListener.onExit();
             }
-            timer.scheduleAtFixedRate(this, 1,SHOT_DELAY); 
-            if ( isSpecial ) {
-                initSpecial();
-                System.out.println("initSpecial");
-            } 
-            return true;
+            return false;
+        }
+        if (isSpecial){
+            initSpecial();
+            System.out.println("initSpecial");
+        }
+        timer.scheduleAtFixedRate(this, 1, SHOT_DELAY);
+        return true;
     }
     
     @Override
@@ -168,17 +168,14 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
         if( collision.shotCollision(this,enemyShip,components) )
         {
             timer.cancel();
-            if ( commandSender == null ){
-                enemyShip.takeDamage(getDamage());
-            } else {
-                commandSender.proccessHitPerformed(getDamage());
-            }
-            gui.removeDrawable(this);
+            if ( endShotLifeListener != null )
+                endShotLifeListener.onHit();
             shotColor = selectColor();
         }
         else if (  posY >= 1 || posY <= 0  ){
             timer.cancel();
-            gui.removeDrawable(this);
+            if ( endShotLifeListener != null )
+                endShotLifeListener.onExit();
         }
         shotColor = selectColor();
     }

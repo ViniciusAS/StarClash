@@ -32,19 +32,41 @@ public class OfflineCommandSender implements CommandSender {
         moveListener.moved(x, y);
     }
 
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+    private void shotFired(StarshipShot shot){
+        boolean allowed = shot.start(enemy, new StarshipShot.EndShotLifeListener() {
+            
+            @Override
+            public void onExit()
+            {
+                gui.removeDrawable(shot);
+            }
+
+            @Override
+            public void onHit()
+            {
+                enemy.takeDamage( shot.getDamage() );
+                gui.removeDrawable(shot);
+            }
+            
+        });
+        if ( allowed ) {
+            gui.addDrawable(shot);
+        }
+    }
+
     @Override
     public void shotFired() {
-        StarshipShot shot = me.newShot();
-        gui.addDrawable(shot);
-        shot.start(gui, enemy);
+        shotFired( me.newShot() );
     }
 
     @Override
     public void shotFired(float x, float y) {
-        StarshipShot shot = me.newShot(x, y);
-        gui.addDrawable(shot);
-        shot.start(gui,enemy);
+        shotFired( me.newShot(x, y) );        
     }
+    
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
     public void specialLaunched() {
@@ -54,11 +76,6 @@ public class OfflineCommandSender implements CommandSender {
     @Override
     public void specialLaunched(float x, float y) {
         me.doSpecial(x, y);
-    }
-
-    @Override
-    public void proccessHitPerformed(int damage) {
-        enemy.takeDamage(damage);
     }
     
     @Override

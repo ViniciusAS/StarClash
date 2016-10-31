@@ -20,7 +20,7 @@ import starclash.starships.o_rangestarship.ORangeStarship;
 
 public class MenuInterface implements Drawable {
 
-    private final Image background = new Image("/resources/backgrounds/background.png", new Rectangle(0, 0, 1, 1, Color.BLUE));
+    public static final Image BACKGROUND = new Image("/resources/backgrounds/background.png", new Rectangle(0, 0, 1, 1, Color.BLUE));
     private final Text title = new Text( "StarClash", 0.5f, 0.20f, Color.WHITE, "Trebuchet", 50, true );
     private final Text shipName = new Text( "", 0.5f, 0.25f, Color.WHITE, "Trebuchet", 15, true );
     private final StarClash starClash;
@@ -163,7 +163,7 @@ public class MenuInterface implements Drawable {
     @Override
     public void draw(DrawAdaptor drawAdaptor) {
         
-        drawAdaptor.drawImage(background);
+        drawAdaptor.drawImage(BACKGROUND);
         
         drawAdaptor.drawText(title);
         

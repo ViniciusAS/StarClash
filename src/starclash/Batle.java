@@ -1,5 +1,7 @@
 package starclash;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import starclash.gamemode.CommandSender;
 import starclash.gamemode.GameModeFactory;
 import starclash.gamemode.listeners.Movement;
@@ -45,12 +47,12 @@ public class Batle implements
     public void start(GameModeFactory gameMode){
         
         //// loading window // clear everything ////
-        
+        Loading loading = new Loading();
         gui.clearDrawables();
+        gui.addDrawable(loading);
         gui.getKeysListener().clearListeners();
         
-        //// load ////
-        
+        //// load enemy ////
         System.out.println("Searching for enemies");
         
         this.enemy = gameMode.getEnemy();
@@ -66,8 +68,6 @@ public class Batle implements
         
         commandSender = gameMode.newCommandSender();
         observableEnemy = gameMode.newObservableEnemy();
-        
-        me.prepareStarship(commandSender);
         
         //// listeners ////
         
@@ -89,6 +89,7 @@ public class Batle implements
         
         //// change drawables to start batle //// 
         
+        loading.stop();
         gui.clearDrawables();
         
         gui.addDrawable( scenario );
@@ -99,20 +100,34 @@ public class Batle implements
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+    private void shotFired(StarshipShot shot){
+        boolean allowed = shot.start(me, new StarshipShot.EndShotLifeListener() {
+            @Override
+            public void onExit() {
+                gui.removeDrawable(shot);
+            }
+
+            @Override
+            public void onHit() {
+                me.takeDamage(shot.getDamage());
+                gui.removeDrawable(shot);
+            }
+        });
+        if ( allowed ){
+            gui.addDrawable( shot );
+        }
+    }
+    
     /**
      * enemy shot fired
      */
     @Override
     public void shotFired() {
-        StarshipShot shot = enemy.newShot();
-        gui.addDrawable( shot );
-        shot.start(gui,me);
+        shotFired( enemy.newShot() );
     }
     @Override
     public void shotFired(float x, float y) {
-        StarshipShot shot = enemy.newShot( x, y );
-        gui.addDrawable( shot );
-        shot.start(gui,me);
+        shotFired( enemy.newShot( x, y ) );
     }
     
     @Override
