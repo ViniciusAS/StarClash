@@ -85,12 +85,14 @@ public class Batle implements
 
             @Override
             public void onDie() {
-                if ( gameMode instanceof OfflineGameMode ){
-                    String player = ( me.getLifePercent() > 0 ) ? "Jogador abaixo" : "Jogador acima";
-                    starClash.endOfBatle( player, true );
-                } else {
-                    starClash.endOfBatle( "Você", me.getLifePercent() > 0 );
-                }
+                new Thread(() -> {
+                    if ( gameMode instanceof OfflineGameMode ){
+                        String player = ( me.getLifePercent() > 0 ) ? "Jogador abaixo" : "Jogador acima";
+                        starClash.endOfBatle( player, true );
+                    } else {
+                        starClash.endOfBatle( "Você", me.getLifePercent() > 0 );
+                    }
+                }).start();
             }
         };
         me.addDamageListener(damageListener);
