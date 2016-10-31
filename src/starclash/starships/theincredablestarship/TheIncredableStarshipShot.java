@@ -18,7 +18,7 @@ import starclash.starships.StarshipShot;
 public class TheIncredableStarshipShot extends TimerTask implements StarshipShot  {
     
     private static final long SHOT_DELAY = 10;
-    private static final long NEW_SHOT_DELAY = 300;
+    private static final long NEW_SHOT_DELAY = 600;
     
     private static final float SHOT_SIZE = 0.05f;
     
@@ -129,7 +129,7 @@ public class TheIncredableStarshipShot extends TimerTask implements StarshipShot
     
     @Override
     public float getSize(){
-        return ( isEnemy ? SHOT_SIZE : 0 );
+        return SHOT_SIZE;
     }
     
 }

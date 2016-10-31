@@ -15,8 +15,24 @@ import starclash.starships.StarshipFactory;
 public class TheIncreadableStarshipComponents implements StarshipComponents{
 
     private final Triangle triangle;
-    private final Rectangle retangle;
+    private final Rectangle rectangle;
     private final StarshipFactory starship;
+    
+    private static boolean onSpecialMe = false;
+    private static boolean onSpecialEnemy = false;
+    
+    public static void startSpecialColors(boolean isEnemy){
+        if ( isEnemy )
+            onSpecialEnemy = true;
+        else
+            onSpecialMe = true;
+    }
+    public static void stopSpecialColors(boolean isEnemy){
+        if ( isEnemy )
+            onSpecialEnemy = false;
+        else
+            onSpecialMe = false;
+    }
     
     public TheIncreadableStarshipComponents(StarshipFactory starship) {
         this.starship = starship;
@@ -28,7 +44,7 @@ public class TheIncreadableStarshipComponents implements StarshipComponents{
             Color.BLUE
         );
 
-        retangle = new Rectangle(
+        rectangle = new Rectangle(
                 0f, 0.03f,
              0.04f, 0.03f,
             new Color(0.1f, 0.1f, 0.1f, 1)
@@ -55,14 +71,22 @@ public class TheIncreadableStarshipComponents implements StarshipComponents{
                 new Point(starship.getX()+triangle.getP0().getX(),starship.getY()+triangle.getP0().getY()), 
                 new Point(starship.getX()+triangle.getP1().getX(),starship.getY()+triangle.getP1().getY()),
                 new Point(starship.getX()+triangle.getP2().getX(),starship.getY()+triangle.getP2().getY()),
-                triangle.getColor()
+                (
+                    onSpecialMe && !starship.isEnemy() 
+                || onSpecialEnemy && starship.isEnemy()
+                ) ? 
+                    Color.GREEN : triangle.getColor()
             ),
             
-            new Rectangle(starship.getX()+retangle.getX(),
-                          starship.getY()+retangle.getY(),
-                          retangle.getWidth(),
-                          retangle.getHeight(),
-                          retangle.getColor()
+            new Rectangle(starship.getX()+rectangle.getX(),
+                          starship.getY()+rectangle.getY(),
+                          rectangle.getWidth(),
+                          rectangle.getHeight(),
+                        (
+                            onSpecialMe && !starship.isEnemy() 
+                        || onSpecialEnemy && starship.isEnemy()
+                        ) ? 
+                            Color.GREEN : rectangle.getColor()
             )
         };
     }

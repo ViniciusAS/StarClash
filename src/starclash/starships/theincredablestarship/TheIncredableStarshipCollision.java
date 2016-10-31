@@ -9,12 +9,10 @@ public class TheIncredableStarshipCollision implements StarshipCollision {
 
     private final StarshipComponents components;
     private final boolean enemy;
-    private final StarshipFactory starship;
     
     public TheIncredableStarshipCollision(StarshipFactory starship ,StarshipComponents components) {
         this.components = components;
         this.enemy = starship.isEnemy();
-        this.starship = starship;
     }
 
     @Override
@@ -47,24 +45,22 @@ public class TheIncredableStarshipCollision implements StarshipCollision {
     }
 
     @Override
-    public boolean shotCollision(StarshipShot starshipShot, StarshipFactory enemyShip, StarshipComponents components) {
-        
-        if ( enemyShip.isEnemy() ) {
-            if( starshipShot.getY()+starshipShot.getSize() <= enemyShip.getY() + components.getHeigth() ){
-                if(    starshipShot.getX() >= enemyShip.getX()
-                    && starshipShot.getX() <= enemyShip.getX() + components.getWidth()){
-                    return true;
-                }
-            }
-        } else {
-            if( starshipShot.getY()+starshipShot.getSize() >= enemyShip.getY() + components.getHeigth() ){
-                if(    starshipShot.getX() >= enemyShip.getX()
-                    && starshipShot.getX() <= enemyShip.getX() + components.getWidth()){
-                    return true;
-                }
-            }
-        }
-        return false;
+    public boolean shotCollision(StarshipShot shot, StarshipFactory enemyShip, StarshipComponents components) {
+        return ( enemyShip.isEnemy() && (
+                    // logica utilizando a nave acima
+                    (enemyShip.getY()+enemyShip.getHeight()) >= shot.getY() // se ja chegou: eixo Y
+                    && (shot.getY()+shot.getSize()) >= enemyShip.getY() // se nao passou: eixo Y
+                    && shot.getX() >= enemyShip.getX()  // se nao esta pra esquerda: eixo X
+                    && shot.getX() <= enemyShip.getX()+enemyShip.getWidth()  // se nao esta pra direita: eixo X
+                ) || 
+                !enemyShip.isEnemy() && (
+                    // logica utilizando a nave abaixo
+                    enemyShip.getY() <= shot.getY()+shot.getSize() // se ja chegou: eixo Y
+                    && shot.getY() <= enemyShip.getY()+enemyShip.getHeight() // se nao passou: eixo Y
+                    && shot.getX() >= enemyShip.getX()  // se nao esta pra esquerda: eixo X
+                    && shot.getX() <= enemyShip.getX()+enemyShip.getWidth()  // se nao esta pra direita: eixo X
+                )
+        );
     }
 
 }
