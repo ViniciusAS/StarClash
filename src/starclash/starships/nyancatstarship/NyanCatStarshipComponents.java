@@ -3,8 +3,6 @@ package starclash.starships.nyancatstarship;
 import starclash.gui.components.Color;
 import starclash.gui.components.Component;
 import starclash.gui.components.Image;
-import starclash.gui.components.Line;
-import starclash.gui.components.Point;
 import starclash.gui.components.Rectangle;
 import starclash.starships.StarshipComponents;
 import starclash.starships.StarshipFactory;
@@ -22,7 +20,7 @@ public class NyanCatStarshipComponents implements StarshipComponents{
 
     public NyanCatStarshipComponents(StarshipFactory starship) {
         this.starship = starship;
-        if (starship.isEnemy())image.getRectangle().setHeight( -image.getRectangle().getHeight() ); 
+        if (starship.isEnemy()) image.setInverted(true);
     }
 
     @Override

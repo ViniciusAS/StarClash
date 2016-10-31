@@ -3,6 +3,7 @@ package starclash.starships.nyancatstarship;
 import java.util.Timer;
 import java.util.TimerTask;
 import starclash.gui.DrawAdaptor;
+import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.components.Color;
 import starclash.gui.components.Image;
 import starclash.gui.components.Rectangle;
@@ -36,16 +37,17 @@ public class NyanCatStarshipRainbow {
             @Override
             public void run() {
                 rainbowMove();
-                //if(posY >= 1 || posY <= 0)timer.cancel();
+                if(posY >= 1 || posY <= 0)timer.cancel();
                 draw(drawAdaptor);
+                
             }
         }, RAINBOW_DELAY, NEW_RAINBOW_DELAY);
-        timer.cancel();
+        //timer.cancel();
         
     }  
     
     public void rainbowMove(){
-        if(!isEnemy) posY=posY + RAINBOW_SIZE/2;
+        if(!isEnemy) posY+=RAINBOW_SIZE/2;
         else posY-= RAINBOW_SIZE/2;
     }
     
@@ -53,7 +55,7 @@ public class NyanCatStarshipRainbow {
         if(!isEnemy){
             drawAdaptor.drawImage(new Image(imgName, new Rectangle(posX+(width/2)/2, posY+heigth/2, width/2, heigth/2, Color.TRANSPARENT)));
         }else{
-            drawAdaptor.drawImage(new Image(imgName, new Rectangle(posX+(width/2)/2, posY-heigth, width/2, heigth/2, Color.TRANSPARENT))); 
+            drawAdaptor.drawImage(new Image(imgName, new Rectangle(posX+(width/2)/2, posY-heigth/2+0.05f, width/2, heigth/2, Color.TRANSPARENT))); 
         }
     }
     
