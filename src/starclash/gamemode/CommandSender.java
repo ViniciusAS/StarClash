@@ -8,6 +8,4 @@ import starclash.gamemode.listeners.SpecialLaunchListener;
 
 public interface CommandSender extends MoveListener, ShotFiredListener, SpecialLaunchListener, DamageListener {
     
-    public void proccessHitPerformed(int damage);
-    
 }

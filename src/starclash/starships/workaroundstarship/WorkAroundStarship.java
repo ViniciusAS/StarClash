@@ -70,12 +70,12 @@ public class WorkAroundStarship extends StarshipFactory {
 
     @Override
     public StarshipShot newShot() {
-        return new WorkAroundStarshipShot(this, newStarshipCollision(), components);
+        return new WorkAroundStarshipShot(this, components);
     }
 
     @Override
     public StarshipShot newShot(float x, float y) {
-        return new WorkAroundStarshipShot(this, newStarshipCollision(), components);
+        return new WorkAroundStarshipShot(this, components);
     }
 
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

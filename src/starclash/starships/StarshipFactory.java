@@ -66,17 +66,6 @@ public abstract class StarshipFactory {
     
     
     protected CommandSender commandSender;
-
-    /**
-     * Criado para enviar instancias ainda nao criadas
-     * ao instanciar a nave, antes de comecar uma batalha
-     * 
-     * @param commandSender
-     */
-    public void prepareStarship(CommandSender commandSender){
-        this.commandSender = commandSender;
-    }
-    
     
     public abstract void doSpecial();
     public abstract void doSpecial(float x, float y);

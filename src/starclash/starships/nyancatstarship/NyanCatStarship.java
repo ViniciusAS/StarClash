@@ -1,7 +1,5 @@
 package starclash.starships.nyancatstarship;
 
-import starclash.gui.GameInterfaceAdaptor;
-import starclash.gui.components.Component;
 import starclash.starships.StarshipCollision;
 import starclash.starships.StarshipComponents;
 import starclash.starships.StarshipDraw;
@@ -29,7 +27,7 @@ public class NyanCatStarship extends StarshipFactory{
         this.y = 0.75f - components.getHeigth()/2;*/
     }
 
-    public NyanCatStarship( boolean enemy) {
+    public NyanCatStarship( boolean enemy ) {
         this.enemy = enemy;
         this.components = new NyanCatStarshipComponents(this);
         x = 0.5f - components.getWidth()/2;
@@ -92,12 +90,12 @@ public class NyanCatStarship extends StarshipFactory{
 
     @Override
     public StarshipShot newShot() {
-        return new NyanCatStarshipShot(this, newStarshipCollision(), components, super.commandSender);
+        return new NyanCatStarshipShot(this, components);
     }
 
     @Override
     public StarshipShot newShot(float x, float y) {
-        return new NyanCatStarshipShot(this, newStarshipCollision(), components, super.commandSender);
+        return new NyanCatStarshipShot(this, components);
     }
     
     

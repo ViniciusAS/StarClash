@@ -1,7 +1,6 @@
 package starclash.starships.workaroundstarship;
 
 import starclash.gui.DrawAdaptor;
-import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.components.Color;
 import starclash.gui.components.Line;
 import starclash.gui.components.Point;
@@ -33,20 +32,19 @@ public class WorkAroundStarshipShot extends TimerTask implements StarshipShot {
     private StarshipFactory enemyShip;
 
     private StarshipComponents components;
+    
+    private EndShotLifeListener endShotLifeListener = null;
 
     private float posX, posY;
     private final boolean isEnemy;
-
-    private GameInterfaceAdaptor gui;
-
+    
     public WorkAroundStarshipShot(
             StarshipFactory starship,
-            StarshipCollision collision,
             StarshipComponents components) {
         this.posX = starship.getX() + starship.getWidth() / 2;
         this.posY = starship.getY() + starship.getHeight() / 2;
         this.isEnemy = starship.isEnemy();
-        this.collision = collision;
+        this.collision = starship.newStarshipCollision();
         this.components = components;
     }
 
@@ -73,20 +71,21 @@ public class WorkAroundStarshipShot extends TimerTask implements StarshipShot {
         }
         return true;
     }
-
+    
     @Override
-    public boolean start(GameInterfaceAdaptor gui, StarshipFactory enemyShip) {
-        this.gui = gui;
-        this.enemyShip = enemyShip;
-
-        if (!shotAllowed(isEnemy)) {
-            gui.removeDrawable(this);
+    public boolean start(StarshipFactory enemy, EndShotLifeListener endShotLifeListener){
+        this.enemyShip = enemy;
+        this.endShotLifeListener = endShotLifeListener;
+        
+        if( !shotAllowed(isEnemy) ){
+            if ( endShotLifeListener != null ){
+                endShotLifeListener.onExit();
+            }
             return false;
         }
-
+        
         timer.scheduleAtFixedRate(this, 1, SHOT_DELAY);
         return true;
-
     }
 
     @Override
@@ -102,11 +101,12 @@ public class WorkAroundStarshipShot extends TimerTask implements StarshipShot {
         shotMove();
         if (collision.shotCollision(this, enemyShip, components)) {
             timer.cancel();
-            enemyShip.takeDamage(getDamage());
-            gui.removeDrawable(this);
+            if ( endShotLifeListener != null )
+                endShotLifeListener.onHit();
         } else if (posY >= 1 || posY <= 0) {
             timer.cancel();
-            gui.removeDrawable(this);
+            if ( endShotLifeListener != null )
+                endShotLifeListener.onExit();
         }
     }
 

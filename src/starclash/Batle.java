@@ -67,8 +67,6 @@ public class Batle implements
         commandSender = gameMode.newCommandSender();
         observableEnemy = gameMode.newObservableEnemy();
         
-        me.prepareStarship(commandSender);
-        
         //// listeners ////
         
         initListeners();
@@ -99,20 +97,34 @@ public class Batle implements
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+    private void shotFired(StarshipShot shot){
+        boolean allowed = shot.start(me, new StarshipShot.EndShotLifeListener() {
+            @Override
+            public void onExit() {
+                gui.removeDrawable(shot);
+            }
+
+            @Override
+            public void onHit() {
+                me.takeDamage(shot.getDamage());
+                gui.removeDrawable(shot);
+            }
+        });
+        if ( allowed ){
+            gui.addDrawable( shot );
+        }
+    }
+    
     /**
      * enemy shot fired
      */
     @Override
     public void shotFired() {
-        StarshipShot shot = enemy.newShot();
-        gui.addDrawable( shot );
-        shot.start(gui,me);
+        shotFired( enemy.newShot() );
     }
     @Override
     public void shotFired(float x, float y) {
-        StarshipShot shot = enemy.newShot( x, y );
-        gui.addDrawable( shot );
-        shot.start(gui,me);
+        shotFired( enemy.newShot( x, y ) );
     }
     
     @Override

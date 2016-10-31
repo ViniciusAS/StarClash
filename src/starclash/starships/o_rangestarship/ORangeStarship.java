@@ -88,12 +88,12 @@ public class ORangeStarship extends StarshipFactory {
 
     @Override
     public StarshipShot newShot() {
-        return new ORangeStarshipShot(this,newStarshipCollision(),components,super.commandSender);
+        return new ORangeStarshipShot(this,components);
     }
 
     @Override
     public StarshipShot newShot(float x, float y) {
-        return new ORangeStarshipShot(this,newStarshipCollision(),components,super.commandSender);
+        return new ORangeStarshipShot(this,components);
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
