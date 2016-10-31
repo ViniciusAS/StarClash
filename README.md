@@ -1,5 +1,7 @@
 #StarClash
 
+[Link do projeto no GitHub](https://github.com/ViniciusAS/StarClash/)
+
 ### Especificações
 - Jogo de nave multiplayer
 - Utilização da biblioteca [LWJGL 3](https://www.lwjgl.org/) para desenho do jogo utilizando OpenGL
