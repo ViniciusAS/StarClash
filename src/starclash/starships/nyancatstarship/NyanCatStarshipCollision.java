@@ -70,32 +70,25 @@ public class NyanCatStarshipCollision implements StarshipCollision{
                 if( starshipShot.getY()+starshipShot.getSize() <= enemyShip.getY() + components.getHeigth() ){
                    if(    starshipShot.getX()+starshipShot.getSize()>= enemyShip.getX()
                        && starshipShot.getX()+starshipShot.getSize()<= enemyShip.getX() + components.getWidth()){
-                       System.out.println("COLISAO");
                        return true;
                    }else  if(    starshipShot.getX()+starshipShot.getSize()+0.3f >= enemyShip.getX()
                        && starshipShot.getX()+starshipShot.getSize()+0.3f <= enemyShip.getX() + components.getWidth()){
-                       System.out.println("COLISAO");
                        return true;
                    }else  if(    starshipShot.getX()+starshipShot.getSize()-0.3f >= enemyShip.getX()
                        && starshipShot.getX()+starshipShot.getSize()-0.3f <= enemyShip.getX() + components.getWidth()){
-                       System.out.println("COLISAO");
                        return true;
                    }
                 }
             }else{
-                System.out.println("COLIDIU AMIGO");
                 if( starshipShot.getY()+starshipShot.getSize() >= enemyShip.getY() + components.getHeigth() ){
                    if(    starshipShot.getX()+starshipShot.getSize() >= enemyShip.getX()
                        && starshipShot.getX()+starshipShot.getSize() <= enemyShip.getX() + components.getWidth()){
-                       System.out.println("COLISAO");
                        return true;
                    }else  if(    starshipShot.getX()+starshipShot.getSize()+0.3f >= enemyShip.getX()
                        && starshipShot.getX()+starshipShot.getSize()+0.3f <= enemyShip.getX() + components.getWidth()){
-                       System.out.println("COLISAO");
                        return true;
                    }else  if(    starshipShot.getX()+starshipShot.getSize()-0.3f >= enemyShip.getX()
                        && starshipShot.getX()+starshipShot.getSize()-0.3f <= enemyShip.getX() + components.getWidth()){
-                       System.out.println("COLISAO");
                        return true;
                    }
                 }

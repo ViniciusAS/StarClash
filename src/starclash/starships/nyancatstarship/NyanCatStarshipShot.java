@@ -122,7 +122,6 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
         }
         if (isSpecial){
             initSpecial();
-            System.out.println("initSpecial");
         }
         timer.scheduleAtFixedRate(this, 1, SHOT_DELAY);
         return true;
@@ -132,7 +131,6 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
     public void draw(DrawAdaptor drawAdaptor) {
         if(isSpecial){
             drawSpecial(drawAdaptor);
-            System.out.println("ESPECIAL DESENHADO");
         }else{
             if(isEnemy){
                 drawAdaptor.drawLine(new Line(new Point(posX, posY), new Point(posX,posY+SHOT_SIZE), shotColor));
