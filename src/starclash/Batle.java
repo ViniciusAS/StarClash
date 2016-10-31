@@ -8,6 +8,7 @@ import starclash.gamemode.StarshipMovementListener;
 import starclash.gamemode.listeners.DamageListener;
 import starclash.gamemode.listeners.ShotFiredListener;
 import starclash.gamemode.listeners.SpecialLaunchListener;
+import starclash.gamemode.offline.OfflineGameMode;
 import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.KeysListenerAdaptor;
 import starclash.starships.StarshipFactory;
@@ -78,8 +79,12 @@ public class Batle implements
 
             @Override
             public void onDie() {
-                String player = ( me.getLifePercent() > 0 ) ? "Jogador abaixo" : "Jogador acima";
-                starClash.endOfBatle( player, true );
+                if ( gameMode instanceof OfflineGameMode ){
+                    String player = ( me.getLifePercent() > 0 ) ? "Jogador abaixo" : "Jogador acima";
+                    starClash.endOfBatle( player, true );
+                } else {
+                    starClash.endOfBatle( "Você", me.getLifePercent() > 0 );
+                }
             }
         };
         me.addDamageListener(damageListener);
@@ -108,8 +113,9 @@ public class Batle implements
 
             @Override
             public void onHit() {
-                me.takeDamage(shot.getDamage());
                 gui.removeDrawable(shot);
+                me.takeDamage(shot.getDamage());
+                commandSender.onDamageTaken(shot.getDamage());
             }
         });
         if ( allowed ){
