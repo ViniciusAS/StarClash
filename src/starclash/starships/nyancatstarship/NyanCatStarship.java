@@ -14,7 +14,7 @@ import starclash.starships.StarshipShot;
 public class NyanCatStarship extends StarshipFactory{
     
     private float x, y;
-    private float speed = 0.02f;
+    private float speed = 0.01f;
     private final boolean enemy;
     private final StarshipComponents components;
     

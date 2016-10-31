@@ -15,7 +15,7 @@ public class TheIncredableStarship extends StarshipFactory {
 
     private Timer manaTimer;
     
-    private long timerDelay = 0;
+    private static final long MANA_DELAY = 10;
     
     private int manaAmount = 0;
     private int life = 100;
@@ -58,7 +58,6 @@ public class TheIncredableStarship extends StarshipFactory {
     private void startManaTimer(){
         manaAmount = 0;
         manaTimer = new Timer();
-        timerDelay += 20;
         manaTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -68,7 +67,7 @@ public class TheIncredableStarship extends StarshipFactory {
                     manaTimer.cancel();
                 }
             }
-        }, 100, timerDelay);
+        }, 100, MANA_DELAY);
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
