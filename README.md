@@ -1,8 +1,14 @@
 #StarClash
 
+### Integrantes
+- Vinícius Almeida dos Santos
+- Samuel Brati Favarin
+- Lucas Baragatti
+
+
 ### Especificações
 - Jogo de nave multiplayer
-- Utilização da biblioteca [LWJGL 3](https://www.lwjgl.org/) para desenho do jogo utilizando OpenGL
+- Utilização da biblioteca [LWJGL 3](https://www.lwjgl.org/) para desenho do jogo utilizando OpenGL (Não finalizado)
 
 ### Padrões de projeto utilizados
 
