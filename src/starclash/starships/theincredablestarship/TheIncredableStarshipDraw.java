@@ -24,13 +24,12 @@ public class TheIncredableStarshipDraw implements StarshipDraw {
     @Override
     public void draw(DrawAdaptor drawAdaptor)
     {
+        Component[] cps = components.getComponents();
         if(!starship.isEnemy()){
-            Component[] cps = components.getComponents();
             for (Component component : cps) {
                 drawAdaptor.drawComponent(component);
             } 
         }else{
-            Component[] cps = components.getComponents();
             for (Component component : cps) {
                 drawAdaptor.setRotate(component,components);
             } 

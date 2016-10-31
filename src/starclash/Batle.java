@@ -1,7 +1,5 @@
 package starclash;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import starclash.gamemode.CommandSender;
 import starclash.gamemode.GameModeFactory;
 import starclash.gamemode.listeners.Movement;
@@ -86,7 +84,8 @@ public class Batle implements
 
             @Override
             public void onDie() {
-                starClash.endOfBatle();
+                String player = ( me.getLifePercent() > 0 ) ? "Jogador abaixo" : "Jogador acima";
+                starClash.endOfBatle( player, true );
             }
         };
         me.addDamageListener(damageListener);

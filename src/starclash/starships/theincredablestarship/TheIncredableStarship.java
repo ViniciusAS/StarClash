@@ -1,5 +1,9 @@
 package starclash.starships.theincredablestarship;
 
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import starclash.starships.StarshipCollision;
 import starclash.starships.StarshipComponents;
 import starclash.starships.StarshipDraw;
@@ -9,8 +13,14 @@ import starclash.starships.StarshipShot;
 
 public class TheIncredableStarship extends StarshipFactory {
 
+    private Timer manaTimer;
+    
+    private long timerDelay = 0;
+    
+    private int manaAmount = 0;
+    private int life = 100;
     private float x, y;
-    private float speed = 0.01f;
+    private float speed = 0.003f;
     private final boolean enemy;
     private final StarshipComponents components = new TheIncreadableStarshipComponents(this);
     
@@ -45,27 +55,50 @@ public class TheIncredableStarship extends StarshipFactory {
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+    private void startManaTimer(){
+        manaAmount = 0;
+        manaTimer = new Timer();
+        timerDelay += 20;
+        manaTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if ( manaAmount < 1000 ){
+                    manaAmount += 1;
+                } else {
+                    manaTimer.cancel();
+                }
+            }
+        }, 100, timerDelay);
+    }
+    
+    //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
     @Override
     public float getManaPercent() {
-        return 1;
+        return manaAmount/1000f;
     }
 
     @Override
     public float getLifePercent() {
-        return 1;
+        return life/100f;
     }
     
     @Override
     public boolean takeDamage(int damage)
     {
-        super.notifyDie();
-        return true;
+        life -= damage;
+        if ( life <= 0 ){
+            super.notifyDie();
+            return true;
+        }
+        return false;
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     
     @Override
     public StarshipDraw newStarshipDraw() {
+        startManaTimer();
         return new TheIncredableStarshipDraw( components, this );
     }
 
@@ -87,13 +120,25 @@ public class TheIncredableStarship extends StarshipFactory {
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     @Override
-    public boolean doSpecial() {
-        return false;
+    public void doSpecial() {
+        if ( manaAmount == 1000 ){
+            startManaTimer();
+            TheIncreadableStarshipComponents.startSpecialColors(isEnemy());
+            new Thread(() -> {
+                for (int i = 0; i < 30; i++) {
+                    life += 1;
+                    try {
+                        Thread.sleep(30);
+                    } catch (InterruptedException ex) {}
+                }
+                TheIncreadableStarshipComponents.stopSpecialColors(isEnemy());
+            }).start();
+        }
     }
 
     @Override
-    public boolean doSpecial(float x, float y) {
-        return false;
+    public void doSpecial(float x, float y) {
+        this.doSpecial();
     }
     
     //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -139,7 +184,5 @@ public class TheIncredableStarship extends StarshipFactory {
     public void setY(float y) {
         this.y = y;
     }
-    
-    
 
 }

@@ -1,5 +1,7 @@
 #StarClash
 
+[Link do projeto no GitHub](https://github.com/ViniciusAS/StarClash/)
+
 ### Integrantes
 - Vinícius Almeida dos Santos
 - Samuel Brati Favarin

@@ -95,7 +95,7 @@ public class OnlineObservableEnemy implements ObservableEnemy {
             if ( enemy.takeDamage( (int) Float.parseFloat((String) os[0]) ) ){
                 // if the enemy is dead
                 socket.disconnect();
-                starClash.endOfBatle();
+                starClash.endOfBatle("Você",true);
             }
         });
     }
