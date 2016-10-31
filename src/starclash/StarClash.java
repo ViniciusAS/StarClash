@@ -6,6 +6,7 @@ import starclash.gamemode.GameModeFactory;
 import starclash.gamemode.offline.OfflineGameMode;
 import starclash.gamemode.online.OnlineGameMode;
 import starclash.gui.GameInterfaceAdaptor;
+import starclash.gui.components.Color;
 import starclash.gui.swing.SwingGameInterface;
 import starclash.menu.MenuInterface;
 import starclash.starships.theincredablestarship.TheIncredableStarship;
@@ -36,7 +37,18 @@ public class StarClash {
         menu.start(gui);
     }
     
-    public void endOfBatle(){
+    public void endOfBatle(String player,boolean win){
+        gui.getKeysListener().clearListeners();
+        gui.addDrawable(new BattleEnd(
+            player +" "+ ( win ? "ganhou" : "perdeu" ), 
+            new Color(0, 0, 0, 1),
+            win ? new Color(0,1,0,0.5f) : new Color(1,0,0,0.5f)
+        ));
+        try {
+            Thread.sleep(8000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(StarClash.class.getName()).log(Level.SEVERE, null, ex);
+        }
         startMenu();
     }
     
