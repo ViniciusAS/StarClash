@@ -62,6 +62,7 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
             posY += starship.getHeight();
         }
 
+
         if ( !isEnemy & special ){
             this.isSpecial = true;
             special = false;

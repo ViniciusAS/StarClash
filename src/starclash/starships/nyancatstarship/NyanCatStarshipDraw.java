@@ -17,6 +17,7 @@ public class NyanCatStarshipDraw implements StarshipDraw{
     private final StarshipFactory starship;
     private final StarshipCollision collision;
     private NyanCatStarshipRainbow rainbow;
+    private NyanCatFlagSpecial flag;
         
     public NyanCatStarshipDraw(NyanCatStarship starship, 
                                 StarshipComponents components, 
@@ -31,6 +32,10 @@ public class NyanCatStarshipDraw implements StarshipDraw{
     
     @Override
     public void draw(DrawAdaptor drawAdaptor) {
+        /*if (starship.doSpecial()) {
+            flag = new FlagSpecial(starship.isEnemy());
+            flag.draw(drawAdaptor);
+        }*/
         rainbow = new NyanCatStarshipRainbow(starship, starship.getX(), starship.getY(), drawAdaptor);
         rainbow.draw(drawAdaptor);
         Component[] cps = components.getComponents();

@@ -12,6 +12,9 @@ import starclash.gamemode.listeners.ShotFiredListener;
 import starclash.gamemode.listeners.SpecialLaunchListener;
 import starclash.gui.GameInterfaceAdaptor;
 import starclash.gui.KeysListenerAdaptor;
+import starclash.gui.components.Color;
+import starclash.gui.components.Image;
+import starclash.gui.components.Rectangle;
 import starclash.starships.StarshipFactory;
 import starclash.starships.StarshipShot;
 
@@ -23,7 +26,8 @@ public class Batle implements
                         ShotFiredListener,
                         SpecialLaunchListener
 {
-
+    
+    
     private final StarClash starClash;
     
     private final GameInterfaceAdaptor gui;
@@ -31,6 +35,8 @@ public class Batle implements
     
     private final StarshipFactory me;
     private StarshipFactory enemy;
+    
+    
     
     public Batle(StarClash starClash, GameInterfaceAdaptor gui, StarshipFactory me,Scenario scenario) {
         this.starClash = starClash;

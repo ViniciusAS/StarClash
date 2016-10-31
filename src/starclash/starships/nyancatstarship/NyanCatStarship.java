@@ -1,5 +1,6 @@
 package starclash.starships.nyancatstarship;
 
+import starclash.gui.DrawAdaptor;
 import starclash.starships.StarshipCollision;
 import starclash.starships.StarshipComponents;
 import starclash.starships.StarshipDraw;
@@ -98,22 +99,23 @@ public class NyanCatStarship extends StarshipFactory{
     /*========================================================================================================*/
 
     @Override
-    public void doSpecial() {
+    public boolean doSpecial() {
         doSpecial( getX(), getY() );
+        return true;
     }
 
     @Override
-    public void doSpecial(float x, float y) {
-        if ( getManaPercent() < 1 )return;
+    public boolean doSpecial(float x, float y) {
+        if ( getManaPercent() < 1 )return false;
         
         
         if ( enemy ){
             NyanCatStarshipShot.specialEnemy();
-            System.out.println("ESPECIAL inimigo ATIVADO");
+            return true;
         }
         else{
             NyanCatStarshipShot.special();
-            System.out.println("ESPECIAL amigo ATIVADO");
+            return true;
             
         }
     }
