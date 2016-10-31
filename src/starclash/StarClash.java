@@ -10,11 +10,11 @@ import starclash.gui.swing.SwingGameInterface;
 import starclash.menu.MenuInterface;
 import starclash.starships.theincredablestarship.TheIncredableStarship;
 import starclash.starships.StarshipFactory;
-import starclash.starships.nyancatstarship.NyanCatStarship;
 
 
 public class StarClash {
 
+    private Thread battleThread;
     private final MenuInterface menu;
     
     public final GameInterfaceAdaptor gui;
@@ -32,8 +32,7 @@ public class StarClash {
         gui.addDrawable(menu);
         
         myStarship = new TheIncredableStarship();
-        
-        
+                
         menu.start(gui);
     }
     
@@ -48,10 +47,14 @@ public class StarClash {
      */
     public void startOfflineBatle(StarshipFactory enemy){
         
-        GameModeFactory gameMode = new OfflineGameMode( gui.getKeysListener(), gui, myStarship, enemy );
-        
-        new Batle( this, gui, myStarship, Scenario.scenarioDefault ).start(gameMode);
-        
+        battleThread = new Thread(() -> {
+
+            GameModeFactory gameMode = new OfflineGameMode( gui.getKeysListener(), gui, myStarship, enemy );
+
+            new Batle( this, gui, myStarship, Scenario.scenarioDefault ).start(gameMode);
+
+        });
+        battleThread.start();
     }
     
     /** 
@@ -59,16 +62,20 @@ public class StarClash {
      * 
      */
     public void startOnlineBatle(){
-        try {
+        
+        battleThread = new Thread(() -> {
+            try {
 
-            GameModeFactory gameMode = new OnlineGameMode(this, myStarship);
+                GameModeFactory gameMode = new OnlineGameMode(this, myStarship);
 
-            new Batle( this, gui, myStarship, Scenario.scenarioDefault ).start(gameMode);
+                new Batle( this, gui, myStarship, Scenario.scenarioDefault ).start(gameMode);
 
-        } catch (NullPointerException e){
-            Logger.getLogger(StarClash.class.getName()).log(Level.WARNING, e.getMessage());
-            startMenu();
-        }
+            } catch (NullPointerException e){
+                Logger.getLogger(StarClash.class.getName()).log(Level.WARNING, e.getMessage());
+                startMenu();
+            }
+        });
+        battleThread.start();
     }
     
     /**

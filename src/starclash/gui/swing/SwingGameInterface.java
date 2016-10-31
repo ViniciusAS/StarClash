@@ -51,9 +51,7 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
     public void start() {
         frame.setVisible(true);
         repaintTimer = new Timer();
-        new Thread(() -> {
-            repaintTimer.scheduleAtFixedRate(new RepaintTimerTask(), 1, FRAMES_DELAY_MS);
-        }).start();
+        repaintTimer.scheduleAtFixedRate(new RepaintTimerTask(), 1, FRAMES_DELAY_MS);
     }
 
 
@@ -109,7 +107,7 @@ public class SwingGameInterface extends JPanel implements GameInterfaceAdaptor {
     }
 
     @Override
-    public synchronized void clearDrawables() {
+    public void clearDrawables() {
         synchronized (drawables) {
             drawables.clear();
         }
