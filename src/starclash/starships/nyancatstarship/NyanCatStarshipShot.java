@@ -66,19 +66,17 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
         if ( isEnemy ){
             posY += starship.getHeight();
         }
-        // se tem a flag ativa de especial
+
         if ( !isEnemy & special ){
             this.isSpecial = true;
             special = false;
             timeMe += 1000;
-            System.out.println("ESPECIAL AMIGO");
             initSpecial();
-        // se tem a flag ativa de especial inimigo
+
         } else if ( isEnemy & specialEnemy ) {
             this.isSpecial = true;
             specialEnemy = false;
             timeEnemy += 1000;
-            System.out.println("ESPECIAL INIMIGO");
             initSpecial();
         } else {
             this.isSpecial = false;
@@ -207,7 +205,7 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
     private Image specialImage = new Image();
     
     private void initSpecial(){
-        specialImage = new Image("/resources/nyancat/rainbow.png", new Rectangle(
+        specialImage = new Image("/resources/nyancat/8bitfire.png", new Rectangle(
             0,0,
             0.08f, 0.08f,
             Color.TRANSPARENT
@@ -223,6 +221,12 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
     
     private void drawSpecial(DrawAdaptor drawAdaptor){
         specialImage.getRectangle().setX(posX);
+        specialImage.getRectangle().setY(posY);
+        drawAdaptor.drawImage(specialImage);
+        specialImage.getRectangle().setX(posX+0.3f);
+        specialImage.getRectangle().setY(posY);
+        drawAdaptor.drawImage(specialImage);
+        specialImage.getRectangle().setX(posX-0.3f);
         specialImage.getRectangle().setY(posY);
         drawAdaptor.drawImage(specialImage);
     }
@@ -245,5 +249,9 @@ public class NyanCatStarshipShot extends TimerTask implements StarshipShot{
     
     public Rectangle getSpecialRect(){
         return specialImage.getRectangle();
+    }
+    
+    public boolean getIsSpecial(){
+        return isSpecial;
     }
 }

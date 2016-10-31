@@ -23,15 +23,11 @@ public class NyanCatStarship extends StarshipFactory{
 
     public NyanCatStarship() {
         this(false);
-        /*enemy = false;
-        this.components = new NyanCatStarshipComponents(this);
-        this.x = 0.5f - components.getWidth()/2;
-        this.y = 0.75f - components.getHeigth()/2;*/
     }
 
     public NyanCatStarship( boolean enemy) {
         this.enemy = enemy;
-        this.components = new NyanCatStarshipComponents(this);
+        components = new NyanCatStarshipComponents(this);
         x = 0.5f - components.getWidth()/2;
         y = ( enemy ) ? 0.25f : 0.75f;
         y -= components.getHeigth()/2;
